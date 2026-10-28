@@ -1,148 +1,89 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { Gift, Sparkles } from "lucide-react";
-import { MagneticButton } from "@/components/ui/magnetic-button";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { ArrowRight } from "lucide-react";
+
+const BENEFITS = [
+  { title: "Experience More", text: "Access eligible jewellery experiences for life’s meaningful moments." },
+  { title: "Unlock Flexibility", text: "Explore supported financial possibilities within the ecosystem." },
+  { title: "Create Lasting Value", text: "Give access to benefits designed to extend beyond a one-time gift." },
+];
+
+const giftMask = {
+  maskImage: "url(/images/gifting-eco.png)",
+  WebkitMaskImage: "url(/images/gifting-eco.png)",
+  maskSize: "contain",
+  WebkitMaskSize: "contain",
+  maskRepeat: "no-repeat",
+  WebkitMaskRepeat: "no-repeat",
+  maskPosition: "center",
+  WebkitMaskPosition: "center",
+} as const;
 
 export function GiftGold() {
+  const ref = useRef<HTMLElement>(null);
+  const still = useRef(false);
+  useEffect(() => {
+    still.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const rotate = useTransform(scrollYProgress, (v) => (still.current ? -6 : -11 + 9 * v));
+  const y = useTransform(scrollYProgress, (v) => (still.current ? 0 : 60 - 120 * v));
+
   return (
-    <section id="gift-gold" className="py-16 md:py-32 bg-slate-50 relative overflow-hidden">
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="gift-gold" ref={ref} className="section bg-[var(--color-deep)] text-[var(--color-deep-ink)] overflow-hidden">
+      <div className="frame grid lg:grid-cols-12 gap-x-8 gap-y-16 items-center">
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: false }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="relative order-2 lg:order-1"
-          >
-            {/* Interactive Premium Gift Card */}
-            <div className="relative w-full max-w-md mx-auto aspect-[1.6/1] rounded-2xl bg-gradient-to-br from-[#0B1A2C] via-[#0A2540] to-[#051120] p-8 shadow-[0_30px_60px_rgba(10,37,64,0.4)] border border-[#D4AF37]/30 overflow-hidden group cursor-pointer">
+        <div className="lg:col-span-6">
+          <h2 className="display t-head" data-reveal style={{ ["--i" as string]: 1 }}>
+            Give gold more meaning.
+          </h2>
+          <p className="t-lead text-[var(--color-deep-muted)] mt-6 max-w-[44ch]" data-reveal style={{ ["--i" as string]: 2 }}>
+            Gift the LIMOVI ecosystem. Transform gifting into something more enduring. Give your loved ones access to a connected gold ecosystem designed to bring together value, curated jewellery experiences and greater flexibility, creating possibilities that extend well beyond the occasion.
+          </p>
 
-              {/* Subtle metallic texture/noise */}
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
-
-              {/* Animated luxury glow */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-brand-gold/20 rounded-full blur-[60px] group-hover:bg-brand-gold/30 transition-colors duration-700" />
-              <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[50px] group-hover:scale-150 transition-transform duration-1000" />
-
-              {/* Glassmorphism inner sheen */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-              <div className="relative z-10 flex flex-col h-full justify-between">
-                {/* Header */}
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-full bg-gradient-to-br from-brand-gold to-[#B8860B] flex items-center justify-center shadow-[0_4px_15px_rgba(212,175,55,0.4)] border-2 border-white overflow-hidden">
-                      <div
-                        className="w-7 h-7 bg-white shrink-0"
-                        style={{
-                          maskImage: "url(/images/gifting-eco.png)",
-                          WebkitMaskImage: "url(/images/gifting-eco.png)",
-                          maskSize: "contain",
-                          WebkitMaskSize: "contain",
-                          maskRepeat: "no-repeat",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskPosition: "center",
-                          WebkitMaskPosition: "center"
-                        }}
-                      />
-                    </div>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-[#FFF2CD] to-brand-gold font-bold tracking-[0.2em] text-xs sm:text-sm">
-                      LIMOVI GOLD ECOSYSTEM
-                    </span>
-                  </div>
-                  <Sparkles className="text-brand-gold w-6 h-6 animate-pulse" />
-                </div>
-
-                {/* Body / Value */}
-                <div>
-                  <p className="text-slate-400 text-xs mb-1 uppercase tracking-[0.3em] font-medium">Gold Balance</p>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-300">
-                      50.00g
-                    </span>
-                    <span className="text-brand-gold font-bold text-lg tracking-wide">24K</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-[1px] bg-brand-gold/50" />
-                    <p className="text-slate-300 text-sm font-medium tracking-wide">To: Priya Sharma</p>
-                  </div>
-                </div>
+          <dl className="mt-10 space-y-6">
+            {BENEFITS.map((b, i) => (
+              <div key={b.title} data-reveal style={{ ["--i" as string]: i + 3 }}>
+                <dt className="t-lead font-medium">{b.title}</dt>
+                <dd className="t-body text-[var(--color-deep-muted)] mt-1">{b.text}</dd>
               </div>
-            </div>
+            ))}
+          </dl>
 
-            {/* Particle Explosion decorative */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
-              <div className="absolute top-[20%] left-[10%] w-2 h-2 bg-brand-gold rounded-full shadow-[0_0_10px_#FFD700] animate-ping" />
-              <div className="absolute top-[80%] left-[80%] w-3 h-3 bg-brand-accent rounded-full shadow-[0_0_10px_#00D4FF] animate-pulse" />
-              <div className="absolute top-[10%] left-[90%] w-1.5 h-1.5 bg-brand-secondary rounded-full shadow-[0_0_10px_#0066FF] animate-ping" style={{ animationDelay: "1s" }} />
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8 }}
-            className="order-1 lg:order-2"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))}
+            className="btn btn-accent group mt-12"
+            data-reveal
+            style={{ ["--i" as string]: 6 }}
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-8 h-8 bg-brand-secondary shrink-0"
-                style={{
-                  maskImage: "url(/images/gifting-eco.png)",
-                  WebkitMaskImage: "url(/images/gifting-eco.png)",
-                  maskSize: "contain",
-                  WebkitMaskSize: "contain",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskPosition: "center",
-                  WebkitMaskPosition: "center"
-                }}
-              />
-              <span className="text-brand-secondary font-bold uppercase tracking-widest text-sm">Gift The LIMOVI Ecosystem</span>
+            Gold Balance Gift
+            <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
+          </button>
+        </div>
+
+        {/* The gift itself, large and cropped by the edge */}
+        <div className="lg:col-span-6 relative -mr-[var(--margin)] lg:-mr-[12vw]" data-reveal style={{ ["--i" as string]: 2 }}>
+          <motion.div
+            style={{ rotate, y }}
+            className="relative w-[110%] sm:w-full aspect-[1.6/1] bg-[var(--color-accent)] text-[var(--color-accent-ink)] p-[6%] flex flex-col justify-between"
+            role="img"
+            aria-label="A LIMOVI Gold Balance gift card: 50.00 grams of 24K gold, to Priya Sharma"
+          >
+            <div className="flex items-center gap-3">
+              <span className="w-[9%] aspect-square bg-[var(--color-ink)] shrink-0" style={giftMask} />
+              <span className="display text-[clamp(0.8125rem,1.2vw,1.125rem)] tracking-normal">LIMOVI Gold Ecosystem</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-primary mb-6 tracking-tight">
-              Give Gold More Meaning.
-            </h2>
-            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-8 font-medium leading-relaxed">
-              Transform gifting into something more enduring. Give your loved ones access to a connected gold ecosystem designed to bring together value, curated jewellery experiences and greater flexibility—creating possibilities that extend well beyond the occasion.
-            </p>
-
-            <ul className="space-y-4 mb-10">
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-brand-gold shadow-sm mt-2 flex-shrink-0" />
-                <div>
-                  <span className="text-slate-800 font-bold block">Experience More</span>
-                  <span className="text-slate-500 text-sm font-medium">Access eligible jewellery experiences for life’s meaningful moments.</span>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-brand-gold shadow-sm mt-2 flex-shrink-0" />
-                <div>
-                  <span className="text-slate-800 font-bold block">Unlock Flexibility</span>
-                  <span className="text-slate-500 text-sm font-medium">Explore supported financial possibilities within the ecosystem.</span>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-brand-gold shadow-sm mt-2 flex-shrink-0" />
-                <div>
-                  <span className="text-slate-800 font-bold block">Create Lasting Value</span>
-                  <span className="text-slate-500 text-sm font-medium">Give access to benefits designed to extend beyond a one-time gift.</span>
-                </div>
-              </li>
-            </ul>
-
-            <MagneticButton>
-              <button className="bg-gradient-to-r from-brand-gold to-brand-gold-luxury text-brand-primary px-8 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(255,215,0,0.3)] hover:scale-105 transition-transform">
-                Gold Balance Gift
-              </button>
-            </MagneticButton>
+            <div>
+              <span className="block font-medium text-[clamp(0.8125rem,1.2vw,1.125rem)]">Gold Balance</span>
+              <span className="flex items-baseline gap-3 mt-1">
+                <span className="display text-[clamp(2.5rem,7vw,7rem)] tabular leading-none">50.00g</span>
+                <span className="display text-[clamp(1rem,2vw,1.75rem)]">24K</span>
+              </span>
+              <span className="block font-medium mt-3 text-[clamp(0.8125rem,1.3vw,1.25rem)]">To: Priya Sharma</span>
+            </div>
           </motion.div>
-
         </div>
       </div>
     </section>

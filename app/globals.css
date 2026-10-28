@@ -8,8 +8,24 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-display);
+
+  /* Page roles (taste direction "The object, large", palette kept from the brand) */
+  --color-bg:          #FFFFFF;
+  --color-surface:     #F1F4F8;   /* one tone step from the ground */
+  --color-surface-2:   #E4EBF3;
+  --color-ink:         #0A1929;   /* brand navy, running text */
+  --color-muted:       #44546A;   /* secondary text, 8:1 on white */
+  --color-field:       #005CB9;   /* brand blue as a flat field */
+  --color-field-ink:   #FFFFFF;
+  --color-field-muted: #D3E3F6;
+  --color-tile:        #EAF2FB;
+  --color-deep:        #07111F;
+  --color-deep-ink:    #EEF2F7;
+  --color-deep-muted:  #AFBCCD;
+  --color-accent:      #D4AF37;   /* gold: the primary action */
+  --color-accent-ink:  #0A1929;
 
   /* LIMOVI Brand Colors — Official Fintech Palette */
   --color-brand-primary:       #005CB9;   /* Primary Blue */
@@ -31,9 +47,22 @@
   }
 }
 
-@layer utilities {
-  body {
-    font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  :root {
+    --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+    --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    --step-head: clamp(1.5rem, 0.6rem + 3.2vw, 3.5rem);
+    --step-title: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+    --step-display: clamp(2rem, -0.6rem + 8.2vw, 8.5rem);
+    --margin: clamp(1.25rem, 4vw, 4rem);
+    --section: clamp(5rem, 3rem + 8vw, 11rem);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+    --t-press: 140ms;
+    --t-hover: 180ms;
+    --t-ui: 240ms;
   }
 }
 
@@ -99,10 +128,139 @@
     border-color: hsl(var(--border, 214.3 31.8% 91.4%));
   }
   body {
-    @apply bg-background text-foreground;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-size: var(--step-body);
+    line-height: 1.5;
   }
   html {
     @apply font-sans;
+  }
+  ::selection {
+    background: var(--color-field);
+    color: var(--color-field-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-field);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* One frame for the whole page: equal outer margins at every width */
+  .frame {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: var(--margin);
+  }
+  .section {
+    padding-block: var(--section);
+  }
+  .display {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .t-display { font-size: var(--step-display); }
+  .t-head { font-size: var(--step-head); }
+  .t-title { font-size: var(--step-title); }
+  .t-lead { font-size: var(--step-lead); line-height: 1.35; }
+  .t-body { font-size: var(--step-body); line-height: 1.55; }
+  .t-small { font-size: var(--step-small); line-height: 1.45; }
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* The one button shape: square, flat, one fill */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    min-height: 52px;
+    padding: 0 1.75rem;
+    font-weight: 500;
+    font-size: var(--step-body);
+    cursor: pointer;
+    transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease, color var(--t-hover) ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-accent { background: var(--color-accent); color: var(--color-accent-ink); }
+  .btn-accent:hover { background: #E2BE45; }
+  .btn-ink { background: var(--color-ink); color: #fff; }
+  .btn-ink:hover { background: var(--color-field); }
+  .btn-paper { background: #fff; color: var(--color-ink); }
+  .btn-paper:hover { background: var(--color-tile); }
+
+  .link {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.25em;
+    transition: color var(--t-hover) ease, text-underline-offset var(--t-hover) var(--ease-out);
+  }
+  .link:hover { text-underline-offset: 0.4em; }
+
+  /* Range: flat track, square thumb */
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 44px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .range::-webkit-slider-runnable-track { height: 6px; background: var(--color-surface-2); }
+  .range::-moz-range-track { height: 6px; background: var(--color-surface-2); }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px; margin-top: -10px;
+    background: var(--color-ink);
+    transition: transform var(--t-press) var(--ease-out);
+  }
+  .range::-moz-range-thumb { width: 26px; height: 26px; border: 0; border-radius: 0; background: var(--color-ink); }
+  .range:active::-webkit-slider-thumb { transform: scale(1.15); }
+  .range-on-field::-webkit-slider-runnable-track { background: rgba(255,255,255,0.32); }
+  .range-on-field::-moz-range-track { background: rgba(255,255,255,0.32); }
+  .range-on-field::-webkit-slider-thumb { background: var(--color-accent); }
+  .range-on-field::-moz-range-thumb { background: var(--color-accent); }
+
+  .faq summary::-webkit-details-marker { display: none; }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* Entrances (see RevealObserver) */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 800ms var(--ease-expo), transform 900ms var(--ease-expo);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js [data-reveal="open"] {
+  opacity: 1;
+  transform: scale(1.06);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1200ms var(--ease-in-out), transform 1400ms var(--ease-expo);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal], .js [data-reveal="open"] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

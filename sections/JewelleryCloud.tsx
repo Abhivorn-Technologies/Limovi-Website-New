@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { Crown, Sparkles, ChevronLeft, ChevronRight, X, BadgeCheck, Percent, Coins, Lock } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, BadgeCheck, Percent, Coins, Lock } from "lucide-react";
 import Image from "next/image";
 import { useLenis } from "lenis/react";
 
@@ -43,83 +43,68 @@ function normalizeOffset(raw: number, N: number): number {
 }
 
 function PieceModal({ item, onClose }: { item: JewelleryItem | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!item) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [item, onClose]);
+
   if (!item) return null;
+
+  const specs = [
+    { icon: BadgeCheck, label: "Purity", value: item.purity },
+    { icon: Percent, label: "Limovi Privilege", value: item.makingSavings },
+    { icon: Coins, label: "Access Level", value: item.balanceReq },
+    { icon: Lock, label: "Vaulting", value: "100% BIS Certified" },
+  ];
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
+      <div
+        className="fixed inset-0 z-[100000] flex items-center justify-center p-4 sm:p-6 bg-[rgba(7,17,31,0.82)] overflow-y-auto"
+        onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-label={item.name}
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="relative w-full max-w-md my-auto max-h-[85vh] overflow-y-auto bg-gradient-to-b from-[#0B1F3A] via-[#0A2540] to-[#051120] text-white rounded-3xl p-5 sm:p-7 border border-[#D4AF37]/35 shadow-[0_30px_80px_rgba(0,0,0,0.8)]"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 24 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-lg my-auto max-h-[88vh] overflow-y-auto bg-[var(--color-deep)] text-[var(--color-deep-ink)] shadow-[0_30px_80px_rgba(0,0,0,0.5)]"
+          data-lenis-prevent="true"
         >
-          {/* Metallic sheen */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
-
-          {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-30 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-            aria-label="Close modal"
+            className="absolute top-3 right-3 z-30 w-11 h-11 bg-white text-[var(--color-ink)] flex items-center justify-center hover:bg-[var(--color-tile)] transition-colors cursor-pointer"
+            aria-label="Close"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
 
-          {/* Image & Header - Full view without cutoff */}
-          <div className="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden mb-4 border border-white/10 bg-gradient-to-b from-[#061220] via-[#0A1F38] to-[#061220] flex items-center justify-center">
-            <Image
-              src={item.image}
-              alt={item.name}
-              fill
-              className="object-contain p-2 hover:scale-105 transition-transform duration-500"
-              priority
-            />
-            <div className="absolute top-3 left-3 bg-[#0B1F3A]/90 backdrop-blur-md px-3 py-1 rounded-full border border-[#D4AF37]/30 flex items-center gap-1.5 text-[11px] font-bold text-[#D4AF37] z-10">
-              <Sparkles size={12} />
-              {item.category}
-            </div>
+          <div className="relative w-full aspect-square bg-black">
+            <Image src={item.image} alt={item.name} fill sizes="512px" className="object-cover" priority />
           </div>
 
-          <h3 className="text-xl sm:text-2xl font-black text-white mb-1.5">{item.name}</h3>
-          <p className="text-xs text-slate-300 mb-4 leading-relaxed font-medium">
-            {item.description}
-          </p>
+          <div className="p-6 sm:p-8">
+            <p className="t-small font-medium text-[var(--color-accent)]">{item.category}</p>
+            <h3 className="display t-lead mt-2">{item.name}</h3>
+            <p className="t-body text-[var(--color-deep-muted)] mt-3">{item.description}</p>
 
-          {/* Specifications Grid */}
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-start gap-2">
-              <BadgeCheck className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
-              <div>
-                <span className="text-[9px] text-slate-400 block font-semibold uppercase">Purity</span>
-                <span className="font-bold text-slate-200 text-[11px]">{item.purity}</span>
-              </div>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-start gap-2">
-              <Percent className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="text-[9px] text-slate-400 block font-semibold uppercase">Limovi Privilege</span>
-                <span className="font-bold text-emerald-400 text-[11px]">{item.makingSavings}</span>
-              </div>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-start gap-2">
-              <Coins className="w-4 h-4 text-[#00D4FF] shrink-0 mt-0.5" />
-              <div>
-                <span className="text-[9px] text-slate-400 block font-semibold uppercase">Access Level</span>
-                <span className="font-bold text-slate-200 text-[11px]">{item.balanceReq}</span>
-              </div>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-start gap-2">
-              <Lock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="text-[9px] text-slate-400 block font-semibold uppercase">Vaulting</span>
-                <span className="font-bold text-slate-200 text-[11px]">100% BIS Certified</span>
-              </div>
-            </div>
+            <dl className="mt-6 grid grid-cols-2 gap-2">
+              {specs.map(({ icon: Icon, label, value }) => (
+                <div key={label} className="bg-[#12233A] p-4 flex items-start gap-3">
+                  <Icon className="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-0.5" />
+                  <div>
+                    <dt className="t-small text-[var(--color-deep-muted)]">{label}</dt>
+                    <dd className="t-small font-medium mt-0.5">{value}</dd>
+                  </div>
+                </div>
+              ))}
+            </dl>
           </div>
         </motion.div>
       </div>
@@ -146,10 +131,10 @@ function CarouselSlider({
   const [paused, setPaused] = useState(false);
   const N = collections.length;
 
-  const step = isMobile ? 220 : 300;
-  const activeW = isMobile ? 310 : 370;
-  const activeH = isMobile ? 420 : 510;
-  const normalW = isMobile ? 180 : 250;
+  const step = isMobile ? 220 : 330;
+  const activeW = isMobile ? 290 : 400;
+  const activeH = isMobile ? 400 : 520;
+  const normalW = isMobile ? 180 : 270;
   const normalH = isMobile ? 280 : 400;
 
   const prev = useCallback(() => setActive((a) => (a - 1 + N) % N), [N]);
@@ -162,64 +147,64 @@ function CarouselSlider({
   }, [paused, isModalOpen, next]);
 
   return (
-    <div className="mb-24">
-      {/* ── Carousel Title ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-8 relative z-10"
-      >
-        <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{title}</h3>
-        <p className="text-slate-500 font-medium mt-2 text-sm md:text-base">{subtitle}</p>
-      </motion.div>
+    <div className="mt-20 lg:mt-24">
+      {/* ── Carousel title and controls ── */}
+      <div className="frame flex items-end justify-between gap-6 mb-10" data-reveal>
+        <div>
+          <h3 className="display t-head text-[var(--color-ink)]">{title}</h3>
+          <p className="t-body text-[var(--color-muted)] mt-3 max-w-[44ch]">{subtitle}</p>
+        </div>
+        <div className="hidden sm:flex gap-2 shrink-0">
+          <button
+            onClick={prev}
+            className="w-12 h-12 bg-[var(--color-ink)] text-white flex items-center justify-center hover:bg-[var(--color-field)] active:scale-95 transition-[background-color,transform] duration-200 cursor-pointer"
+            aria-label={`Previous ${title} piece`}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={next}
+            className="w-12 h-12 bg-[var(--color-ink)] text-white flex items-center justify-center hover:bg-[var(--color-field)] active:scale-95 transition-[background-color,transform] duration-200 cursor-pointer"
+            aria-label={`Next ${title} piece`}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
 
       {/* ── Spotlight carousel ── */}
       <div
-        className="relative mx-auto"
-        style={{ height: activeH + 40, maxWidth: "100vw" }}
+        className="relative mx-auto overflow-hidden"
+        style={{ height: activeH + 24, maxWidth: "100vw" }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
       >
-        {/* Left/right fade masks */}
-        <div
-          className="pointer-events-none absolute left-0 top-0 bottom-0 w-32 z-20"
-          style={{ background: "linear-gradient(to right,#F8F9FC 30%,transparent)" }}
-        />
-        <div
-          className="pointer-events-none absolute right-0 top-0 bottom-0 w-32 z-20"
-          style={{ background: "linear-gradient(to left,#F8F9FC 30%,transparent)" }}
-        />
-
-        {/* Cards */}
         {collections.map((item, i) => {
           const offset = normalizeOffset(i - active, N);
           const absOff = Math.abs(offset);
           const isActive = offset === 0;
 
-          const opacity = absOff > 2 ? 0 : isActive ? 1 : 0.5 - absOff * 0.05;
+          const opacity = absOff > 2 ? 0 : 1;
           const zIndex = 20 - absOff * 5;
           const w = isActive ? activeW : normalW;
           const h = isActive ? activeH : normalH;
           const xOffset = offset * step;
-          const filter = isActive ? "brightness(1.05) saturate(1.15)" : `brightness(0.7) saturate(0.85)`;
+          const filter = isActive ? "brightness(1)" : "brightness(0.55)";
 
           return (
             <motion.div
               key={item.id}
               onClick={() => setActive(i)}
               animate={{ opacity, zIndex, filter, x: xOffset, width: w, height: h }}
-              transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-              className="absolute top-1/2 left-1/2 cursor-pointer rounded-3xl overflow-hidden"
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute top-1/2 left-1/2 cursor-pointer overflow-hidden bg-black"
               style={{
                 translateY: "-50%",
                 translateX: "-50%",
                 width: w,
                 height: h,
-                boxShadow: isActive
-                  ? "0 24px 60px rgba(11,31,58,0.22), 0 0 0 2px rgba(212,175,55,0.3)"
-                  : "0 10px 30px rgba(11,31,58,0.10)",
                 willChange: "transform, opacity, width, height",
               }}
             >
@@ -231,92 +216,53 @@ function CarouselSlider({
                 className="object-cover"
                 priority={absOff <= 1}
               />
+              {/* Neutral scrim so the caption reads over the photograph */}
               <div
                 className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top,rgba(11,31,58,0.85) 0%,rgba(11,31,58,0.0) 35%,transparent 100%)",
-                }}
+                style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0) 42%)" }}
               />
-              {isActive && (
-                <div
-                  className="absolute top-0 left-0 right-0 h-[3px]"
-                  style={{ background: `linear-gradient(90deg,${item.accent},transparent)` }}
-                />
-              )}
               <motion.div
-                animate={{ opacity: isActive ? 1 : 0 }}
-                transition={{ duration: 0.35 }}
-                className="absolute bottom-0 left-0 w-full p-8"
+                animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 12 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute bottom-0 left-0 w-full p-6 sm:p-7 flex items-end justify-between gap-4"
+                style={{ visibility: isActive ? "visible" : "hidden" }}
+                aria-hidden={!isActive}
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4" style={{ color: item.accent }} />
-                  <span className="text-xs font-bold tracking-widest uppercase" style={{ color: item.accent }}>
-                    {item.category}
-                  </span>
+                <div>
+                  <span className="t-small font-medium" style={{ color: "#F2D27A" }}>{item.category}</span>
+                  <h4 className="t-lead font-medium text-white mt-1 leading-tight">{item.name}</h4>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3 leading-snug">{item.name}</h3>
-                <div className="flex items-center justify-end">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onViewPiece(item);
-                    }}
-                    className="px-5 py-2 rounded-full text-sm font-bold hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
-                    style={{
-                      background: "rgba(255,255,255,0.15)",
-                      color: "#fff",
-                      border: "1px solid rgba(255,255,255,0.28)",
-                      backdropFilter: "blur(8px)",
-                    }}
-                  >
-                    View
-                  </button>
-                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onViewPiece(item);
+                  }}
+                  tabIndex={isActive ? 0 : -1}
+                  className="btn btn-paper !min-h-[44px] !px-5 shrink-0"
+                >
+                  View
+                </button>
               </motion.div>
             </motion.div>
           );
         })}
-
-        {/* Prev / Next buttons */}
-        <button
-          onClick={prev}
-          className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer"
-          style={{
-            background: "rgba(255,255,255,0.85)",
-            boxShadow: "0 4px 20px rgba(11,31,58,0.15)",
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          <ChevronLeft className="w-5 h-5" style={{ color: "#0B1F3A" }} />
-        </button>
-        <button
-          onClick={next}
-          className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer"
-          style={{
-            background: "rgba(255,255,255,0.85)",
-            boxShadow: "0 4px 20px rgba(11,31,58,0.15)",
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          <ChevronRight className="w-5 h-5" style={{ color: "#0B1F3A" }} />
-        </button>
       </div>
 
-      {/* ── Dot indicators ── */}
-      <div className="flex justify-center gap-2.5 mt-10">
-        {collections.map((_, i) => (
+      {/* ── Position indicators ── */}
+      <div className="flex justify-center gap-1 mt-8">
+        {collections.map((item, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
-            className="rounded-full transition-all duration-300 cursor-pointer"
-            style={{
-              width: i === active ? 28 : 8,
-              height: 8,
-              background: i === active ? "#D4AF37" : "rgba(212,175,55,0.35)",
-              boxShadow: i === active ? "0 0 8px rgba(212,175,55,0.6)" : "none",
-            }}
-          />
+            className="h-6 flex items-center cursor-pointer px-1"
+            aria-label={`Show ${item.name}`}
+            aria-current={i === active}
+          >
+            <span
+              className="block h-[3px] transition-[width,background-color] duration-300"
+              style={{ width: i === active ? 32 : 14, background: i === active ? "var(--color-ink)" : "#B9C4D2" }}
+            />
+          </button>
         ))}
       </div>
     </div>
@@ -350,51 +296,33 @@ export function JewelleryCloud() {
   }, []);
 
   return (
-    <section id="jewellery-experience" className="relative py-20 bg-white overflow-hidden" style={{ background: "#FFFFFF" }}>
-      {/* Ambient blobs */}
-      <div
-        className="pointer-events-none absolute -top-32 left-0 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl"
-        style={{ background: "radial-gradient(circle,#D4AF37 0%,transparent 70%)" }}
-      />
-      <div
-        className="pointer-events-none absolute -bottom-32 right-0 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl"
-        style={{ background: "radial-gradient(circle,#0B1F3A 0%,transparent 70%)" }}
-      />
-
-      {/* ── Text header ── */}
-      <div className="px-10 md:px-20 mb-14">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.7 }}
-          className="max-w-2xl"
-        >
-          <div className="flex items-center gap-2 mb-5">
-            <Crown className="w-5 h-5" style={{ color: "#D4AF37" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
-              Luxury Jewellery Cloud
-            </span>
-          </div>
-          <h2
-            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-5 leading-tight"
-            style={{ color: "#0B1F3A" }}
-          >
-            Experience Luxury.<br />
-            <span
-              style={{
-                background: "linear-gradient(90deg,#D4AF37,#FFE066,#D4AF37)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Unlock More From Your Gold.
-            </span>
+    <section id="jewellery-experience" className="section relative bg-[var(--color-bg)] overflow-hidden">
+      {/* ── The statement, with the object laid over the type ── */}
+      <div className="relative">
+        <div className="frame relative">
+          <h2 className="display t-display text-[var(--color-ink)] whitespace-nowrap leading-[0.88]" data-reveal>
+            Experience<br />luxury.
           </h2>
-          <p className="text-sm md:text-base lg:text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
-            Your <strong className="text-slate-700">Gold Balance</strong> opens the door to the LIMOVI Jewellery Cloud. As your eligible Gold Balance grows, so can your access to a wider range of jewellery experiences—from everyday elegance to grand celebrations. Explore premium collections for different moments without having to purchase a new piece every time.
+          <p className="display t-display text-[var(--color-muted)] leading-[0.88] mt-[0.12em]" data-reveal style={{ ["--i" as string]: 1 }}>
+            Unlock more<br />from your gold.
           </p>
-        </motion.div>
+
+        </div>
+
+        <div className="frame mt-10 lg:mt-4 grid lg:grid-cols-12 gap-x-8 gap-y-6 items-center">
+          <div className="lg:col-span-6 relative aspect-square w-[78%] sm:w-[60%] lg:w-[82%] ml-auto lg:ml-0 -mr-[6vw] lg:mr-0 rotate-[-5deg]" data-reveal="open">
+            <Image
+              src="/images/minimal_pendant_v2.png"
+              alt="Gold pendant on a fine chain"
+              fill
+              sizes="(min-width: 1024px) 45vw, 78vw"
+              className="object-contain mix-blend-multiply scale-110"
+            />
+          </div>
+          <p className="lg:col-start-7 lg:col-span-6 t-lead text-[var(--color-ink)] max-w-[46ch]" data-reveal>
+            Your <strong className="font-medium text-[var(--color-field)]">Gold Balance</strong> opens the door to the LIMOVI Jewellery Cloud. As your eligible Gold Balance grows, so can your access to a wider range of jewellery experiences, from everyday elegance to grand celebrations. Explore premium collections for different moments without having to purchase a new piece every time.
+          </p>
+        </div>
       </div>
 
       <div id="heritage-collection">

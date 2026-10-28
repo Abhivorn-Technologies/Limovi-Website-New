@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Onest, Unbounded } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/shared/SmoothScrollProvider";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { FloatingWidgetWrapper } from "@/components/ui/gold-calculator";
-import { DoodleIconBackground } from "@/components/shared/DoodleIconBackground";
 import { EarlyAccessModal } from "@/components/shared/EarlyAccessModal";
+import { RevealObserver } from "@/components/shared/RevealObserver";
 
-const inter = Inter({
+const onest = Onest({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const unbounded = Unbounded({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "800"],
 });
 
 export const metadata: Metadata = {
@@ -71,20 +78,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${onest.variable} ${unbounded.variable}`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
 
       </head>
-      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground overflow-x-clip selection:bg-brand-secondary selection:text-white`}>
+      <body className="font-sans antialiased overflow-x-clip">
         <SmoothScrollProvider>
           {children}
           <ScrollToTop />
           <FloatingWidgetWrapper />
           <EarlyAccessModal />
+          <RevealObserver />
         </SmoothScrollProvider>
       </body>
     </html>

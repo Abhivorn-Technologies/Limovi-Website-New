@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,11 +22,11 @@ export function ScrollToTop() {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
+  const lenis = useLenis();
+
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (lenis) lenis.scrollTo(0, { duration: 1.4 });
+    else window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -38,14 +39,10 @@ export function ScrollToTop() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-[999] p-3 rounded-full text-white cursor-pointer"
-          style={{
-            background: "linear-gradient(135deg, #005CB9, #2B7FE8)",
-            boxShadow: "0 4px 18px rgba(0,92,185,0.45)",
-          }}
+          className="fixed bottom-6 right-6 z-[999] w-12 h-12 flex items-center justify-center bg-[var(--color-ink)] hover:bg-[var(--color-field)] text-white cursor-pointer transition-colors shadow-[0_10px_30px_rgba(10,25,41,0.25)]"
           aria-label="Scroll to top"
         >
-          <ArrowUp size={24} />
+          <ArrowUp size={20} />
         </motion.button>
       )}
     </AnimatePresence>

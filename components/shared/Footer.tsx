@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 const footerLinks = {
   company: [
@@ -29,9 +29,17 @@ const footerLinks = {
   ],
 };
 
+const linkClass = "text-white/90 hover:text-white transition-colors duration-200 hover:underline underline-offset-4 decoration-[1.5px]";
+
 export function Footer() {
   const pathname = usePathname();
   const router = useRouter();
+  const lenis = useLenis();
+
+  const scrollToY = (y: number) => {
+    if (lenis) lenis.scrollTo(y, { duration: 1.4 });
+    else window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("#")) {
@@ -42,149 +50,112 @@ export function Footer() {
       }
       const targetId = href.replace("#", "");
       if (targetId === "") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        scrollToY(0);
       } else {
         const element = document.getElementById(targetId);
         if (element) {
-          const y = element.getBoundingClientRect().top + window.scrollY - 90;
-          window.scrollTo({ top: y, behavior: "smooth" });
+          scrollToY(element.getBoundingClientRect().top + window.scrollY - 76);
         }
       }
     }
   };
 
   return (
-    <footer className="bg-slate-50 pt-12 lg:pt-20 pb-12 border-t border-slate-200">
-      <div className="container mx-auto px-6">
-        
-        {/* 12-Column Balanced Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 mb-12 lg:mb-16">
-          
-          {/* Brand Info & Tagline Column (4 Cols) */}
-          <div className="lg:col-span-4">
-            <Link href="/" className="inline-block mb-4 lg:mb-6">
-              <div className="flex items-center gap-1.5">
-                <Image
-                  src="/logo-icon.png"
-                  alt="LIMOVI Icon"
-                  width={254}
-                  height={237}
-                  className="h-[36px] w-auto object-contain"
-                />
-                <Image
-                  src="/logo-text.png"
-                  alt="LIMOVI Text"
-                  width={569}
-                  height={236}
-                  className="h-[50px] w-auto object-contain -mt-1.5"
-                />
-              </div>
-            </Link>
-            <p className="text-slate-600 mb-6 max-w-sm font-medium text-sm lg:text-base leading-relaxed">
-              India&apos;s first 360° Gold Asset Ecosystem. Convert your gold into liquidity, luxury experiences, and wealth.
-            </p>
-            <div className="flex items-center gap-4">
-              <a
-                href="#"
-                className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#005CB9] hover:border-[#005CB9] transition-colors shadow-sm"
-                aria-label="LinkedIn"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-[#005CB9] hover:border-[#005CB9] transition-colors shadow-sm"
-                aria-label="Instagram"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
-              </a>
-            </div>
-          </div>
+    <footer className="relative isolate overflow-hidden bg-[var(--color-deep)] text-white min-h-[88svh] lg:min-h-[100svh] flex flex-col">
+      {/* The photograph is the footer */}
+      <Image
+        src="/images/jewellery-wedding.png"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover -z-10"
+        style={{ filter: "brightness(0.42) saturate(0.9)", objectPosition: "50% 40%" }}
+      />
 
-          {/* Company Column (2 Cols) */}
-          <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-bold mb-4 lg:mb-6 text-base">Company</h4>
-            <ul className="space-y-3.5">
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  {link.isModal ? (
-                    <button 
-                      onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))} 
-                      className="text-slate-600 font-medium hover:text-[#005CB9] transition-colors text-sm whitespace-nowrap text-left cursor-pointer"
-                    >
-                      {link.label}
-                    </button>
-                  ) : (
-                    <Link href={link.href} className="text-slate-600 font-medium hover:text-[#005CB9] transition-colors text-sm whitespace-nowrap">
-                      {link.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
+      <div className="frame pt-16 lg:pt-20 grid grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-10">
+        <div className="col-span-2 lg:col-span-4">
+          <p className="t-lead max-w-[30ch]">
+            India&apos;s first 360° Gold Asset Ecosystem. Convert your gold into liquidity, luxury experiences, and wealth.
+          </p>
+          <div className="flex items-center gap-2 mt-6">
+            <a href="#" className="w-11 h-11 bg-white/12 hover:bg-white hover:text-[var(--color-ink)] flex items-center justify-center transition-colors" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
+            </a>
+            <a href="#" className="w-11 h-11 bg-white/12 hover:bg-white hover:text-[var(--color-ink)] flex items-center justify-center transition-colors" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
+            </a>
           </div>
-
-          {/* Products Column (3 Cols - Single Line Items) */}
-          <div className="lg:col-span-3">
-            <h4 className="text-slate-900 font-bold mb-4 lg:mb-6 text-base">Products</h4>
-            <ul className="space-y-3">
-              {footerLinks.products.map((link) => (
-                <li key={link.label}>
-                  <Link 
-                    href={pathname !== "/" && link.href.startsWith("#") ? `/${link.href}` : link.href} 
-                    onClick={(e) => handleScroll(e, link.href)}
-                    className="text-slate-600 font-medium hover:text-[#005CB9] transition-colors flex items-center gap-2 group whitespace-nowrap text-sm"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0 group-hover:bg-[#005CB9]" />
-                    <span className="whitespace-nowrap">{link.label}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all shrink-0 text-[#005CB9]" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Compliance & Legal Column (3 Cols - Closes Right Side Gap) */}
-          <div className="lg:col-span-3">
-            <h4 className="text-slate-900 font-bold mb-4 lg:mb-6 text-base">Compliance &amp; Legal</h4>
-            <ul className="space-y-3.5">
-              {footerLinks.compliance.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="text-slate-600 font-medium hover:text-[#005CB9] transition-colors text-sm whitespace-nowrap">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
         </div>
 
-        {/* Bottom Copyright Strip */}
-        <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-medium text-slate-500">
+        <nav className="lg:col-start-6 lg:col-span-2" aria-label="Company">
+          <h4 className="t-small font-medium text-white/70 mb-4">Company</h4>
+          <ul className="space-y-2.5">
+            {footerLinks.company.map((link) => (
+              <li key={link.label}>
+                {link.isModal ? (
+                  <button onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))} className={`${linkClass} text-left cursor-pointer`}>
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link href={link.href} className={linkClass}>{link.label}</Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className="lg:col-span-3" aria-label="Products">
+          <h4 className="t-small font-medium text-white/70 mb-4">Products</h4>
+          <ul className="space-y-2.5">
+            {footerLinks.products.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={pathname !== "/" && link.href.startsWith("#") ? `/${link.href}` : link.href}
+                  onClick={(e) => handleScroll(e, link.href)}
+                  className={linkClass}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className="col-span-2 lg:col-span-2" aria-label="Compliance and legal">
+          <h4 className="t-small font-medium text-white/70 mb-4">Compliance &amp; Legal</h4>
+          <ul className="space-y-2.5">
+            {footerLinks.compliance.map((link) => (
+              <li key={link.label}>
+                <Link href={link.href} className={linkClass}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      {/* The name returns at full width */}
+      <div className="frame mt-auto pt-16 pb-8 lg:pb-10">
+        <Image
+          src="/logo-text.png"
+          alt="LIMOVI, the gold ecosystem"
+          width={569}
+          height={236}
+          className="w-full max-w-[1100px] h-auto"
+          style={{ filter: "brightness(0) invert(1)" }}
+        />
+        <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-2 t-small text-white/75">
           <p>© {new Date().getFullYear()} LIMOVI. All rights reserved.</p>
-          <p className="flex items-center gap-1.5 flex-wrap justify-center">
+          <p className="flex items-center gap-1.5 flex-wrap">
             <span>Developed by</span>
-            <a
-              href="https://www.abhivorn.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-700 hover:text-[#005CB9] transition-colors font-semibold"
-            >
+            <a href="https://www.abhivorn.com/" target="_blank" rel="noopener noreferrer" className="font-medium text-white hover:underline underline-offset-4">
               Abhivorn Technologies
             </a>
             <span>&amp;</span>
-            <a
-              href="https://www.digilevelup.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-700 hover:text-[#005CB9] transition-colors font-semibold"
-            >
+            <a href="https://www.digilevelup.in/" target="_blank" rel="noopener noreferrer" className="font-medium text-white hover:underline underline-offset-4">
               DigiLevelup
             </a>
           </p>
         </div>
-
       </div>
     </footer>
   );

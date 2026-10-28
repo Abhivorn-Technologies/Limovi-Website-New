@@ -1,79 +1,10 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValue, animate, useSpring } from "framer-motion";
-import { Play, Sparkles, ArrowRight, Zap, TrendingUp, Gift, Infinity as InfinityIcon, Gem, Landmark, HandCoins, ShieldCheck, Clock, IndianRupee, Crown } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { useLenis } from "lenis/react";
 import Image from "next/image";
-import { DoodleIconBackground } from "@/components/shared/DoodleIconBackground";
-
-const C = {
-  primary:    "#005CB9",
-  secondary:  "#2B7FE8",
-  gold:       "#D4AF37",
-  goldBright: "#F4C430",
-  goldDeep:   "#B8860B",
-  textDark:   "#0A1929",
-  textMid:    "#334155",
-  textFaint:  "#64748B",
-};
-
-const BankWithAtIcon = ({ className, ...props }: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-    {...props}
-  >
-    <defs>
-      <mask id="at-mask-cine">
-        <rect width="24" height="24" fill="white" />
-        <text 
-          x="12" y="5.7" 
-          fontSize="4" 
-          fontFamily="system-ui, sans-serif" 
-          fontWeight="900" 
-          textAnchor="middle" 
-          fill="black"
-        >
-          @
-        </text>
-      </mask>
-    </defs>
-    <g mask="url(#at-mask-cine)">
-      <rect x="1" y="21" width="22" height="2" />
-      <rect x="2" y="19" width="20" height="1.5" />
-      <rect x="3.5" y="9" width="3" height="9.5" />
-      <rect x="8" y="9" width="3" height="9.5" />
-      <rect x="13" y="9" width="3" height="9.5" />
-      <rect x="17.5" y="9" width="3" height="9.5" />
-      <rect x="2" y="7" width="20" height="1.5" />
-      <path d="M1 6L12 1l11 5H1z" />
-    </g>
-  </svg>
-);
-
-const InvestmentGrowthIcon = ({ className, ...props }: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-    {...props}
-  >
-    <path d="M23 2h-7l3.3 3.3-7.6 7.6-4.3-4.3-5.7 5.7 1.4 1.4 4.3-4.3 4.3 4.3 9-9L23 9V2Z" />
-    <ellipse cx="5" cy="18" rx="3" ry="1.5" />
-    <path d="M2 18.5v1.5c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5v-1.5c0 .8-1.3 1.5-3 1.5s-3-.7-3-1.5z" />
-    <ellipse cx="12" cy="15" rx="3" ry="1.5" />
-    <path d="M9 15.5v1.5c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5v-1.5c0 .8-1.3 1.5-3 1.5s-3-.7-3-1.5z" />
-    <path d="M9 18v1.5c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5V18c0 .8-1.3 1.5-3 1.5s-3-.7-3-1.5z" />
-    <ellipse cx="19" cy="12" rx="3" ry="1.5" />
-    <path d="M16 12.5v1.5c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5v-1.5c0 .8-1.3 1.5-3 1.5s-3-.7-3-1.5z" />
-    <path d="M16 15v1.5c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5V15c0 .8-1.3 1.5-3 1.5s-3-.7-3-1.5z" />
-    <path d="M16 17.5v1.5c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5v-1.5c0 .8-1.3 1.5-3 1.5s-3-.7-3-1.5z" />
-  </svg>
-);
 
 // ─── CUSTOM COLORFUL SVGS (Mimicking references) ──────────────────────────────
 
@@ -330,416 +261,84 @@ const DigitalGoldSVG = ({ size = 32 }) => (
   </svg>
 );
 
-// ─── SCENE 1 ──────────────────────────────────────────────────────────────────
+// ─── CHAPTERS ─────────────────────────────────────────────────────────────────
 
-function Scene1_Item({ item, i, progress }: { item: any, i: number, progress: any }) {
-  const itemOp = useTransform(progress, [0.08, 0.12, 0.20, 0.25], [0, 1, 1, 0]);
-  const xUnit = typeof item.x === 'string' ? item.x.replace(/[-0-9.]/g, '') : "px";
-  const yUnit = typeof item.y === 'string' ? item.y.replace(/[-0-9.]/g, '') : "px";
-  const itemX  = useTransform(progress, [0.17, 0.22], [item.x, `0${xUnit}`], { clamp: true });
-  const itemY  = useTransform(progress, [0.17, 0.22], [item.y, `0${yUnit}`], { clamp: true });
+const FRAGMENTS = [
+  { label: "Digital Gold", Icon: DigitalGoldSVG },
+  { label: "Cash",         Icon: CashSVG },
+  { label: "Gold Coins",   Icon: CoinsSVG },
+  { label: "Gold Bars",    Icon: GoldBarsSVG },
+  { label: "Jewellery",    image: "/images/gold-haram.png" },
+];
+
+const STRATEGIES = [
+  { title: "Investment Only",         desc: "Gold bars grow into a mountain." },
+  { title: "Enroll & Experience",     desc: "Join and unlock luxury." },
+  { title: "Investment & Experience", desc: "Grow wealth while you wear." },
+  { title: "Experience Only",         desc: "Access luxury without ownership." },
+];
+
+const GATEWAYS = [
+  { title: "Luxury Jewellery Cloud", href: "#jewellery-experience" },
+  { title: "Instant Loan",           href: "#loans" },
+  { title: "Instant Liquidity",      href: "#liquidity" },
+  { title: "Gift Gold Ecosystem",    href: "#gift-gold" },
+  { title: "Wealth Generation",      href: "#wealth" },
+];
+
+type Specimen = { tile: string; image?: string; alt: string; name: string; fact: string; fragments?: boolean };
+
+const SPECIMENS: Specimen[] = [
+  { tile: "#FFFFFF", image: "/images/gold-haram.png", alt: "Gold haram necklace", name: "Your gold", fact: "100% secure, in an insured gold vault" },
+  { tile: "#FFFFFF", fragments: true, alt: "Digital gold, cash, gold coins, gold bars and jewellery", name: "Five kinds of gold", fact: "Held in five places, working in none" },
+  { tile: "#FFFFFF", image: "/images/ChatGPT Image Jul 28, 2026, 11_54_39 AM.png", alt: "The Gold Balance sphere", name: "Gold Balance", fact: "One balance for every gram you own" },
+  { tile: "#F6EFD6", image: "/images/jewellry.png", alt: "Gold jewellery set", name: "LIMOVI, the gold ecosystem", fact: "Investment at the centre, five gateways around it" },
+];
+
+function SpecimenTile({ s, size }: { s: Specimen; size: string }) {
   return (
-    <motion.div className="absolute z-10" style={{ x: itemX, y: itemY, opacity: itemOp }}>
-      <motion.div
-        className="flex flex-col items-center justify-center gap-2 lg:gap-3 origin-center"
-        whileHover={{ scale: 1.06 }}
-        animate={item.animate}
-        transition={{ duration: item.duration, repeat: Infinity, ease: "easeInOut", delay: i * 0.25 }}
-      >
-        <div className="w-16 h-16 lg:w-24 lg:h-24 bg-white rounded-full flex items-center justify-center shadow-md border border-slate-200">
-          {item.image ? (
-            <Image
-              src={item.image}
-              alt={item.label}
-              width={64}
-              height={64}
-              className="w-10 h-10 lg:w-16 lg:h-16 object-contain"
-            />
-          ) : (
-            <item.icon size={52} />
-          )}
-        </div>
-        <span className="text-[10px] lg:text-[11px] font-bold tracking-widest uppercase text-slate-700 bg-white/70 px-3 py-1 rounded-full backdrop-blur-sm border border-slate-200">
-          {item.label}
-        </span>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function Scene1_Problem({ progress }: { progress: any }) {
-  const [isMobile, setIsMobile] = useState(false);
-  
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile(); // Check on mount
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const textLayerOp = useTransform(progress, [0, 0.05, 0.10], [1, 1, 0], { clamp: true });
-  const textInnerOp = useTransform(progress, [0, 0.04, 0.08], [1, 1, 0], { clamp: true });
-  const textScale   = useTransform(progress, [0, 0.10],  [1, 0.90], { clamp: true });
-  const textBlur    = useTransform(progress, [0.06, 0.10], ["blur(0px)", "blur(8px)"], { clamp: true });
-  const fragOp      = useTransform(progress, [0.08, 0.12, 0.16, 0.19], [0, 1, 1, 0], { clamp: true });
-  const textDisplay = useTransform(progress, (p: number) => (p <= 0.11 ? "flex" : "none"));
-  const fragDisplay = useTransform(progress, (p: number) => (p >= 0.07 && p <= 0.26 ? "flex" : "none"));
-
-  const items = [
-    { label: "Digital Gold", icon: DigitalGoldSVG,  x:  "0px", y: isMobile ? "-190px" : "-25vh", animate: { y: [0, -10, 0], scale: [1, 1.06, 1] }, duration: 4.2 },
-    { label: "Cash",         icon: CashSVG,         x: isMobile ? "-125px" : "-28vw", y: isMobile ? "-110px" : "-8vh",  animate: { y: [0, -12, 0], rotate: [0, -3, 3, 0] }, duration: 5 },
-    { label: "Gold Coins",   icon: CoinsSVG,        x: isMobile ? "125px" : "28vw", y: isMobile ? "-110px" : "-8vh",  animate: { y: [0, 10, 0],  scale: [1, 1.05, 1]   }, duration: 4 },
-    { label: "Gold Bars",    icon: GoldBarsSVG,     x: isMobile ? "-115px" : "-18vw", y: isMobile ? "160px" : "20vh", animate: { x: [0, -8, 8, 0], y: [0, 8, -8, 0]    }, duration: 6 },
-    { label: "Jewellery",    image: "/images/gold-haram.png", x: isMobile ? "115px" : "18vw", y: isMobile ? "160px" : "20vh", animate: { rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }, duration: 4.5 },
-  ];
-
-
-
-  return (
-    <>
-      {/* Layer 1: Hero text */}
-      <motion.div
-        style={{ opacity: textLayerOp, scale: textScale, filter: textBlur, display: textDisplay }}
-        className="absolute inset-0 flex flex-col items-center justify-center px-6 md:px-16 lg:px-24 pb-12 md:pb-20 overflow-hidden pointer-events-none"
-      >
-        <motion.div
-          className="w-full flex flex-col items-center text-center z-10 flex-shrink-0 pointer-events-auto"
-          style={{ opacity: textInnerOp }}
-        >
-          <div className="inline-flex items-center gap-2 mb-4 lg:mb-6 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full bg-white border border-slate-200 shadow-sm">
-            <motion.span className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#D4AF37]" animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }} />
-            <span className="text-[9px] lg:text-[10px] font-bold tracking-[0.18em] uppercase text-[#005CB9]">India&apos;s 1st Living Gold Ecosystem</span>
-          </div>
-
-          <h1 className="font-black tracking-tight leading-[1.08] mb-2 lg:mb-3 w-full text-slate-900" style={{ fontSize: "clamp(2.2rem, 5.2vw, 5rem)" }}>
-            Gold That Works{" "}
-            <span style={{ background: `linear-gradient(135deg, ${C.goldBright} 0%, ${C.gold} 45%, ${C.goldDeep} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 0 25px rgba(212,175,55,0.4))" }}>
-              Beyond
-            </span>
-            <br />
-            <span style={{ background: `linear-gradient(135deg, ${C.goldBright} 0%, ${C.gold} 45%, ${C.goldDeep} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 0 25px rgba(212,175,55,0.4))" }}>
-              Ownership.
-            </span>
-          </h1>
-
-          <p className="font-bold mb-5 lg:mb-6 max-w-2xl text-sm lg:text-base text-slate-600">
-            Build Wealth. Experience Luxury. Unlock Financial Freedom.
-          </p>
-
-          <div className="flex justify-center mt-2">
+    <div className="relative" style={{ width: size, height: size, background: s.tile, transition: "background-color 600ms ease" }}>
+      {s.fragments ? (
+        <div className="absolute inset-[9%] grid grid-cols-3 grid-rows-2 place-items-center gap-2">
+          {FRAGMENTS.map((f, i) => (
             <motion.div
-              whileHover={{ y: -2, scale: 1.02 }}
-              className="flex items-center gap-3 px-5 py-3 rounded-full cursor-default"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))",
-                border: "1px solid rgba(212,175,55,0.3)",
-                backdropFilter: "blur(12px)",
-                boxShadow: "0 8px 24px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,255,255,1)",
-              }}
+              key={f.label}
+              className={`flex flex-col items-center gap-2 ${i === 3 ? "col-start-1" : ""} ${i >= 3 ? "translate-x-1/2" : ""}`}
+              animate={{ y: [0, i % 2 ? 6 : -6, 0] }}
+              transition={{ duration: 4 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="flex items-center justify-center w-10 h-10 rounded-full shadow-inner"
-                   style={{ background: `linear-gradient(135deg, ${C.goldBright}, ${C.gold})` }}>
-                <ShieldCheck size={20} className="text-white drop-shadow-md" strokeWidth={2.5} />
+              <div className="w-[min(7vw,96px)] aspect-square flex items-center justify-center">
+                {f.image ? (
+                  <Image src={f.image} alt="" width={96} height={96} className="w-full h-full object-contain" />
+                ) : f.Icon ? (
+                  <f.Icon size={64} />
+                ) : null}
               </div>
-              <div className="flex flex-col items-start">
-                <span className="font-black text-lg leading-none"
-                      style={{
-                        background: `linear-gradient(135deg, ${C.goldDeep}, ${C.gold})`,
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                      }}>
-                  100% Secure
-                </span>
-                <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mt-1">
-                  Insured Gold Vault
-                </span>
-              </div>
+              <span className="t-small font-medium text-[var(--color-ink)] whitespace-nowrap">{f.label}</span>
             </motion.div>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Layer 2: Fragmented cinematic */}
-      <motion.div style={{ display: fragDisplay }} className="absolute inset-0 flex items-center justify-center">
-        <div className="relative flex items-center justify-center w-full h-full">
-          <motion.div style={{ opacity: fragOp }} className="absolute text-center z-20 pointer-events-none flex flex-col items-center">
-            <p className="text-[11px] lg:text-xs font-bold tracking-[0.2em] uppercase mb-1" style={{ color: C.goldDeep }}>YOU HAVE GOLD ASSETS.</p>
-            <p className="text-[11px] lg:text-xs font-bold tracking-[0.2em] uppercase mb-3 lg:mb-4" style={{ color: C.goldDeep }}>YOU HAVE GOLD INVESTMENTS.</p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1]">
-              But they&apos;re <br /><span style={{ color: C.goldDeep }}>fragmented.</span>
-            </h2>
-          </motion.div>
-          {items.map((item, i) => (
-            <Scene1_Item key={`${i}-${isMobile}`} item={item} i={i} progress={progress} />
           ))}
         </div>
-      </motion.div>
-    </>
-  );
-}
-
-// ─── SCENE 2: GOLD BALANCE SPHERE ─────────────────────────────────────────────
-
-function Scene2_GoldBalance({ progress }: { progress: any }) {
-  const opacity = useTransform(progress, [0.20, 0.25, 0.40, 0.45], [0, 1, 1, 0], { clamp: true });
-  const scale   = useTransform(progress, [0.20, 0.25, 0.40, 0.45], [0.6, 1, 1.15, 1.45], { clamp: true });
-  const display = useTransform(progress, (p: number) => (p >= 0.19 && p <= 0.46 ? "flex" : "none"));
-
-  return (
-    <motion.div style={{ opacity, scale, display }} className="absolute inset-0 flex flex-col items-center justify-center">
-      {/* Pulsing gold ambient halo — sits behind, no white ring */}
-      <motion.div
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: 400, height: 400,
-          background: "radial-gradient(circle, rgba(212,175,55,0.32) 0%, rgba(184,134,11,0.12) 55%, transparent 72%)",
-          filter: "blur(28px)",
-        }}
-        animate={{ scale: [1, 1.10, 1], opacity: [0.75, 1, 0.75] }}
-        transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Globe image — edge-to-edge, no gap */}
-      <div
-        className="relative rounded-full overflow-hidden"
-        style={{
-          width: 380, height: 380,
-          boxShadow: "0 0 60px rgba(212,175,55,0.45), 0 16px 48px rgba(0,30,90,0.35)",
-        }}
-      >
+      ) : s.image ? (
         <Image
-          src="/images/ChatGPT Image Jul 28, 2026, 11_54_39 AM.png"
-          alt="Introducing Gold Balance"
+          src={s.image}
+          alt={s.alt}
           fill
-          sizes="380px"
-          className="object-cover object-center scale-[1.04]"
+          sizes="(min-width: 1024px) 450px, 62vw"
+          className="object-contain p-[12%] mix-blend-multiply"
           priority
         />
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── SCENE 3: STRATEGIES ──────────────────────────────────────────────────────
-
-function Scene3_Item({ strat, i, progress }: { strat: any; i: number; progress: any }) {
-  const op = useTransform(progress, [0.40 + i * 0.015, 0.45 + i * 0.015, 0.60, 0.65], [0, 1, 1, 0], { clamp: true });
-  const y  = useTransform(progress, [0.40 + i * 0.015, 0.45 + i * 0.015], [22, 0], { clamp: true });
-  const Icon = strat.icon;
-  return (
-    <motion.div className={`absolute flex flex-col items-center text-center max-w-[120px] sm:max-w-[180px] lg:max-w-xs ${strat.pos}`} style={{ opacity: op, y }}>
-      <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-white/90 border border-amber-200/60 flex items-center justify-center mb-1.5 lg:mb-2.5 shadow-md text-[#B8860B]">
-        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
-      </div>
-      <div className="text-sm sm:text-lg lg:text-2xl font-black text-[#005CB9] mb-1 leading-tight">{strat.title}</div>
-      <div className="text-[9px] sm:text-xs lg:text-sm text-slate-500 font-medium leading-snug">{strat.desc}</div>
-    </motion.div>
-  );
-}
-
-function Scene3_Strategies({ progress }: { progress: any }) {
-  const opacity = useTransform(progress, [0.40, 0.45, 0.60, 0.65], [0, 1, 1, 0], { clamp: true });
-  const display = useTransform(progress, (p: number) => (p >= 0.39 && p <= 0.66 ? "flex" : "none"));
-  const strategies = [
-    { title: "Investment Only",     desc: "Gold bars grow into a mountain.", pos: "-translate-x-[100px] sm:-translate-x-[190px] lg:-translate-x-[280px] -translate-y-[130px] sm:-translate-y-[155px] lg:-translate-y-[190px]", icon: InvestmentGrowthIcon },
-    { title: "Enroll & Experience", desc: "Join and unlock luxury.",         pos: "translate-x-[100px] sm:translate-x-[190px] lg:translate-x-[280px] -translate-y-[130px] sm:-translate-y-[155px] lg:-translate-y-[190px]",  icon: InfinityIcon },
-    { title: "Investment & Experience", desc: "Grow wealth while you wear.",     pos: "-translate-x-[100px] sm:-translate-x-[190px] lg:-translate-x-[280px] translate-y-[130px] sm:translate-y-[155px] lg:translate-y-[190px]",   icon: Sparkles },
-    { title: "Experience Only",     desc: "Access luxury without ownership.", pos: "translate-x-[100px] sm:translate-x-[190px] lg:translate-x-[280px] translate-y-[130px] sm:translate-y-[155px] lg:translate-y-[190px]",    icon: Gem },
-  ];
-  return (
-    <motion.div style={{ opacity, display }} className="absolute inset-0 flex items-center justify-center overflow-hidden">
-      <div className="relative w-full h-full flex items-center justify-center">
-        
-        {/* Gold Balance Ripples */}
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute z-10 rounded-full border border-slate-300"
-            style={{ width: "100px", height: "100px" }}
-            animate={{ scale: [1, 3], opacity: [0.8, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeOut", delay: i * 1 }}
-          />
-        ))}
-
-        <motion.div
-          className="absolute z-20 rounded-full overflow-hidden"
-          style={{
-            width: "clamp(80px, 11vw, 160px)",
-            height: "clamp(80px, 11vw, 160px)",
-            boxShadow: "0 0 40px rgba(212,175,55,0.5), 0 8px 32px rgba(184,134,11,0.35)",
-          }}
-          animate={{
-            scale: [1, 1.05, 1],
-            boxShadow: [
-              "0 0 40px rgba(212,175,55,0.5), 0 8px 32px rgba(184,134,11,0.35)",
-              "0 0 80px rgba(212,175,55,0.85), 0 8px 48px rgba(184,134,11,0.5)",
-              "0 0 40px rgba(212,175,55,0.5), 0 8px 32px rgba(184,134,11,0.35)",
-            ],
-          }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Image
-            src="/images/ChatGPT Image Jul 28, 2026, 11_54_39 AM.png"
-            alt="Gold Balance Globe"
-            fill
-            sizes="160px"
-            className="object-cover object-center scale-[1.04]"
-            priority
-          />
-        </motion.div>
-
-        {/* Animated Connecting Lines with Triggering Dots */}
-        {[45, 135, 225, 315].map((angle, idx) => (
-          <div key={angle} className="absolute top-1/2 left-1/2 origin-left overflow-hidden rounded-full" style={{ width: "clamp(100px, 22vw, 260px)", height: 3.5, background: "rgba(212,175,55,0.35)", transform: `rotate(${angle}deg)`, marginTop: -1.75 }}>
-            {[0, 1, 2].map((dotIdx) => (
-              <motion.div 
-                key={dotIdx}
-                className="absolute top-1/2 -translate-y-1/2 rounded-full" 
-                style={{ width: "8px", height: "8px", background: "#FFFFFF", boxShadow: "0 0 12px 3px #F4C430" }} 
-                animate={{ left: ["100%", "0%"], opacity: [0, 1, 0.2] }} 
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeIn", delay: dotIdx * 0.6 + idx * 0.15 }}
-              />
-            ))}
-          </div>
-        ))}
-        
-        {strategies.map((strat, i) => (
-          <Scene3_Item key={i} strat={strat} i={i} progress={progress} />
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── SCENE 4: FIVE PORTALS ────────────────────────────────────────────────────
-
-function Scene4_Item({ p, i, progress }: { p: any; i: number; progress: any }) {
-  const op = useTransform(progress, [0.62 + i * 0.015, 0.67 + i * 0.015, 0.80, 0.85], [0, 1, 1, 0], { clamp: true });
-  const y  = useTransform(progress, [0.62 + i * 0.015, 0.67 + i * 0.015], [38, 0], { clamp: true });
-  const Icon = p.icon;
-  return (
-    <motion.div style={{ opacity: op, y }} className="relative w-[60px] h-[130px] sm:w-24 sm:h-44 lg:w-32 lg:h-60 rounded-full overflow-hidden flex flex-col items-center justify-end pb-3 lg:pb-7 border border-slate-200/80 bg-white shadow-xl flex-shrink-0">
-      <div className="absolute inset-0 bg-gradient-to-t from-[#B8860B]/35 via-transparent to-transparent" />
-      <div className="absolute -bottom-4 lg:-bottom-8 w-12 h-12 lg:w-32 lg:h-32 bg-[#F4C430] blur-2xl opacity-70" />
-      <div className="relative z-10 w-6 h-6 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-full bg-slate-50 border border-slate-200 shadow-sm flex items-center justify-center mb-1 lg:mb-2 text-[#B8860B]">
-        {p.image ? (
-          <Image src={p.image} alt={p.title} width={32} height={32} className="w-3.5 h-3.5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 object-contain" />
-        ) : (
-          <Icon className="w-3.5 h-3.5 sm:w-6 sm:h-6 lg:w-8 lg:h-8" strokeWidth={1.5} />
-        )}
-      </div>
-      <div className="relative z-10 h-6 sm:h-10 lg:h-12 flex items-start justify-center px-1 w-full">
-        <span className="text-slate-800 text-center font-bold text-[6.5px] sm:text-[9px] lg:text-[11px] leading-tight">{p.title}</span>
-      </div>
-    </motion.div>
-  );
-}
-
-function Scene4_Benefits({ progress }: { progress: any }) {
-  const opacity  = useTransform(progress, [0.60, 0.65, 0.80, 0.85], [0, 1, 1, 0], { clamp: true });
-  const titleOp  = useTransform(progress, [0.60, 0.65], [0, 1], { clamp: true });
-  const titleY   = useTransform(progress, [0.60, 0.65], [20, 0], { clamp: true });
-  const display  = useTransform(progress, (p: number) => (p >= 0.59 && p <= 0.86 ? "flex" : "none"));
-  const portals  = [
-    { title: "Luxury Jewellery Cloud",       icon: Crown },
-    { title: "Instant Loan",                icon: BankWithAtIcon },
-    { title: "Instant Liquidity",           icon: IndianRupee },
-    { title: "Gift Gold Ecosystem",         image: "/images/gifting-eco.png" },
-    { title: "Wealth Generation",           icon: HandCoins },
-  ];
-  return (
-    <motion.div style={{ opacity, display }} className="absolute inset-0 flex flex-col items-center justify-center pt-4 sm:pt-8">
-      <motion.h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#005CB9] mb-6 sm:mb-10 lg:mb-14 tracking-tight text-center px-4" style={{ opacity: titleOp, y: titleY }}>
-        Five Powerful Gateways
-      </motion.h2>
-      <div className="flex flex-nowrap sm:flex-wrap justify-center gap-1.5 sm:gap-5 lg:gap-7 px-2 max-w-5xl w-full">
-        {portals.map((p, i) => (
-          <Scene4_Item key={i} p={p} i={i} progress={progress} />
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── SCENE 5: ENDING ──────────────────────────────────────────────────────────
-
-function Scene5_Ending({ progress }: { progress: any }) {
-  const opacity = useTransform(progress, [0.80, 0.85, 1], [0, 1, 1]);
-  const scale   = useTransform(progress, [0.84, 1.0], [0.85, 1], { clamp: true });
-  const display = useTransform(progress, (p: number) => (p >= 0.79 ? "flex" : "none"));
-
-  const rings = [
-    { size: "w-[340px] h-[340px] md:w-[480px] md:h-[480px] lg:w-[580px] lg:h-[580px]", duration: 40, reverse: false, color: "border-slate-300", items: ["Instant Loan", "Instant Liquidity"] },
-    { size: "w-[260px] h-[260px] md:w-[360px] md:h-[360px] lg:w-[440px] lg:h-[440px]", duration: 25, reverse: true,  color: "border-[#D4AF37]/50", items: ["Investment", "Wealth Generation"] },
-    { size: "w-[180px] h-[180px] md:w-[250px] md:h-[250px] lg:w-[300px] lg:h-[300px]", duration: 15, reverse: false, color: "border-[#D4AF37]/80", items: ["Luxury Jewellery Cloud", "Gift Gold Ecosystem"] },
-  ];
-
-  return (
-    <motion.div style={{ opacity, scale, display }} className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-      {/* Doodle background — only for this last scene */}
-      <motion.div style={{ opacity }} className="absolute inset-0 pointer-events-none">
-        <DoodleIconBackground />
-      </motion.div>
-      <div className="relative w-full h-full flex items-center justify-center max-w-[600px] md:max-w-[700px] mx-auto pointer-events-auto">
-        
-        {rings.map((ring, i) => (
-          <motion.div 
-            key={i} 
-            className={`absolute rounded-full border-[1px] border-dashed ${ring.color} ${ring.size}`}
-            animate={{ rotate: ring.reverse ? [0, -360] : [0, 360] }}
-            transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
-          >
-            {/* Top Planet */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <motion.div 
-                animate={{ rotate: ring.reverse ? [0, 360] : [0, -360] }}
-                transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
-              >
-                <motion.div 
-                  className="px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-slate-200 bg-white shadow-[0_6px_16px_rgba(212,175,55,0.15)] text-[8px] md:text-[10px] lg:text-xs font-bold text-[#005CB9] whitespace-nowrap"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
-                >
-                  {ring.items[0]}
-                </motion.div>
-              </motion.div>
-            </div>
-            {/* Bottom Planet */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-              <motion.div 
-                animate={{ rotate: ring.reverse ? [0, 360] : [0, -360] }}
-                transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
-              >
-                <motion.div 
-                  className="px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-slate-200 bg-white shadow-[0_6px_16px_rgba(212,175,55,0.15)] text-[8px] md:text-[10px] lg:text-xs font-bold text-[#005CB9] whitespace-nowrap"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 + 1 }}
-                >
-                  {ring.items[1]}
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-        ))}
-
-        <div className="z-10 flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full shadow-[0_10px_40px_rgba(212,175,55,0.2)] border border-white/90">
-          <h1 className="text-lg md:text-2xl lg:text-3xl font-black text-[#387ed1] tracking-widest mb-0.5 mt-2">LIMOVI</h1>
-          <p className="tracking-[0.2em] text-[5px] md:text-[6px] lg:text-[7px] font-bold uppercase text-[#B8860B]">The Gold Ecosystem</p>
-        </div>
-
-      </div>
-    </motion.div>
+      ) : null}
+    </div>
   );
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
 export function CinematicHero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
   const lenis = useLenis();
-  
+  const [active, setActive] = useState(0);
+  const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   useEffect(() => {
     let scrolled = false;
     const handleScroll = () => { scrolled = true; };
@@ -760,22 +359,166 @@ export function CinematicHero() {
       clearTimeout(timeout);
     };
   }, []);
-  
+
+  // The specimen on the colour field follows whichever chapter crosses the middle of the screen
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.chapter));
+        }
+      },
+      { rootMargin: "-50% 0px -50% 0px" }
+    );
+    chapterRefs.current.forEach((el) => el && io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const chapter = (i: number) => ({
+    ref: (el: HTMLDivElement | null) => { chapterRefs.current[i] = el; },
+    "data-chapter": i,
+  });
+
+  const s = SPECIMENS[active];
+
   return (
-    <section ref={containerRef} className="relative h-[800vh] bg-white" style={{ background: "#FFFFFF" }}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-white" style={{ background: "#FFFFFF" }}>
+    <section id="ecosystem" className="relative bg-[var(--color-bg)]">
+      <div className="lg:grid lg:grid-cols-2">
 
-        <Scene1_Problem     progress={scrollYProgress} />
-        <Scene2_GoldBalance progress={scrollYProgress} />
-        <Scene3_Strategies  progress={scrollYProgress} />
-        <Scene4_Benefits    progress={scrollYProgress} />
-        <Scene5_Ending      progress={scrollYProgress} />
+        {/* ── Left: the story, anchored low ── */}
+        <div className="relative z-10">
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-48 lg:w-64 h-[3px] bg-slate-200 rounded-full overflow-hidden shadow-inner">
-          <motion.div className="h-full rounded-full" style={{ backgroundColor: C.goldDeep, scaleX: scrollYProgress, transformOrigin: "left" }} />
+          {/* Chapter 1: the title */}
+          <div {...chapter(0)} className="flex flex-col">
+            <div className="lg:hidden bg-[var(--color-field)] pt-[76px] h-[58svh] flex items-center justify-center">
+              <SpecimenTile s={SPECIMENS[0]} size="min(62vw, 44svh)" />
+            </div>
+            <div className="lg:min-h-[100svh] flex flex-col justify-end px-[var(--margin)] lg:pr-16 pt-10 lg:pt-[96px] pb-14 lg:pb-[clamp(40px,7vh,72px)]">
+              <h1 className="display t-title text-[var(--color-ink)] max-w-[17ch]" data-reveal style={{ ["--i" as string]: 1 }}>
+                Gold that works beyond ownership.
+              </h1>
+              <p className="t-lead text-[var(--color-muted)] mt-6 max-w-[34ch]" data-reveal style={{ ["--i" as string]: 2 }}>
+                India&apos;s first living gold ecosystem. Build wealth, experience luxury, unlock financial freedom.
+              </p>
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mt-9" data-reveal style={{ ["--i" as string]: 3 }}>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))}
+                  className="btn btn-accent group"
+                >
+                  Get Early Access
+                  <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
+                </button>
+                <span className="flex items-center gap-2.5 text-[var(--color-ink)] font-medium">
+                  <ShieldCheck size={20} className="text-[var(--color-field)]" />
+                  100% secure, insured gold vault
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Chapter 2: the problem */}
+          <div {...chapter(1)} className="flex flex-col">
+            <div className="lg:hidden order-2 px-[var(--margin)] pb-6">
+              <SpecimenTile s={SPECIMENS[1]} size="min(100%, 52svh)" />
+            </div>
+            <div className="order-1 lg:min-h-[80svh] flex flex-col justify-end px-[var(--margin)] lg:pr-16 py-14 lg:pb-[clamp(40px,7vh,72px)]">
+              <p className="t-lead text-[var(--color-muted)] max-w-[30ch]" data-reveal>
+                You have gold assets. You have gold investments.
+              </p>
+              <h2 className="display t-head text-[var(--color-ink)] mt-4" data-reveal style={{ ["--i" as string]: 1 }}>
+                But they&apos;re fragmented.
+              </h2>
+              <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 t-lead text-[var(--color-ink)]" data-reveal style={{ ["--i" as string]: 2 }}>
+                {FRAGMENTS.map((f) => (
+                  <li key={f.label}>{f.label}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Chapter 3: one balance, four strategies */}
+          <div {...chapter(2)} className="flex flex-col">
+            <div className="lg:hidden flex justify-end">
+              <div className="bg-[var(--color-field)] w-[78%] aspect-square flex items-center justify-center">
+                <SpecimenTile s={SPECIMENS[2]} size="74%" />
+              </div>
+            </div>
+            <div className="lg:min-h-[100svh] flex flex-col justify-end px-[var(--margin)] lg:pr-16 py-14 lg:pb-[clamp(40px,7vh,72px)]">
+              <h2 className="display t-head text-[var(--color-ink)]" data-reveal>
+                Introducing Gold Balance.
+              </h2>
+              <p className="t-lead text-[var(--color-muted)] mt-6 max-w-[36ch]" data-reveal style={{ ["--i" as string]: 1 }}>
+                Cash, digital gold, coins, bars and jewellery in one balance, held through the strategy that suits you.
+              </p>
+              <dl className="mt-10 grid sm:grid-cols-2 gap-x-10 gap-y-7">
+                {STRATEGIES.map((st, i) => (
+                  <div key={st.title} data-reveal style={{ ["--i" as string]: i + 2 }}>
+                    <dt className="t-lead font-medium text-[var(--color-field)]">{st.title}</dt>
+                    <dd className="t-body text-[var(--color-muted)] mt-1">{st.desc}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+
+          {/* Chapter 4: five gateways */}
+          <div {...chapter(3)} className="flex flex-col">
+            <div className="lg:hidden px-[var(--margin)] pt-6">
+              <div className="relative w-[64%] aspect-square">
+                <Image src="/images/jewellry.png" alt="Gold jewellery set" fill sizes="64vw" className="object-contain" />
+              </div>
+            </div>
+            <div className="lg:min-h-[90svh] flex flex-col justify-end px-[var(--margin)] lg:pr-16 py-14 lg:pb-[clamp(56px,10vh,112px)]">
+              <h2 className="display t-head text-[var(--color-ink)]" data-reveal>
+                Five powerful gateways.
+              </h2>
+              <ul className="mt-8">
+                {GATEWAYS.map((g, i) => (
+                  <li key={g.title} data-reveal style={{ ["--i" as string]: i + 1 }}>
+                    <a href={g.href} className="group flex items-baseline justify-between gap-6 py-2.5 t-lead text-[var(--color-ink)] hover:text-[var(--color-field)] transition-colors">
+                      <span>{g.title}</span>
+                      <ArrowRight size={20} className="shrink-0 self-center transition-transform duration-200 group-hover:translate-x-1.5" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="t-body text-[var(--color-muted)] mt-6 max-w-[40ch]" data-reveal style={{ ["--i" as string]: 7 }}>
+                All five draw on one Gold Balance, with investment at the centre.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="absolute bottom-4 w-max left-1/2 -translate-x-1/2 text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400 text-center">
-          Scroll to explore the journey
+
+        {/* ── Right: the specimen on its colour field (desktop) ── */}
+        <div className="hidden lg:block relative">
+          <div className="sticky top-0 h-[100svh] bg-[var(--color-field)] overflow-hidden flex items-center justify-center pt-[60px] pb-[40px]">
+            <a href="#access-strategies" className="link absolute bottom-[clamp(28px,5vh,56px)] right-[var(--margin)] text-[var(--color-field-ink)] font-medium">
+              Compare strategies
+            </a>
+            <div className="relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, scale: 0.94, y: 18 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 1.03, y: -12, transition: { duration: 0.25, ease: [0.55, 0.055, 0.675, 0.19] } }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <SpecimenTile s={s} size="min(47vw, calc(100svh - 196px))" />
+                  <div className="mt-5 text-[var(--color-field-ink)]">
+                    <p className="font-medium">{s.name}</p>
+                    <p className="t-small text-[var(--color-field-muted)] mt-0.5">{s.fact}</p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            {/* Chapter position, carried by the specimen tile's neighbours */}
+            <div className="absolute bottom-[clamp(36px,calc(5vh+8px),64px)] left-[var(--margin)] flex gap-2" aria-hidden>
+              {SPECIMENS.map((_, i) => (
+                <span key={i} className="h-[3px] w-10 transition-colors duration-500" style={{ background: i === active ? "#FFFFFF" : "rgba(255,255,255,0.35)" }} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

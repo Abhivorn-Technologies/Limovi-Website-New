@@ -10,8 +10,12 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     }
     window.scrollTo(0, 0);
   }, []);
+
+  // Visitors who ask for less motion get native scrolling
+  const reduceMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   return (
-    <ReactLenis root options={{ lerp: 0.05, duration: 1.5, smoothWheel: true }}>
+    <ReactLenis root options={{ lerp: 0.1, smoothWheel: !reduceMotion, anchors: { offset: -76 } }}>
       {children}
     </ReactLenis>
   );
