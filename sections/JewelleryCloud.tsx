@@ -303,7 +303,7 @@ export function JewelleryCloud() {
           <h2 className="display t-display text-[var(--color-ink)] whitespace-nowrap leading-[0.88]" data-reveal>
             Experience<br />luxury.
           </h2>
-          <p className="display t-display text-[var(--color-muted)] leading-[0.88] mt-[0.12em]" data-reveal style={{ ["--i" as string]: 1 }}>
+          <p className="display t-display gold-shine-text leading-[0.88] mt-[0.12em]" data-reveal style={{ ["--i" as string]: 1 }}>
             Unlock more<br />from your gold.
           </p>
 

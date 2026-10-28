@@ -43,25 +43,69 @@ function Receipt({ title, subtitle, rows, totalLabel, total, partner }: { title:
   );
 }
 
-function AmountSlider({ label, value, min, max, step, onChange, dark }: { label: string; value: number; min: number; max: number; step: number; onChange: (n: number) => void; dark?: boolean }) {
+function AmountSlider({
+  label,
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  dark,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (n: number) => void;
+  dark?: boolean;
+}) {
   const id = useId();
+  const pct = Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100));
+
   return (
     <div className="mt-10 max-w-[480px]">
       <div className="flex items-baseline justify-between gap-4">
         <label htmlFor={id} className="font-medium">{label}</label>
         <output htmlFor={id} className="t-lead font-medium tabular">{inr(value)}</output>
       </div>
-      <input
-        id={id}
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className={`range mt-4 w-full ${dark ? "range-on-field" : ""}`}
-      />
-      <div className={`flex justify-between t-small mt-2 tabular ${dark ? "text-[var(--color-field-muted)]" : "text-[var(--color-muted)]"}`}>
+
+      <div className="relative h-11 flex items-center mt-3">
+        {/* Visible line bar track (background) */}
+        <div
+          className={`absolute inset-x-0 h-2 rounded-full pointer-events-none ${
+            dark ? "bg-white/30" : "bg-[#BACBDC]"
+          }`}
+        />
+
+        {/* Dynamic active filled line bar */}
+        <div
+          className={`absolute left-0 h-2 rounded-full pointer-events-none transition-[width] duration-75 ${
+            dark
+              ? "bg-[var(--color-accent)] shadow-[0_0_10px_rgba(212,175,55,0.6)]"
+              : "bg-[var(--color-ink)]"
+          }`}
+          style={{ width: `${pct}%` }}
+        />
+
+        {/* Interactive native range slider */}
+        <input
+          id={id}
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className={`range w-full ${dark ? "range-on-field" : ""} relative z-10 !bg-transparent`}
+        />
+      </div>
+
+      <div
+        className={`flex justify-between t-small mt-2 tabular font-medium ${
+          dark ? "text-[var(--color-field-muted)]" : "text-[var(--color-muted)]"
+        }`}
+      >
         <span>{inr(min)}</span>
         <span>{inr(max)}</span>
       </div>
