@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export type TimelineKey = '1Y' | '3Y' | '5Y' | '10Y';
 
@@ -17,49 +16,40 @@ interface TimelineSelectorProps {
   onSelect: (key: TimelineKey | null) => void;
 }
 
-const PRESETS: { label: string; sub: string; key: TimelineKey }[] = [
-  { label: '1 Year', sub: '1Y Ahead', key: '1Y' },
-  { label: '3 Years', sub: '3Y Ahead', key: '3Y' },
-  { label: '5 Years', sub: '5Y Ahead', key: '5Y' },
-  { label: '10 Years', sub: '10Y Ahead', key: '10Y' },
+const PRESETS: { label: string; key: TimelineKey }[] = [
+  { label: '1 year', key: '1Y' },
+  { label: '3 years', key: '3Y' },
+  { label: '5 years', key: '5Y' },
+  { label: '10 years', key: '10Y' },
 ];
 
-const minDate = '2000-01-01';
+// A segmented control: the filled block slides to the chosen period
 export function TimelineSelector({ selected, onSelect }: TimelineSelectorProps) {
   return (
-    <div className="space-y-2">
-      <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-700">
-        Investment Timeline (Projection)
-      </p>
-
-      <div className="grid grid-cols-4 gap-1.5">
-        {PRESETS.map((p) => {
-          const active = selected === p.key;
-          return (
-            <button
-              key={p.key}
-              onClick={() => { active ? onSelect(null) : onSelect(p.key); }}
-              className="flex flex-col items-center py-2.5 rounded-xl text-center transition-all duration-200"
-              style={
-                active
-                  ? {
-                      background: 'linear-gradient(135deg,#D4AF37,#B8860B)',
-                      color: '#fff',
-                      boxShadow: '0 4px 14px rgba(212,175,55,0.5)',
-                    }
-                  : {
-                      background: 'rgba(212,175,55,0.07)',
-                      color: '#92692a',
-                      border: '1px solid rgba(212,175,55,0.22)',
-                    }
-              }
-            >
-              <span className="text-[11px] font-black">{p.label}</span>
-              <span className="text-[9px] opacity-70 font-medium">{p.sub}</span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="grid grid-cols-4 bg-[var(--color-surface)] p-1" role="group" aria-label="Investment timeline">
+      {PRESETS.map((p) => {
+        const active = selected === p.key;
+        return (
+          <button
+            key={p.key}
+            type="button"
+            onClick={() => { active ? onSelect(null) : onSelect(p.key); }}
+            aria-pressed={active}
+            className="relative h-10 text-sm font-medium tabular"
+          >
+            {active && (
+              <motion.span
+                layoutId="gc-timeline"
+                className="absolute inset-0 bg-[var(--color-accent)]"
+                transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+              />
+            )}
+            <span className={`relative transition-colors ${active ? 'text-[var(--color-accent-ink)]' : 'text-[var(--color-muted)] hover:text-[var(--color-ink)]'}`}>
+              {p.label}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }

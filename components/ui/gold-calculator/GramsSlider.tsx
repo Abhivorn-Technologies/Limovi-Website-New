@@ -2,7 +2,6 @@
 
 import { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertTriangle } from 'lucide-react';
 import { ENROL_MIN_GRAMS, ENROL_MAX_GRAMS, ENROL_DEFAULT_GRAMS, MIN_INVEST_GRAMS } from '@/lib/constants/strategyRules';
 
 interface GramsSliderProps {
@@ -10,12 +9,7 @@ interface GramsSliderProps {
   onChange: (grams: number) => void;
 }
 
-const PRESETS = [
-  { label: '50g', value: 50 },
-  { label: '100g', value: 100 },
-  { label: '200g', value: 200 },
-  { label: '500g', value: 500 },
-];
+const PRESETS = [50, 100, 200, 500];
 
 export { ENROL_DEFAULT_GRAMS };
 
@@ -36,38 +30,23 @@ export function GramsSlider({ value, onChange }: GramsSliderProps) {
   );
 
   return (
-    <div className="space-y-3">
-      {/* Input display */}
-      <div className="relative">
+    <div>
+      {/* The amount, typed or dragged */}
+      <label className="flex items-baseline gap-2 bg-[var(--color-surface)] px-4 py-3 focus-within:bg-[var(--color-tile)] transition-colors">
         <input
           type="text"
           inputMode="decimal"
           value={value}
           onChange={handleInput}
-          className="w-full pr-10 pl-3 py-2.5 text-xl font-black rounded-xl border-2 outline-none transition-all"
-          style={{
-            background: 'rgba(212,175,55,0.06)',
-            borderColor: 'rgba(212,175,55,0.35)',
-            color: '#7A5E00',
-            caretColor: '#D4AF37',
-          }}
+          className="display w-full bg-transparent outline-none text-[2rem] leading-none text-[var(--color-ink)] tabular"
           aria-label="Gold balance in grams"
         />
-        <span
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold"
-          style={{ color: '#D4AF37' }}
-        >
-          g
-        </span>
-      </div>
+        <span className="font-medium text-[var(--color-muted)]">grams</span>
+      </label>
 
-      {/* Slider */}
-      <div className="relative h-5 flex items-center">
-        <div className="absolute w-full h-1.5 rounded-full" style={{ background: 'rgba(212,175,55,0.15)' }} />
-        <div
-          className="absolute h-1.5 rounded-full transition-all duration-100"
-          style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#D4AF37,#B8860B)' }}
-        />
+      <div className="relative h-11 flex items-center mt-2">
+        <div className="absolute inset-x-0 h-1.5 bg-[var(--color-surface-2)]" />
+        <div className="absolute left-0 h-1.5 bg-[var(--color-ink)]" style={{ width: `${pct}%` }} />
         <input
           type="range"
           min={ENROL_MIN_GRAMS}
@@ -75,44 +54,37 @@ export function GramsSlider({ value, onChange }: GramsSliderProps) {
           step={1}
           value={value}
           onChange={handleRange}
-          className="absolute w-full h-5 opacity-0 cursor-pointer z-10"
+          className="peer absolute inset-0 w-full opacity-0 cursor-pointer z-10"
           aria-label="Gold balance grams slider"
         />
         <div
-          className="absolute w-5 h-5 rounded-full border-2 border-white shadow-lg pointer-events-none transition-all duration-100"
-          style={{
-            left: `calc(${pct}% - 10px)`,
-            background: 'linear-gradient(135deg,#D4AF37,#B8860B)',
-            boxShadow: '0 2px 10px rgba(212,175,55,0.6)',
-          }}
+          className="absolute w-5 h-5 bg-[var(--color-accent)] pointer-events-none transition-transform duration-150 peer-active:scale-125 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--color-field)]"
+          style={{ left: `calc(${pct}% - 10px)` }}
         />
       </div>
 
-      {/* Range hints */}
-      <div className="flex justify-between text-[10px] font-semibold" style={{ color: '#94a3b8' }}>
-        <span>{ENROL_MIN_GRAMS}g</span>
-        <span>{ENROL_MAX_GRAMS}g</span>
-      </div>
-
-      {/* Preset chips */}
-      <div className="flex flex-wrap gap-1.5">
-        {PRESETS.map((p) => {
-          const active = value === p.value;
-          return (
-            <button
-              key={p.value}
-              onClick={() => onChange(p.value)}
-              className="px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all duration-150"
-              style={
-                active
-                  ? { background: 'linear-gradient(135deg,#D4AF37,#B8860B)', color: '#3D2800', boxShadow: '0 3px 10px rgba(212,175,55,0.5)' }
-                  : { background: 'rgba(212,175,55,0.1)', color: '#92692a', border: '1px solid rgba(212,175,55,0.25)' }
-              }
-            >
-              {p.label}
-            </button>
-          );
-        })}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex gap-1" role="group" aria-label="Quick amounts">
+          {PRESETS.map((g) => {
+            const active = value === g;
+            return (
+              <button
+                key={g}
+                type="button"
+                onClick={() => onChange(g)}
+                aria-pressed={active}
+                className={`h-9 px-3 text-sm font-medium tabular transition-colors duration-150 active:scale-95 ${
+                  active ? 'bg-[var(--color-ink)] text-white' : 'bg-[var(--color-surface)] text-[var(--color-ink)] hover:bg-[var(--color-surface-2)]'
+                }`}
+              >
+                {g}g
+              </button>
+            );
+          })}
+        </div>
+        <span className="text-sm text-[var(--color-muted)] tabular shrink-0">
+          {ENROL_MIN_GRAMS}–{ENROL_MAX_GRAMS}g
+        </span>
       </div>
 
       {/* Minimum grams warning */}
@@ -120,36 +92,20 @@ export function GramsSlider({ value, onChange }: GramsSliderProps) {
         {value < MIN_INVEST_GRAMS && (
           <motion.div
             key="min-warning"
-            initial={{ opacity: 0, y: -6, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, y: -4, height: 0 }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div
-              className="flex items-start gap-2 px-3 py-2.5 rounded-xl"
-              style={{
-                background: 'rgba(245,158,11,0.1)',
-                border: '1px solid rgba(245,158,11,0.35)',
-              }}
-            >
-              <AlertTriangle size={13} color="#D97706" className="flex-shrink-0 mt-0.5" />
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-black" style={{ color: '#92400e' }}>
-                  Minimum {MIN_INVEST_GRAMS}g required
-                </p>
-                <p className="text-[10px] font-medium mt-0.5" style={{ color: '#B45309' }}>
-                  Selected {value}g is below the minimum gold balance.
-                </p>
-              </div>
+            <div className="mt-3 flex items-center justify-between gap-3 bg-amber-50 px-4 py-3">
+              <p className="text-sm text-amber-900">
+                <span className="font-medium">Minimum {MIN_INVEST_GRAMS}g required.</span> {value}g is below the minimum gold balance.
+              </p>
               <button
+                type="button"
                 onClick={() => onChange(MIN_INVEST_GRAMS)}
-                className="flex-shrink-0 px-2 py-1 rounded-lg text-[10px] font-black transition-all duration-150"
-                style={{
-                  background: 'rgba(245,158,11,0.2)',
-                  color: '#92400e',
-                  border: '1px solid rgba(245,158,11,0.4)',
-                }}
+                className="shrink-0 h-9 px-3 text-sm font-medium bg-amber-900 text-white"
                 aria-label={`Set to minimum ${MIN_INVEST_GRAMS}g`}
               >
                 Set {MIN_INVEST_GRAMS}g

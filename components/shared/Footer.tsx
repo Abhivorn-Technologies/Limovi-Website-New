@@ -62,14 +62,32 @@ export function Footer() {
 
   return (
     <footer className="relative isolate overflow-hidden bg-[var(--color-deep)] text-white min-h-[88svh] lg:min-h-[100svh] flex flex-col">
-      {/* The photograph is the footer */}
-      <Image
-        src="/images/jewellery-wedding.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover -z-10"
-        style={{ filter: "brightness(0.42) saturate(0.9)", objectPosition: "50% 40%" }}
+      {/* Background Photograph with Vignette / Fade Mask */}
+      <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
+        <Image
+          src="/images/footer.jpg"
+          alt="Limovi Footer Background"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover object-center"
+          style={{
+            filter: "brightness(0.7) contrast(1.05)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 95% 75% at 50% 50%, black 35%, transparent 95%)",
+            maskImage:
+              "radial-gradient(ellipse 95% 75% at 50% 50%, black 35%, transparent 95%)",
+          }}
+        />
+      </div>
+
+      {/* Dark Ambient Overlay Mask for Contrast and Legibility */}
+      <div
+        className="absolute inset-0 -z-10 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(7, 17, 31, 0.88) 0%, rgba(7, 17, 31, 0.35) 42%, rgba(7, 17, 31, 0.65) 75%, rgba(7, 17, 31, 0.95) 100%)",
+        }}
       />
 
       <div className="frame pt-16 lg:pt-20 grid grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-10">

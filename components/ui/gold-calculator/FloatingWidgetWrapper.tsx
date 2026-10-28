@@ -73,40 +73,17 @@ export function FloatingWidgetWrapper() {
         {minimized && (
           <motion.button
             key="fab"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 340, damping: 24 }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             onClick={open}
-            className="fixed z-[9999] flex items-center justify-center cursor-pointer select-none"
-            style={
-              isMobile
-                ? { bottom: 96, right: 20, width: 48, height: 48, borderRadius: '50%' }
-                : { bottom: 96, right: 28, width: 52, height: 52, borderRadius: '50%' }
-            }
+            className="group fixed z-[9999] flex items-center gap-2.5 h-12 px-3.5 sm:px-4 bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-medium cursor-pointer select-none shadow-[0_12px_30px_rgba(10,25,41,0.22)] hover:bg-[#E2BE45] transition-colors active:scale-95"
+            style={isMobile ? { bottom: 84, right: 24 } : { bottom: 88, right: 24 }}
             aria-label="Open LIMOVI ROI Calculator"
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.94 }}
           >
-            {/* Coin gradient */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: 'conic-gradient(from 30deg,#B8860B 0deg,#D4AF37 60deg,#F5C542 100deg,#D4AF37 160deg,#B8860B 220deg,#D4AF37 280deg,#F5C542 320deg,#B8860B 360deg)',
-                boxShadow: '0 8px 32px rgba(212,175,55,0.65), 0 0 0 3px rgba(212,175,55,0.2), 0 0 0 6px rgba(212,175,55,0.08)',
-              }}
-            />
-            {/* Pulse rings */}
-            {[0, 0.6, 1.2].map((delay, i) => (
-              <motion.span
-                key={i}
-                className="absolute inset-0 rounded-full"
-                style={{ border: `2px solid rgba(212,175,55,${0.5 - i * 0.12})` }}
-                animate={{ scale: [1, 1.5, 1.9], opacity: [0.6, 0.3, 0] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay }}
-              />
-            ))}
-            <Calculator size={22} color="#3D2800" style={{ position: 'relative', zIndex: 1, filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.35))' }} />
+            <Calculator size={20} className="transition-transform duration-300 group-hover:-rotate-12" />
+            <span className="hidden sm:inline">ROI calculator</span>
           </motion.button>
         )}
       </AnimatePresence>
@@ -122,8 +99,7 @@ export function FloatingWidgetWrapper() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[9990]"
-                style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(3px)' }}
+                className="fixed inset-0 z-[9990] bg-[rgba(7,17,31,0.45)]"
                 onClick={minimize}
               />
             )}
@@ -136,76 +112,30 @@ export function FloatingWidgetWrapper() {
               dragConstraints={!isMobile ? constraintsRef : undefined}
               dragElastic={0.04}
               dragMomentum={false}
-              // Desktop: scale+fade from bottom-right
-              // Mobile: slide up from bottom
-              initial={
-                isMobile
-                  ? { y: '100%', opacity: 0 }
-                  : { scale: 0.88, opacity: 0, y: 30 }
-              }
-              animate={
-                isMobile
-                  ? { y: 0, opacity: 1 }
-                  : { scale: 1, opacity: 1, y: 0 }
-              }
-              exit={
-                isMobile
-                  ? { y: '100%', opacity: 0 }
-                  : { scale: 0.9, opacity: 0, y: 16 }
-              }
-              transition={{ type: 'spring', stiffness: 310, damping: 30 }}
+              // Desktop: rises in at bottom-right. Mobile: slides up as a sheet
+              initial={isMobile ? { y: '100%' } : { opacity: 0, y: 24 }}
+              animate={isMobile ? { y: 0 } : { opacity: 1, y: 0 }}
+              exit={isMobile ? { y: '100%', transition: { duration: 0.25 } } : { opacity: 0, y: 16, transition: { duration: 0.18 } }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               role="dialog"
               aria-label="LIMOVI ROI Calculator"
               aria-modal="false"
+              className="fixed z-[9999] flex flex-col overflow-hidden bg-white shadow-[0_24px_70px_rgba(10,25,41,0.28)]"
               style={
                 isMobile
-                  ? {
-                      // Bottom sheet
-                      position: 'fixed',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      zIndex: 9999,
-                      maxHeight: '92dvh',
-                      borderRadius: '24px 24px 0 0',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      background: 'rgba(255,255,255,0.97)',
-                      backdropFilter: 'blur(30px) saturate(200%)',
-                      WebkitBackdropFilter: 'blur(30px) saturate(200%)',
-                      boxShadow: '0 -16px 60px rgba(0,0,0,0.2)',
-                      border: '1px solid rgba(255,255,255,0.8)',
-                      overflow: 'hidden',
-                    }
-                  : {
-                      // Desktop card — 450–500px wide
-                      position: 'fixed',
-                      bottom: 28,
-                      right: 28,
-                      zIndex: 9999,
-                      width: 'clamp(380px, 30vw, 500px)',
-                      maxHeight: 'calc(100dvh - 56px)',
-                      borderRadius: 22,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      background: 'rgba(255,255,255,0.97)',
-                      backdropFilter: 'blur(28px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-                      boxShadow: '0 32px 80px rgba(0,0,0,0.17), 0 8px 32px rgba(11,98,214,0.1), 0 0 0 1px rgba(255,255,255,0.85)',
-                      border: '1px solid rgba(255,255,255,0.75)',
-                      overflow: 'hidden',
-                    }
+                  ? { bottom: 0, left: 0, right: 0, maxHeight: '92dvh' }
+                  : { bottom: 24, right: 24, width: 'clamp(380px, 30vw, 440px)', maxHeight: 'calc(100dvh - 100px)' }
               }
             >
               {/* Top drag handle */}
               <div
-                className="flex-shrink-0 flex items-center justify-center pt-2 pb-1 cursor-grab active:cursor-grabbing"
+                className="flex-shrink-0 flex items-center justify-center pt-2.5 cursor-grab active:cursor-grabbing"
                 onPointerDown={(e) => {
                   if (!isMobile) dragControls.start(e);
                 }}
                 style={{ touchAction: 'none' }}
               >
-                <div className="w-8 h-1 rounded-full" style={{ background: 'rgba(0,0,0,0.1)' }} />
+                <div className="w-10 h-1 bg-[var(--color-surface-2)]" />
               </div>
 
               <GoldBalanceCalculator

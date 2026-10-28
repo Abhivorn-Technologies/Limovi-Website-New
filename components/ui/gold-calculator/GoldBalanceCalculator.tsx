@@ -1,15 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, ChevronDown, AlertCircle } from 'lucide-react';
+import { RefreshCw, X, AlertCircle } from 'lucide-react';
 
-import { InvestmentSlider } from './InvestmentSlider';
-import { GramsSlider, ENROL_DEFAULT_GRAMS } from './GramsSlider';
+import { GramsSlider } from './GramsSlider';
 import { TimelineSelector, type TimelineKey, TIMELINE_YEARS } from './TimelineSelector';
-import { GoldBalanceCoin } from './GoldBalanceCoin';
 import { ResultCards } from './ResultCards';
 import { StrategySelector } from './StrategySelector';
+import { AnimatedNumber } from './AnimatedNumber';
 
 import { JewelleryExperiencesSelector } from './JewelleryExperiencesSelector';
 import {
@@ -18,71 +17,28 @@ import {
 } from '@/lib/services/goldService';
 import {
   calculateFutureProjection,
-  calculateForEnrolledGrams,
   type CalculationResult,
 } from '@/lib/utils/calculator';
 import type { StrategyKey } from '@/lib/constants/strategyRules';
 
-// ─── Animated counter ──────────────────────────────────────────────────────
-function AnimatedNumber({
-  value,
-  prefix = '',
-  suffix = '',
-  formatter,
-}: {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  formatter?: (v: number) => string;
-}) {
-  const [displayed, setDisplayed] = useState(value);
-  const raf = useRef<number>(0);
-  const start = useRef(value);
-  const target = useRef(value);
-
-  useEffect(() => {
-    start.current = displayed;
-    target.current = value;
-    const t0 = performance.now();
-    const dur = 550;
-    const step = (now: number) => {
-      const p = Math.min((now - t0) / dur, 1);
-      const e = 1 - Math.pow(1 - p, 3);
-      setDisplayed(start.current + (target.current - start.current) * e);
-      if (p < 1) raf.current = requestAnimationFrame(step);
-    };
-    cancelAnimationFrame(raf.current);
-    raf.current = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
-  if (formatter) return <>{formatter(displayed)}</>;
-  return <>{`${prefix}${new Intl.NumberFormat('en-IN').format(Math.round(Math.abs(displayed)))}${suffix}`}</>;
-}
+const inr = (v: number) => `₹${new Intl.NumberFormat('en-IN').format(Math.round(Math.abs(v)))}`;
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────
-function Skeleton({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <div
-      className={`animate-pulse rounded-lg ${className}`}
-      style={{ background: 'rgba(11,98,214,0.09)', ...style }}
-    />
-  );
+function Skeleton({ className }: { className?: string }) {
+  return <div className={`animate-pulse bg-[var(--color-surface-2)] ${className}`} />;
 }
 
-// ─── Input label ─────────────────────────────────────────────────────────
-function InputLabel({ strategy }: { strategy: StrategyKey }) {
-  const labels: Record<StrategyKey, string> = {
-    investment: 'Gold Balance (grams)',
-    investment_experience: 'Gold Balance (grams)',
-    enrol_experience: 'Current Gold Balance (grams)',
-    experience_only: 'Membership Plan',
-  };
+// ─── One step of the form ─────────────────────────────────────────────────
+function Step({ title, i, children }: { title: string; i: number; children: React.ReactNode }) {
   return (
-    <p className="text-[9px] font-bold uppercase tracking-widest mb-1.5" style={{ color: '#94a3b8' }}>
-      {labels[strategy]}
-    </p>
+    <motion.section
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.08 + i * 0.06, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <h3 className="font-medium text-[var(--color-ink)] mb-3">{title}</h3>
+      {children}
+    </motion.section>
   );
 }
 
@@ -114,8 +70,6 @@ export function GoldBalanceCalculator({
   const [priceLoading, setPriceLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const [coinTrigger, setCoinTrigger] = useState(0);
 
   // Experience counts per year (Section 6 of Blueprint Note 1)
   const [luxuryCount, setLuxuryCount] = useState(1);
@@ -161,215 +115,131 @@ export function GoldBalanceCalculator({
       lifestyleExperiencesPerYear: lifestyleCount,
     });
     setResult(next);
-    setCoinTrigger((n) => n + 1);
   }, [enrolledGrams, strategy, livePrice, years, luxuryCount, lifestyleCount]);
 
-  const needsTimeline = true; // All strategies now use the timeline
-  const isLoading = priceLoading;
+  const price = livePrice?.price ?? 14400;
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 select-none">
+    <div className="flex flex-col flex-1 min-h-0 bg-white text-[var(--color-ink)]">
 
       {/* ── HEADER ────────────────────────────────────────────────────── */}
-      <div
-        className="px-4 pt-3 pb-3 flex-shrink-0"
-        style={{
-          background: 'linear-gradient(135deg,rgba(11,98,214,0.05) 0%,rgba(0,39,113,0.03) 100%)',
-          borderBottom: '1px solid rgba(11,98,214,0.09)',
-        }}
-      >
-        <div className="flex items-start justify-between gap-2">
-          {/* Title block */}
-          <div className="flex-1 min-w-0">
-            {/* LIVE badge */}
-            <div className="flex items-center gap-1.5 mb-1">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500" />
-              </span>
-              <span className="text-[9px] font-black uppercase tracking-[0.15em]" style={{ color: '#22c55e' }}>
-                Live
-              </span>
-            </div>
-            <h2
-              className="text-sm font-black leading-tight"
-              style={{
-                background: 'linear-gradient(135deg,#002771,#0B62D6)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              <span className="tracking-[0.14em] inline-block mr-1">LIMOVI</span> ROI Calculator
-            </h2>
-            <p className="text-[10px] mt-0.5 leading-snug font-medium" style={{ color: '#64748b' }}>
+      <div className="flex-shrink-0 px-5 pt-5 pb-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="display text-xl leading-tight">ROI calculator</h2>
+            <p className="text-sm text-[var(--color-muted)] mt-1">
               Estimate your returns using live 24K gold prices.
             </p>
           </div>
-
-          {/* Action buttons */}
-          <div className="flex gap-1.5 flex-shrink-0 pt-0.5">
+          <div className="flex gap-1 shrink-0">
             <button
               onClick={() => loadLivePrice(true)}
-              className="w-7 h-7 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-150"
-              style={{ background: 'rgba(11,98,214,0.08)' }}
+              className="w-10 h-10 flex items-center justify-center bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] transition-colors active:scale-90"
               aria-label="Refresh gold price"
               title="Refresh live price"
             >
-              <RefreshCw size={12} color="#0B62D6" className={isRefreshing ? 'animate-spin' : ''} />
+              <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
             </button>
             <button
               onClick={onMinimize}
-              className="w-7 h-7 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-150"
-              style={{ background: 'rgba(11,98,214,0.08)' }}
-              aria-label="Minimize calculator"
+              className="w-10 h-10 flex items-center justify-center bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] transition-colors active:scale-90"
+              aria-label="Close calculator"
             >
-              <ChevronDown size={13} color="#0B62D6" />
+              <X size={18} />
             </button>
           </div>
         </div>
 
-        {/* Error banner */}
+        {/* Live price */}
+        <div className="mt-4 flex items-center justify-between gap-3 bg-[var(--color-surface)] px-4 py-3">
+          <span className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+            <span className={`w-2 h-2 ${livePrice?.isLive ? 'bg-emerald-600' : 'bg-amber-500'}`} aria-hidden />
+            24K gold, {livePrice?.isLive ? 'live' : 'demo'} price
+          </span>
+          {priceLoading ? (
+            <Skeleton className="h-5 w-24" />
+          ) : (
+            <span className="font-medium tabular">
+              <AnimatedNumber value={price} formatter={inr} />
+              <span className="text-sm text-[var(--color-muted)] font-normal"> / gram</span>
+            </span>
+          )}
+        </div>
+
         <AnimatePresence>
           {error && (
-            <motion.div
+            <motion.p
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-2 flex items-center gap-2 px-3 py-2 rounded-xl text-[10px] font-semibold"
-              style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', color: '#92400e' }}
+              className="mt-2 flex items-center gap-2 text-sm text-amber-900 overflow-hidden"
             >
-              <AlertCircle size={11} />
+              <AlertCircle size={15} className="shrink-0" />
               {error}
-            </motion.div>
+            </motion.p>
           )}
         </AnimatePresence>
       </div>
 
       {/* ── SCROLLABLE BODY ────────────────────────────────────────────── */}
       <div
-        className="flex-1 overflow-y-auto overscroll-contain px-3 py-3 space-y-3"
+        className="flex-1 overflow-y-auto overscroll-contain px-5 pb-6 space-y-7"
         style={{ scrollbarWidth: 'thin' }}
         data-lenis-prevent="true"
       >
+        <Step title="Gold balance" i={0}>
+          <GramsSlider value={enrolledGrams} onChange={setEnrolledGrams} />
+          <p className="text-sm text-[var(--color-muted)] mt-3">
+            Investment required{' '}
+            <span className="font-medium text-[var(--color-ink)] tabular">
+              <AnimatedNumber value={enrolledGrams * price} formatter={inr} />
+            </span>
+          </p>
+        </Step>
 
-        {/* ── LIVE PRICE BANNER ─── */}
-        <div
-          className="rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm"
-          style={{
-            background: 'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(212,175,55,0.05))',
-            border: '1px solid rgba(212,175,55,0.3)',
-          }}
-        >
-          <div className="flex flex-col items-start">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="w-1.5 h-1.5 rounded-full inline-block animate-pulse" style={{ background: '#22c55e' }} />
-              <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: '#22c55e' }}>
-                {livePrice?.isLive ? 'LIVE' : 'DEMO'}
-              </span>
-            </div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-[#92692a]">
-              24K Gold Price
-            </p>
-          </div>
-          <div className="text-right flex flex-col justify-center">
-            {priceLoading ? (
-              <Skeleton className="h-5 w-20 ml-auto" />
-            ) : (
-              <p className="text-[15px] font-black text-[#7A5E00] leading-none">
-                ₹{new Intl.NumberFormat('en-IN').format(livePrice?.price ?? 14400)}
-              </p>
-            )}
-            <p className="text-[9px] mt-1 text-[#92692a]/70 font-medium">per gram</p>
-          </div>
-        </div>
+        <Step title="Investment strategy" i={1}>
+          <StrategySelector selected={strategy} onChange={setStrategy} />
+        </Step>
 
-        {/* ── GOLD PRICE, GRAMS & INVESTMENT REQUIRED ─── */}
-        <div className="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70">
-          {/* LEFT: Grams Slider */}
-          <div className="min-w-0">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-700">
-                Gold Balance (Grams)
-              </span>
-              <span className="text-[10px] font-bold text-brand-primary">
-                Min. Investment: ₹{new Intl.NumberFormat('en-IN').format(enrolledGrams * (livePrice?.price ?? 14400))}
-              </span>
-            </div>
+        <Step title="Projection period" i={2}>
+          <TimelineSelector selected={timeline} onSelect={setTimeline} />
+        </Step>
 
-            <GramsSlider value={enrolledGrams} onChange={setEnrolledGrams} />
-          </div>
-        </div>
-
-        {/* ── SELECT STRATEGY ──────────────────────────────────────── */}
-        <StrategySelector selected={strategy} onChange={setStrategy} />
-
-        {/* ── SELECT INVESTMENT TIMELINE ────────────────────────────── */}
-        <AnimatePresence>
-          {needsTimeline && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              <TimelineSelector
-                selected={timeline}
-                onSelect={setTimeline}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ── JEWELLERY EXPERIENCES PER YEAR ───────────────────────── */}
-        <JewelleryExperiencesSelector
-          luxuryCount={luxuryCount}
-          setLuxuryCount={setLuxuryCount}
-          lifestyleCount={lifestyleCount}
-          setLifestyleCount={setLifestyleCount}
-        />
-
-        {/* ── DIVIDER ───────────────────────────────────────────────── */}
-        <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(11,98,214,0.12),transparent)' }} />
-
-        {/* CENTER coin */}
-        <div
-          className="rounded-2xl py-4 flex items-center justify-center"
-          style={{
-            background: 'radial-gradient(ellipse at center,rgba(212,175,55,0.1) 0%,rgba(212,175,55,0.02) 70%)',
-            border: '1px solid rgba(212,175,55,0.18)',
-          }}
-        >
-          {isLoading ? (
-            <div className="flex flex-col items-center gap-2">
-              <Skeleton style={{ width: 80, height: 80, borderRadius: '50%' }} />
-              <Skeleton className="h-3 w-16" />
-              <Skeleton className="h-6 w-20" />
-            </div>
-          ) : (
-            <GoldBalanceCoin
-              grams={enrolledGrams}
-              amount={result?.currentValue ?? 0}
-              size="sm"
-              trigger={coinTrigger}
-            />
-          )}
-        </div>
-
-        {/* ── MONEY EARNED / SAVED & VALUE ADDED ───────────────────── */}
-        {isLoading ? (
-          <div className="grid grid-cols-2 gap-2">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className={`h-20 rounded-2xl ${i === 3 ? 'col-span-2' : ''}`} />
-            ))}
-          </div>
-        ) : result ? (
-          <ResultCards
-            result={result}
-            strategy={strategy}
-            enrolledGrams={enrolledGrams}
+        <Step title="Jewellery experiences per year" i={3}>
+          <JewelleryExperiencesSelector
+            luxuryCount={luxuryCount}
+            setLuxuryCount={setLuxuryCount}
+            lifestyleCount={lifestyleCount}
+            setLifestyleCount={setLifestyleCount}
           />
-        ) : null}
+        </Step>
+
+        {/* ── RESULT ─────────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="flex items-baseline justify-between gap-3 pb-4">
+            <div>
+              <p className="text-sm text-[var(--color-muted)]">Gold balance value</p>
+              {priceLoading ? (
+                <Skeleton className="h-9 w-40 mt-1" />
+              ) : (
+                <p className="display text-[2rem] leading-tight tabular">
+                  <AnimatedNumber value={result?.currentValue ?? 0} formatter={inr} />
+                </p>
+              )}
+            </div>
+            <p className="text-sm text-[var(--color-muted)] tabular shrink-0">{enrolledGrams.toFixed(2)} g</p>
+          </div>
+
+          {priceLoading ? (
+            <Skeleton className="h-56 w-full" />
+          ) : result ? (
+            <ResultCards result={result} strategy={strategy} enrolledGrams={enrolledGrams} />
+          ) : null}
+        </motion.div>
       </div>
     </div>
   );
