@@ -5,30 +5,32 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, Gem, Landmark, Banknote, TrendingUp, Gift, ScanFace, CreditCard, IdCard, Building2, UserRound } from "lucide-react";
 import { Phone, SectionHead, Coin } from "./primitives";
 
+// Every line below is taken from the LIMOVI Master Customer & Platform Agreement
+// and the strategy agreements (see /legal).
 const steps = [
   {
     n: "01",
-    title: "Sign up and finish KYC in minutes",
-    body: "Create your account with your mobile number and a 6-digit OTP. Then complete a fully digital KYC: personal details, PAN, Aadhaar OTP, a live selfie and a ₹1 penny-drop bank check. No branch visit, no paperwork.",
-    note: "Your Aadhaar number is never stored, only a masked copy like XXXX-XXXX-5678.",
+    title: "Register and complete KYC",
+    body: "Create your account and complete the KYC and verification that applies to the service you choose: identity, ownership, source of funds and source of gold.",
+    note: "Keep your OTPs and passwords to yourself, and tell LIMOVI within 24 hours if you see a transaction you didn't authorise.",
   },
   {
     n: "02",
     title: "Pick the strategy that fits you",
-    body: "Choose from four strategies: Investment Only, Investment & Experience, Enroll & Experience, or Experience Only. Each one mixes investing, wearing jewellery and earning differently, starting from the equivalent of 50g of 24K gold.",
-    note: "You can request a strategy change later, as per the policy for that strategy.",
+    body: "Choose from four strategies: Investment Only, Investment & Experience, Enrol & Experience, or Experience Only. Each one has its own agreement that sets out what you get, what it costs and how you exit.",
+    note: "Every strategy agreement is read together with the Master Customer & Platform Agreement.",
   },
   {
     n: "03",
     title: "Build your Gold Balance",
-    body: "Add gold by investing, by enrolling jewellery you already own, or by accepting a gold gift. Everything is counted in grams of 24K gold and valued at the live MCX rate, so you always see what it's worth.",
-    note: "Pledged gold is shown separately, so you know exactly what's available.",
+    body: "Buy Digital Gold from ₹100, add gold, coins, bars or jewellery where your strategy allows it, enrol jewellery you already own, or receive a gift. Every credit and debit is recorded in your account.",
+    note: "Gold prices move. A value shown on screen isn't a guarantee of what your gold will realise.",
   },
   {
     n: "04",
-    title: "Use all five gateways",
-    body: "Your Gold Balance unlocks the Jewellery Cloud, Instant Loans, Instant Liquidity, Wealth Generation and Gift Gold. One balance, five ways to make your gold work for you.",
-    note: "Everything is tracked in one activity feed, with alerts for EMIs, returns and dividends.",
+    title: "Use your Gold Balance",
+    body: "Once you meet the eligibility for a service, your Gold Balance opens the Jewellery Cloud, gold loans through a lending partner, Gold Liquidity, Owner Benefit and gifting.",
+    note: "Your statements and transaction records are available in your account.",
   },
 ];
 
@@ -56,7 +58,7 @@ export function HowItWorks() {
           center
           eyebrow="How it works"
           title={<>From locker to living gold, <span className="text-lm-blue">in four steps</span></>}
-          lead="LIMOVI turns the gold you hold into something you can wear, borrow against, cash out, earn from and gift. Here's the journey."
+          lead="LIMOVI turns the gold you hold into something you can experience, borrow against through a lending partner, sell, earn from and gift. Here's the journey."
         />
 
         <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-20">
@@ -145,15 +147,15 @@ const shell = "flex h-full flex-col bg-lm-sky px-4 pt-12 pb-4 text-lm-navy";
 
 function KycScreen() {
   const items = [
-    { icon: UserRound, t: "Personal information" },
-    { icon: CreditCard, t: "PAN verification" },
-    { icon: IdCard, t: "Aadhaar OTP" },
-    { icon: ScanFace, t: "Selfie & liveness" },
-    { icon: Building2, t: "Bank penny drop" },
+    { icon: UserRound, t: "Identity" },
+    { icon: IdCard, t: "KYC documents" },
+    { icon: Building2, t: "Bank account" },
+    { icon: CreditCard, t: "Source of funds" },
+    { icon: ScanFace, t: "Accept agreements" },
   ];
   return (
     <div className={shell}>
-      <p className="text-[12px] font-semibold text-lm-muted">Unlock all features</p>
+      <p className="text-[12px] font-semibold text-lm-muted">Onboarding</p>
       <p className="display mt-1 text-xl">Verify your KYC</p>
       <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
         <motion.span className="block h-full bg-lm-blue" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 2.4 }} />
@@ -188,7 +190,7 @@ function KycScreen() {
         transition={{ delay: 2.3 }}
         className="mt-auto rounded-2xl bg-emerald-500 py-2.5 text-center text-[12px] font-bold text-white"
       >
-        KYC approved 🎉
+        KYC complete
       </motion.div>
     </div>
   );
@@ -196,15 +198,15 @@ function KycScreen() {
 
 function StrategyScreen() {
   const s = [
-    ["Investment Only", "4/5"],
-    ["Investment & Experience", "Best value"],
-    ["Enroll & Experience", "5/5"],
-    ["Experience Only", "3/5"],
+    ["Investment Only", "Gold Balance"],
+    ["Investment & Experience", "Own a piece"],
+    ["Enrol & Experience", "Your jewellery"],
+    ["Experience Only", "Against Security"],
   ];
   return (
     <div className={shell}>
       <p className="display text-xl">Choose a strategy</p>
-      <p className="mt-1 text-[11px] text-lm-muted">Starts at the equivalent of 50g of 24K gold</p>
+      <p className="mt-1 text-[11px] text-lm-muted">Each strategy has its own agreement</p>
       <div className="mt-4 space-y-2">
         {s.map(([name, tag], i) => (
           <motion.div
@@ -220,7 +222,7 @@ function StrategyScreen() {
             </div>
             {i === 1 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-1 text-[10px] text-lm-muted">
-                80% becomes your chosen piece · 20% lifetime membership · zero making charges
+                80% Jewellery allocation · 22K jewellery · from 50g of 24K equivalent
               </motion.p>
             )}
           </motion.div>
@@ -276,7 +278,7 @@ function BalanceScreen() {
           ))}
         </div>
       </div>
-      <div className="mt-auto rounded-2xl bg-lm-blue py-2.5 text-center text-[12px] font-bold text-white">Invest · Enroll · Receive</div>
+      <div className="mt-auto rounded-2xl bg-lm-blue py-2.5 text-center text-[12px] font-bold text-white">Buy · Enrol · Receive</div>
     </div>
   );
 }
@@ -284,14 +286,14 @@ function BalanceScreen() {
 function GatewaysScreen() {
   const g = [
     { icon: Gem, t: "Experience Jewellery" },
-    { icon: Landmark, t: "Get a Loan" },
-    { icon: Banknote, t: "Get Liquidity" },
-    { icon: TrendingUp, t: "Earn Dividends" },
+    { icon: Landmark, t: "Gold Loan" },
+    { icon: Banknote, t: "Gold Liquidity" },
+    { icon: TrendingUp, t: "Owner Benefit" },
     { icon: Gift, t: "Gift Gold" },
   ];
   return (
     <div className={shell}>
-      <p className="display text-xl">Your gateways</p>
+      <p className="display text-xl">Your services</p>
       <p className="mt-1 text-[11px] text-lm-muted">Available balance 50.00g</p>
       <div className="mt-4 grid grid-cols-2 gap-2">
         {g.map(({ icon: Icon, t }, i) => (

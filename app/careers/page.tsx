@@ -17,27 +17,11 @@ export default function CareersPage() {
 
         <div className="max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold text-[#0A1929] mb-8">Open Positions</h3>
-          <div className="space-y-4">
-            {[
-              { role: "Senior Jewellery Designer", dept: "Design", loc: "Mumbai" },
-              { role: "Gold Appraiser & Valuer", dept: "Operations", loc: "Bengaluru" },
-              { role: "Luxury Client Advisor", dept: "Customer Experience", loc: "Mumbai" },
-              { role: "Vault Security Manager", dept: "Security", loc: "Bengaluru" },
-            ].map((job, i) => (
-              <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#005CB9] transition-colors cursor-pointer group">
-                <div>
-                  <h4 className="text-lg font-bold text-[#0A1929] group-hover:text-[#005CB9] transition-colors">{job.role}</h4>
-                  <div className="flex items-center gap-3 text-sm font-medium text-slate-500 mt-2">
-                    <span className="bg-slate-100 px-2.5 py-1 rounded-md">{job.dept}</span>
-                    <span>•</span>
-                    <span>{job.loc}</span>
-                  </div>
-                </div>
-                <button className="text-sm font-bold text-[#005CB9] bg-[#EBF5FF] px-5 py-2.5 rounded-full hover:bg-[#D6EBFF] transition-colors whitespace-nowrap">
-                  Apply Now
-                </button>
-              </div>
-            ))}
+          <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+            <p className="text-slate-600 font-medium leading-relaxed">
+              There are no open positions listed right now. If you&apos;d like to be considered for future roles, please{" "}
+              <a href="/contact" className="font-bold text-[#005CB9]">get in touch</a>.
+            </p>
           </div>
         </div>
       </section>

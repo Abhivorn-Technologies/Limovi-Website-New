@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Sparkles, Gem, Landmark, Banknote, TrendingUp, Gift } from "lucide-react";
 import { Coin, CountUp, Phone, Rays } from "./primitives";
-import { ILLUSTRATIVE_RATE, inr, openEarlyAccess } from "./data";
+import { openEarlyAccess } from "./data";
 
 const coins = [
   { size: 74, left: "4%", top: "14%", r: -12, d: 5.5, delay: 0.1 },
@@ -18,7 +18,7 @@ const quick = [
   { icon: Gem, label: "Jewellery" },
   { icon: Landmark, label: "Loan" },
   { icon: Banknote, label: "Liquidity" },
-  { icon: TrendingUp, label: "Dividends" },
+  { icon: TrendingUp, label: "Benefit" },
   { icon: Gift, label: "Gift" },
 ];
 
@@ -66,8 +66,8 @@ export function Hero() {
             className="mt-6 max-w-[34rem] text-[clamp(1.05rem,1rem+0.4vw,1.3rem)] leading-relaxed text-lm-muted"
           >
             Gold shouldn&apos;t sit idle in a locker. With LIMOVI, one <strong className="text-lm-ink">Gold Balance</strong> lets
-            you wear luxury jewellery, take an instant loan, cash out at the live rate, earn dividends and gift gold, all
-            from one place.
+            you experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold when
+            you need money, earn an Owner Benefit on your jewellery and gift gold, all from one place.
           </motion.p>
 
           <motion.div
@@ -91,10 +91,10 @@ export function Hero() {
             className="mt-10 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4"
           >
             {[
-              ["24K", "pure gold balance"],
-              ["75%", "loan-to-value"],
-              ["30 min", "cash settlement"],
-              ["100%", "insured vault"],
+              ["₹100", "minimum Digital Gold purchase"],
+              ["50g", "24K equivalent to unlock services"],
+              ["30 hrs", "to enjoy each Experience"],
+              ["25%", "Owner Benefit on Experience Charges"],
             ].map(([big, small]) => (
               <motion.li
                 key={small}
@@ -168,8 +168,8 @@ export function Hero() {
                   <ShieldCheck size={18} />
                 </span>
                 <div>
-                  <p className="text-[13px] font-bold text-lm-navy">KYC approved</p>
-                  <p className="text-[12px] text-lm-muted">All 5 gateways unlocked</p>
+                  <p className="text-[13px] font-bold text-lm-navy">KYC complete</p>
+                  <p className="text-[12px] text-lm-muted">Services unlocked</p>
                 </div>
               </div>
             </motion.div>
@@ -197,7 +197,7 @@ function HeroScreen() {
           <CountUp to={total} format={(n) => n.toFixed(2)} />
           <span className="ml-1 text-base font-bold">g</span>
         </p>
-        <p className="mt-1 text-[12px] text-white/80">24K · worth {inr(total * ILLUSTRATIVE_RATE)}</p>
+        <p className="mt-1 text-[12px] text-white/80">24K equivalent</p>
         <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-white/20">
           <span className="bg-lm-gold" style={{ width: "60%" }} />
           <span className="bg-white" style={{ width: "30%" }} />
@@ -231,7 +231,7 @@ function HeroScreen() {
       <div className="mt-4 rounded-2xl bg-white p-3">
         <p className="text-[11px] font-bold">Recent activity</p>
         {[
-          ["Dividend credited", "+₹1,620", "text-emerald-600"],
+          ["Digital Gold bought", "+0.50g", "text-emerald-600"],
           ["Jhumkas returned", "Completed", "text-lm-muted"],
           ["Gold gift accepted", "2.00g", "text-lm-blue"],
         ].map(([a, b, c]) => (

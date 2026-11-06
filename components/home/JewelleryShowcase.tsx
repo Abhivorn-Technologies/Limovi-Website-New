@@ -39,7 +39,7 @@ export function JewelleryShowcase() {
           center
           eyebrow="The Jewellery Cloud"
           title={<>Big jewellery dreams, <span className="text-lm-gold-deep">without buying every piece</span></>}
-          lead="Bridal sets for the wedding season, a solitaire for the office. Pick from Luxury and Lifestyle collections, wear them, return them, and book the next."
+          lead="Bridal sets for the wedding season, something lighter for every day. Pick a piece from the Jewellery Cloud, enjoy it, and return it within 30 hours of delivery."
         />
       </div>
       <div className="mt-14 space-y-5">

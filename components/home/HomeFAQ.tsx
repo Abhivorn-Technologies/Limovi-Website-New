@@ -6,46 +6,51 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { Reveal, SectionHead } from "./primitives";
 
+// Answers are drawn from the LIMOVI agreements published at /legal.
 const faqs = [
   {
     q: "What is LIMOVI?",
-    a: "LIMOVI is India's first 360° gold asset ecosystem. Instead of keeping gold idle in a locker, you hold it as a Gold Balance that you can use to experience luxury jewellery, take instant loans, convert to cash, earn dividends and gift to loved ones.",
+    a: "LIMOVI Gold Ecosystem Private Limited runs a platform where your gold is recorded as a Gold Balance. Depending on your strategy, you can use it to experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold through Gold Liquidity, earn an Owner Benefit on your jewellery and gift gold.",
   },
   {
     q: "What is a Gold Balance?",
-    a: "It's the total gold on your account, measured in grams of 24K gold. It includes gold you've invested, jewellery you've enrolled and gold you've been gifted. It's valued at the live MCX rate. Gold pledged for a loan is shown separately, and the rest is your Available Gold Balance.",
+    a: "It's the electronic record LIMOVI keeps of your gold position under each strategy or service, with every credit, debit and adjustment backed by a transaction record. Where a rupee value is shown, it follows the pricing for that service and can move with the gold price. LIMOVI doesn't guarantee any minimum value or return.",
   },
   {
     q: "How much do I need to start?",
-    a: "Every strategy starts from the equivalent of 50 grams of 24K gold. Depending on the strategy, that can be gold you invest or jewellery you already own and enroll.",
+    a: "You can buy Digital Gold from ₹100. To use services under Investment Only, you need a Gold Balance of 50 grams of 24K equivalent. Investment & Experience needs an investment equivalent to 50 grams of 24K gold, and Enrol & Experience needs jewellery worth the same. Experience Only works differently: you provide Security based on the jewellery's displayed value.",
   },
   {
-    q: "Why is KYC required, and how long does it take?",
-    a: "KYC is required by Indian regulations (RBI, SEBI and anti-money-laundering rules) before any gold or financial transaction. It's fully digital: personal details, PAN, Aadhaar OTP, a live selfie and a ₹1 penny-drop bank check. You can save and resume at any step.",
+    q: "Why is KYC required?",
+    a: "LIMOVI has to complete KYC, identity, ownership, source-of-funds and source-of-gold checks to comply with the law, including anti-money-laundering rules, and to prevent fraud. A strategy is activated only after KYC and verification are complete.",
   },
   {
-    q: "Is my Aadhaar stored?",
-    a: "No. Your Aadhaar number is never stored on LIMOVI servers. Only a masked version (for example XXXX-XXXX-5678) is kept for reference.",
+    q: "Who gives the gold loan?",
+    a: "A Gold Loan Partner, not LIMOVI. LIMOVI helps you apply and passes on your information. The amount, interest, tenure, loan-to-value, repayment and everything else about the loan are set by the lender's own documents, and you repay the lender directly.",
   },
   {
-    q: "How much can I borrow against my gold?",
-    a: "Up to 75% of your gold's value, as per RBI loan-to-value rules. Loans are given by RBI-regulated NBFC partners and paid straight to your bank. Your gold is released once you've repaid in full.",
+    q: "How does Gold Liquidity work?",
+    a: "You request a sale, LIMOVI verifies the gold or jewellery, and the price is set by the applicable valuation. For jewellery under Enrol & Experience or Investment & Experience, that's the prevailing market price of 22K gold per gram on the net gold weight. Once you confirm, LIMOVI aims to credit your verified bank account within one hour, after TDS, GST, bank charges and other permitted deductions.",
   },
   {
-    q: "What's the difference between a loan and liquidity?",
-    a: "A loan keeps your gold (it's pledged and returned after repayment). Liquidity sells it: the gold is permanently converted to cash at the live MCX spot rate, usually within 30 minutes.",
+    q: "How does the Owner Benefit work?",
+    a: "Under Enrol & Experience and Investment & Experience, when another customer completes a qualifying Experience with your jewellery, you're entitled to 25% of the applicable Experience Charges, subject to charges, taxes and deductions. Nothing accrues just for enrolling, and no particular return is promised.",
   },
   {
-    q: "How are dividends calculated?",
-    a: "When another member experiences your enrolled jewellery, an experience charge of 0.9% of the piece's gold value applies. You receive 25% of that charge. For a 50g piece at ₹14,400/g, that's ₹1,620 per experience. Dividends are paid monthly or quarterly.",
+    q: "How long can I keep jewellery during an Experience?",
+    a: "Jewellery must be returned within 30 hours of delivery. Late return is charged at ₹100 an hour. Return is through a pickup arranged by LIMOVI or another authorised method, and the piece is inspected when it comes back.",
   },
   {
-    q: "What if jewellery gets damaged while I'm wearing it?",
-    a: "All pieces are insured from the moment they leave the vault until they're back and inspected. Minor cleaning is free. For significant damage, repair costs above the insurance cover may be deducted from your Gold Balance. Theft or accidents are covered by insurance.",
+    q: "What if jewellery gets damaged while I have it?",
+    a: "You're responsible for loss or damage while the jewellery is with you, except ordinary wear and tear allowed under the service terms, or where you show the cause wasn't your responsibility. Damage is assessed against the condition recorded at handover.",
   },
   {
-    q: "What happens if a gold gift isn't accepted?",
-    a: "The recipient has 30 days to accept. If they don't, the reserved gold automatically returns to your balance.",
+    q: "Can I gift gold?",
+    a: "Yes, where gifting is enabled. The recipient has to complete onboarding, KYC and acceptance. A gift becomes effective when the process is complete and is then irrevocable, except where the transaction terms or the law allow otherwise.",
+  },
+  {
+    q: "How do I raise a complaint?",
+    a: "Through customer support, email, the app or in writing. LIMOVI aims to acknowledge it within 4 to 6 business days and to resolve it within 15 days. If you're not satisfied, you can ask for it to be escalated to a senior officer.",
   },
 ];
 

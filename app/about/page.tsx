@@ -22,7 +22,7 @@ export default function AboutPage() {
             </div>
             <h3 className="text-2xl font-bold text-[#0A1929] mb-4">Our Mission</h3>
             <p className="text-slate-600 leading-relaxed font-medium">
-              To unlock the true potential of gold. We believe gold shouldn't sit idle in lockers—it should work for you, providing instant liquidity, opening doors to luxury experiences, and generating passive wealth.
+              To put gold to work. Instead of sitting idle in a locker, gold on LIMOVI can be experienced as jewellery, used to apply for a loan through a lending partner, sold when you need money, and earn an Owner Benefit when others experience your jewellery.
             </p>
           </div>
 
@@ -32,7 +32,7 @@ export default function AboutPage() {
             </div>
             <h3 className="text-2xl font-bold text-[#0A1929] mb-4">Our Vision</h3>
             <p className="text-slate-600 leading-relaxed font-medium">
-              To build a global 360° ecosystem where every gram of gold is fully utilized, seamlessly integrating finance, luxury, and technology to empower individuals and families.
+              To build a 360° gold ecosystem where every gram of gold is put to use, bringing together jewellery, finance and technology for individuals and families.
             </p>
           </div>
         </div>

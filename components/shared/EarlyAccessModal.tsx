@@ -165,8 +165,8 @@ export function EarlyAccessModal() {
                   </label>
                   <div className="grid grid-cols-2 gap-1.5">
                     {[
-                      { label: "Investment & Experience", value: "Strategy: Investment & Experience (Best Value)", tag: "Best Value" },
-                      { label: "Enroll & Experience", value: "Strategy: Enroll & Experience (Existing Ornaments)", tag: "Zero Outlay" },
+                      { label: "Investment & Experience", value: "Strategy: Investment & Experience (Best Value)", tag: "Own a piece" },
+                      { label: "Enrol & Experience", value: "Strategy: Enroll & Experience (Existing Ornaments)", tag: "Your jewellery" },
                       { label: "Investment Only", value: "Strategy: Investment Only" },
                       { label: "Experience Only", value: "Strategy: Experience Only" },
                     ].map((item) => {

@@ -4,36 +4,38 @@ import { motion } from "framer-motion";
 import { Vault, ScanFace, Landmark, LineChart, Lock, FileCheck2, Sparkle } from "lucide-react";
 import { Reveal, SectionHead } from "./primitives";
 
+// Each card summarises a clause of the Master Customer & Platform Agreement or
+// the Privacy Policy (see /legal). Keep them in step with those documents.
 const cards = [
   {
     icon: Vault,
-    title: "Insured vault & shipping",
-    body: "Every piece is held in a high-security vault and insured for its full gold value plus craftsmanship, including while it travels to and from you. You get tracking for every shipment.",
-  },
-  {
-    icon: ScanFace,
-    title: "Paperless, secure KYC",
-    body: "PAN, Aadhaar OTP, AI face-match with liveness check, and penny-drop bank verification through a UIDAI-authorised partner. Your Aadhaar number is never stored.",
-  },
-  {
-    icon: Landmark,
-    title: "RBI-regulated lending",
-    body: "Loans come only from RBI-licensed NBFC partners, capped at 75% loan-to-value. LIMOVI never lends directly, and your contract is with the NBFC.",
-  },
-  {
-    icon: LineChart,
-    title: "Transparent MCX pricing",
-    body: "Gold is valued at the live 24K rate from MCX, India's largest commodity exchange. The rate is locked when you confirm, and charges are shown before you pay.",
-  },
-  {
-    icon: Lock,
-    title: "Bank-grade payments",
-    body: "All money moves through PCI-DSS compliant gateways (Razorpay / Cashfree) over IMPS, RTGS and UPI, straight to your verified bank account.",
+    title: "Custody is not a sale",
+    body: "Jewellery you hand to LIMOVI or its Custodian for enrolment, safekeeping or Experience stays yours. Neither may use, pledge or sell it except as your service terms allow.",
   },
   {
     icon: FileCheck2,
-    title: "Compliance built in",
-    body: "PMLA-aligned KYC and transaction monitoring, PAN-linked statements for tax filing, encrypted data storage and regular security audits.",
+    title: "Insured before it travels",
+    body: "Where insurance is required, jewellery isn't released for delivery until it's covered. Insurance is arranged through a LIMOVI-approved insurer.",
+  },
+  {
+    icon: LineChart,
+    title: "Purity and condition on record",
+    body: "Gold and jewellery may be weighed, tested, assayed and hallmark-checked. Condition is recorded at handover and compared again when the piece comes back.",
+  },
+  {
+    icon: ScanFace,
+    title: "Verified delivery",
+    body: "Jewellery goes to your registered address or another authorised location, and the recipient may be asked for ID, an OTP or other proof before handover.",
+  },
+  {
+    icon: Landmark,
+    title: "Loans from lending partners",
+    body: "LIMOVI facilitates gold loans but isn't the lender. Your loan is with the Gold Loan Partner, whose documents set the amount, interest, tenure and loan-to-value.",
+  },
+  {
+    icon: Lock,
+    title: "Your data, protected",
+    body: "Access controls, authentication, encryption where appropriate, security monitoring and incident response, with access limited to people who need it.",
   },
 ];
 
@@ -47,7 +49,7 @@ export function Safety() {
           center
           eyebrow="Safety first"
           title={<>How we keep your gold <span className="text-lm-gold">safe</span></>}
-          lead="Gold, lending and payments are all regulated in India. LIMOVI is designed around those rules from day one."
+          lead="LIMOVI’s agreements spell out who holds your jewellery, how it’s insured, who lends against it and how your data is handled."
         />
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((c, i) => (
