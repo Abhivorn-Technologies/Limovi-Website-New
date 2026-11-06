@@ -1,43 +1,32 @@
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
-import { CinematicHero } from "@/sections/CinematicHero";
-import { Problem } from "@/sections/Problem";
-import { Dashboard } from "@/sections/Dashboard";
-import { GoldJourney } from "@/sections/GoldJourney";
-import { JewelleryCloud } from "@/sections/JewelleryCloud";
-import { JewelleryExperience } from "@/sections/JewelleryExperience";
-import { InstantLoans } from "@/sections/InstantLoans";
-import { WealthGen } from "@/sections/WealthGen";
-
-import { GiftGold } from "@/sections/GiftGold";
-import { AccessStrategies } from "@/sections/AccessStrategies";
-import { MarketOpportunity } from "@/sections/MarketOpportunity";
-import { Security } from "@/sections/Security";
-
-
-import { FAQ } from "@/sections/FAQ";
+import { Hero } from "@/components/home/Hero";
+import { TrustMarquee } from "@/components/home/TrustMarquee";
+import { HowItWorks } from "@/components/home/HowItWorks";
+import { GoldBalance } from "@/components/home/GoldBalance";
+import { Gateways } from "@/components/home/Gateways";
+import { JewelleryShowcase } from "@/components/home/JewelleryShowcase";
+import { Strategies } from "@/components/home/Strategies";
+import { WhyLimovi } from "@/components/home/WhyLimovi";
+import { Safety } from "@/components/home/Safety";
+import { HomeFAQ } from "@/components/home/HomeFAQ";
+import { FinalCTA } from "@/components/home/FinalCTA";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
       <Navbar />
-      
-      <CinematicHero />
-
-      <Problem />
-      <Dashboard />
-      <JewelleryCloud />
-      <InstantLoans />
-      <WealthGen />
-
-      <GiftGold />
-      <AccessStrategies />
-      <GoldJourney />
-
-      <Security />
-      <FAQ />
-
-
+      <Hero />
+      <TrustMarquee />
+      <HowItWorks />
+      <GoldBalance />
+      <Gateways />
+      <JewelleryShowcase />
+      <Strategies />
+      <WhyLimovi />
+      <Safety />
+      <HomeFAQ />
+      <FinalCTA />
       <Footer />
     </main>
   );
