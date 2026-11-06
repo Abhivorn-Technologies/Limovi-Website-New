@@ -38,7 +38,7 @@ const BankWithAtIcon = ({ className, ...props }: React.SVGProps<SVGSVGElement>) 
         <text 
           x="12" y="5.7" 
           fontSize="4" 
-          fontFamily="system-ui, sans-serif" 
+          fontFamily="inherit" 
           fontWeight="900" 
           textAnchor="middle" 
           fill="black"
@@ -117,10 +117,10 @@ const CashSVG = ({ size = 32 }) => (
           <circle cx="76" cy="22.5" r="7" fill="none" stroke="#1B5E20" strokeWidth="1" />
           
           {/* 100 Numbers in Corners */}
-          <text x="6" y="13" fontSize="11" fontWeight="900" fontFamily="sans-serif" fill="#2B462C">100</text>
-          <text x="71" y="13" fontSize="11" fontWeight="900" fontFamily="sans-serif" fill="#2B462C">100</text>
-          <text x="6" y="41" fontSize="11" fontWeight="900" fontFamily="sans-serif" fill="#2B462C">100</text>
-          <text x="71" y="41" fontSize="11" fontWeight="900" fontFamily="sans-serif" fill="#2B462C">100</text>
+          <text x="6" y="13" fontSize="11" fontWeight="900" fontFamily="inherit" fill="#2B462C">100</text>
+          <text x="71" y="13" fontSize="11" fontWeight="900" fontFamily="inherit" fill="#2B462C">100</text>
+          <text x="6" y="41" fontSize="11" fontWeight="900" fontFamily="inherit" fill="#2B462C">100</text>
+          <text x="71" y="41" fontSize="11" fontWeight="900" fontFamily="inherit" fill="#2B462C">100</text>
 
           {/* Random decorative lines */}
           <line x1="33" y1="14" x2="67" y2="14" stroke="#2B462C" strokeWidth="0.5" />
@@ -309,7 +309,7 @@ const DigitalGoldSVG = ({ size = 32 }) => (
       {/* Inner ring */}
       <ellipse cx="0" cy="0" rx="13" ry="9" fill="none" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="1,1" />
       {/* Rupee Symbol */}
-      <text x="0" y="4" fontSize="14" fontWeight="900" fontFamily="sans-serif" fill="#8B6508" textAnchor="middle" transform="scale(1, 0.75)">₹</text>
+      <text x="0" y="4" fontSize="14" fontWeight="900" fontFamily="inherit" fill="#8B6508" textAnchor="middle" transform="scale(1, 0.75)">₹</text>
     </g>
 
     {/* Floating Coin 2 (Front/Left) */}
@@ -331,7 +331,7 @@ const DigitalGoldSVG = ({ size = 32 }) => (
       {/* Glowing highlight */}
       <path d="M-12,-4 Q-6,-8 0,-6 Q-4,-2 -12,-4" fill="#FFFFFF" opacity="0.6" />
       {/* Rupee Symbol */}
-      <text x="0" y="5" fontSize="18" fontWeight="900" fontFamily="sans-serif" fill="#6B4E00" textAnchor="middle" transform="scale(1, 0.75)">₹</text>
+      <text x="0" y="5" fontSize="18" fontWeight="900" fontFamily="inherit" fill="#6B4E00" textAnchor="middle" transform="scale(1, 0.75)">₹</text>
     </g>
   </svg>
 );
@@ -417,7 +417,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
             <span className="text-[9px] lg:text-[10px] font-bold tracking-[0.18em] uppercase text-[#005CB9]">India&apos;s 1st Living Gold Ecosystem</span>
           </div>
 
-          <h1 className="font-black tracking-tight leading-[1.08] mb-2 lg:mb-3 w-full text-slate-900" style={{ fontSize: "clamp(2.2rem, 5.2vw, 5rem)" }}>
+          <h1 className="font-extrabold leading-[1.08] mb-2 lg:mb-3 w-full text-slate-900" style={{ fontSize: "clamp(2.2rem, 5.2vw, 5rem)" }}>
             Gold That Works{" "}
             <span style={{ background: `linear-gradient(135deg, ${C.goldBright} 0%, ${C.gold} 45%, ${C.goldDeep} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 0 25px rgba(212,175,55,0.4))" }}>
               Beyond
@@ -448,7 +448,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
                 <ShieldCheck size={20} className="text-white drop-shadow-md" strokeWidth={2.5} />
               </div>
               <div className="flex flex-col items-start">
-                <span className="font-black text-lg leading-none"
+                <span className="font-extrabold text-lg leading-none"
                       style={{
                         background: `linear-gradient(135deg, ${C.goldDeep}, ${C.gold})`,
                         WebkitBackgroundClip: "text",
@@ -472,7 +472,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
           <motion.div style={{ opacity: fragOp }} className="absolute text-center z-20 pointer-events-none flex flex-col items-center">
             <p className="text-[11px] lg:text-xs font-bold tracking-[0.2em] uppercase mb-1" style={{ color: C.goldDeep }}>YOU HAVE GOLD ASSETS.</p>
             <p className="text-[11px] lg:text-xs font-bold tracking-[0.2em] uppercase mb-3 lg:mb-4" style={{ color: C.goldDeep }}>YOU HAVE GOLD INVESTMENTS.</p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1]">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.1]">
               But they&apos;re <br /><span style={{ color: C.goldDeep }}>fragmented.</span>
             </h2>
           </motion.div>
@@ -538,7 +538,7 @@ function Scene3_Item({ strat, i, progress }: { strat: Strat; i: number; progress
       <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-white/90 border border-amber-200/60 flex items-center justify-center mb-1.5 lg:mb-2.5 shadow-md text-[#B8860B]">
         <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
       </div>
-      <div className="text-sm sm:text-lg lg:text-2xl font-black text-[#005CB9] mb-1 leading-tight">{strat.title}</div>
+      <div className="text-sm sm:text-lg lg:text-2xl font-extrabold text-[#005CB9] mb-1 leading-tight">{strat.title}</div>
       <div className="text-[9px] sm:text-xs lg:text-sm text-slate-500 font-medium leading-snug">{strat.desc}</div>
     </motion.div>
   );
@@ -656,7 +656,7 @@ function Scene4_Benefits({ progress }: { progress: MotionValue<number> }) {
   ];
   return (
     <motion.div style={{ opacity, display }} className="absolute inset-0 flex flex-col items-center justify-center pt-4 sm:pt-8">
-      <motion.h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#005CB9] mb-6 sm:mb-10 lg:mb-14 tracking-tight text-center px-4" style={{ opacity: titleOp, y: titleY }}>
+      <motion.h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-[#005CB9] mb-6 sm:mb-10 lg:mb-14 text-center px-4" style={{ opacity: titleOp, y: titleY }}>
         Five Powerful Gateways
       </motion.h2>
       <div className="flex flex-nowrap sm:flex-wrap justify-center gap-1.5 sm:gap-5 lg:gap-7 px-2 max-w-5xl w-full">
@@ -730,7 +730,7 @@ function Scene5_Ending({ progress }: { progress: MotionValue<number> }) {
         ))}
 
         <div className="z-10 flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full shadow-[0_10px_40px_rgba(212,175,55,0.2)] border border-white/90">
-          <h1 className="text-lg md:text-2xl lg:text-3xl font-black text-[#387ed1] tracking-widest mb-0.5 mt-2">LIMOVI</h1>
+          <h1 className="text-lg md:text-2xl lg:text-3xl font-extrabold text-[#387ed1] tracking-widest mb-0.5 mt-2">LIMOVI</h1>
           <p className="tracking-[0.2em] text-[5px] md:text-[6px] lg:text-[7px] font-bold uppercase text-[#B8860B]">The Gold Ecosystem</p>
         </div>
 

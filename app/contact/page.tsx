@@ -8,7 +8,7 @@ export default function ContactPage() {
       <Navbar />
       <section className="pt-40 pb-32 px-6 md:px-16 lg:px-24 flex-1">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0A1929] mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0A1929] mb-6">
             Get in <span className="text-[#005CB9]">Touch</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 font-medium">
@@ -29,7 +29,7 @@ export default function ContactPage() {
             <div>
               <h3 className="text-2xl font-bold text-[#0A1929] mb-4">Direct Contact</h3>
               <p className="text-slate-600 font-medium mb-2">For general inquiries and support:</p>
-              <a href="mailto:support@limovi.in" className="text-[#005CB9] text-xl font-black hover:underline block mb-1">
+              <a href="mailto:support@limovi.in" className="text-[#005CB9] text-xl font-extrabold hover:underline block mb-1">
                 support@limovi.in
               </a>
             </div>

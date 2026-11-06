@@ -7,7 +7,7 @@ export default function AboutPage() {
       <Navbar />
       <section className="pt-40 pb-32 px-6 md:px-16 lg:px-24 flex-1">
         <div className="max-w-4xl mx-auto text-center mb-20">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0A1929] mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0A1929] mb-6">
             About <span className="text-[#005CB9]">Us</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 font-medium">
