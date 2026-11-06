@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState, type ComponentType } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { Sparkles, Infinity as InfinityIcon, Gem, HandCoins, ShieldCheck, IndianRupee, Crown } from "lucide-react";
+import { Sparkles, Infinity as InfinityIcon, Gem, HandCoins, IndianRupee, Crown, ArrowRight } from "lucide-react";
 
 type IconType = ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;
 type FloatIcon = ComponentType<{ size?: number }>;
@@ -11,6 +11,7 @@ type Strat = { title: string; desc: string; pos: string; icon: IconType };
 type Portal = { title: string; icon?: IconType; image?: string };
 import { useLenis } from "lenis/react";
 import Image from "next/image";
+import Link from "next/link";
 import { DoodleIconBackground } from "@/components/shared/DoodleIconBackground";
 
 const C = {
@@ -414,55 +415,48 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
         >
           <div className="inline-flex items-center gap-2 mb-4 lg:mb-6 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full bg-white border border-slate-200 shadow-sm">
             <motion.span className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#D4AF37]" animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }} />
-            <span className="text-[9px] lg:text-[10px] font-bold tracking-[0.18em] uppercase text-[#005CB9]">India&apos;s 1st Living Gold Ecosystem</span>
+            <span className="text-[9px] lg:text-[10px] font-bold tracking-[0.18em] uppercase text-[#005CB9]">India&apos;s first 360° gold asset ecosystem</span>
           </div>
 
           <h1 className="font-extrabold leading-[1.08] mb-2 lg:mb-3 w-full text-slate-900" style={{ fontSize: "clamp(2.2rem, 5.2vw, 5rem)" }}>
-            Gold That Works{" "}
+            Your gold, now a{" "}
+            <br className="hidden sm:block" />
             <span style={{ background: `linear-gradient(135deg, ${C.goldBright} 0%, ${C.gold} 45%, ${C.goldDeep} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 0 25px rgba(212,175,55,0.4))" }}>
-              Beyond
-            </span>
-            <br />
-            <span style={{ background: `linear-gradient(135deg, ${C.goldBright} 0%, ${C.gold} 45%, ${C.goldDeep} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 0 25px rgba(212,175,55,0.4))" }}>
-              Ownership.
+              living asset.
             </span>
           </h1>
 
-          <p className="font-bold mb-5 lg:mb-6 max-w-2xl text-sm lg:text-base text-slate-600">
-            Build Wealth. Experience Luxury. Unlock Financial Freedom.
+          <p className="mb-6 lg:mb-8 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-slate-600">
+            Gold shouldn&apos;t sit idle in a locker. With LIMOVI, one <strong className="text-slate-900">Gold Balance</strong> lets you
+            experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold when you need
+            money, earn an Owner Benefit on your jewellery and gift gold, all from one place.
           </p>
 
-          <div className="flex justify-center mt-2">
-            <motion.div
-              whileHover={{ y: -2, scale: 1.02 }}
-              className="flex items-center gap-3 px-5 py-3 rounded-full cursor-default"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))",
-                border: "1px solid rgba(212,175,55,0.3)",
-                backdropFilter: "blur(12px)",
-                boxShadow: "0 8px 24px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,255,255,1)",
-              }}
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))}
+              className="lm-btn lm-btn-blue"
             >
-              <div className="flex items-center justify-center w-10 h-10 rounded-full shadow-inner"
-                   style={{ background: `linear-gradient(135deg, ${C.goldBright}, ${C.gold})` }}>
-                <ShieldCheck size={20} className="text-white drop-shadow-md" strokeWidth={2.5} />
-              </div>
-              <div className="flex flex-col items-start">
-                <span className="font-extrabold text-lg leading-none"
-                      style={{
-                        background: `linear-gradient(135deg, ${C.goldDeep}, ${C.gold})`,
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                      }}>
-                  Insured Jewellery
-                </span>
-                <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mt-1">
-                  LIMOVI-approved insurer
-                </span>
-              </div>
-            </motion.div>
+              Get Early Access <ArrowRight size={18} />
+            </button>
+            <Link href="/how-it-works" className="lm-btn lm-btn-ghost">
+              See how it works
+            </Link>
           </div>
+
+          <ul className="mt-6 lg:mt-8 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
+            {[
+              ["₹100", "minimum Digital Gold purchase"],
+              ["50g", "24K equivalent to unlock services"],
+              ["30 hrs", "to enjoy each Experience"],
+              ["25%", "Owner Benefit on Experience Charges"],
+            ].map(([big, small]) => (
+              <li key={small} className="rounded-2xl border border-[#D4AF37]/30 bg-white/80 px-3 py-2.5 backdrop-blur">
+                <p className="text-lg lg:text-xl font-extrabold text-slate-900">{big}</p>
+                <p className="text-[11px] lg:text-[12px] leading-tight text-slate-500">{small}</p>
+              </li>
+            ))}
+          </ul>
         </motion.div>
       </motion.div>
 
