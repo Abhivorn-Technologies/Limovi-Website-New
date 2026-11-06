@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/shared/SmoothScrollProvider";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { EarlyAccessModal } from "@/components/shared/EarlyAccessModal";
 import { RevealObserver } from "@/components/shared/RevealObserver";
 
-const bodyFont = Plus_Jakarta_Sans({
+// Plus Jakarta Sans is bundled with the site (app/fonts, SIL OFL) so builds
+// don't depend on downloading it from Google Fonts.
+const bodyFont = localFont({
+  src: "./fonts/PlusJakartaSans-latin.woff2",
+  weight: "200 800",
+  style: "normal",
+  display: "swap",
   variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["400","500","600","700"],
 });
 
-const displayFont = Plus_Jakarta_Sans({
+const displayFont = localFont({
+  src: "./fonts/PlusJakartaSans-latin.woff2",
+  weight: "200 800",
+  style: "normal",
+  display: "swap",
   variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["700","800"],
 });
 
 export const metadata: Metadata = {
