@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Gem, Landmark, Banknote, TrendingUp, Gift, ScanFace, CreditCard, IdCard, Building2, UserRound } from "lucide-react";
-import { Phone, SectionHead, Coin } from "./primitives";
+import { Phone, Coin } from "./primitives";
 
 // Every line below is taken from the LIMOVI Master Customer & Platform Agreement
 // and the strategy agreements (see /legal).
@@ -52,16 +52,10 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" className="relative bg-white py-24 lg:py-32">
+    <section id="how-it-works" className="relative bg-white pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame">
-        <SectionHead
-          center
-          eyebrow="How it works"
-          title={<>From locker to living gold, <span className="text-lm-blue">in four steps</span></>}
-          lead="LIMOVI turns the gold you hold into something you can experience, borrow against through a lending partner, sell, earn from and gift. Here's the journey."
-        />
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-20">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
           {/* sticky phone (desktop) */}
           <div className="hidden lg:block">
             <div className="sticky top-[120px] flex h-[calc(100vh-160px)] max-h-[720px] items-center justify-center">

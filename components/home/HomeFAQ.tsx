@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus } from "lucide-react";
-import { Reveal, SectionHead } from "./primitives";
+import { MessageCircle, Plus } from "lucide-react";
+import { Rays, Reveal } from "./primitives";
 
 // Answers are drawn from the LIMOVI agreements published at /legal.
 const faqs = [
@@ -57,14 +57,30 @@ const faqs = [
 export function HomeFAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="bg-lm-sky py-24 lg:py-32">
+    <section id="faq" className="bg-white pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <SectionHead eyebrow="FAQs" title="Questions, answered" lead="Everything you need to know before you start." />
-          <Reveal i={3}>
-            <Link href="/contact" className="lm-btn lm-btn-ghost mt-8">
-              Ask us something else
-            </Link>
+          <Reveal className="lg:sticky lg:top-28">
+            <div className="relative overflow-hidden rounded-[32px] bg-lm-navy p-7 text-white">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 text-white/10">
+                <Rays className="lm-rays h-full w-full" count={24} hole={30} />
+              </div>
+              <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-lm-gold text-lm-navy">
+                <MessageCircle size={22} />
+              </span>
+              <p className="display relative mt-5 text-2xl">Still curious?</p>
+              <p className="relative mt-2 leading-relaxed text-white/75">
+                Can&apos;t find your answer here? Write to the LIMOVI team, or read the full agreements on the Legal page.
+              </p>
+              <div className="relative mt-6 flex flex-col gap-2.5">
+                <Link href="/contact" className="lm-btn lm-btn-gold">
+                  Ask us something else
+                </Link>
+                <Link href="/legal" className="lm-btn border border-white/25 text-white hover:bg-white/10">
+                  Read the agreements
+                </Link>
+              </div>
+            </div>
           </Reveal>
         </div>
         <div className="space-y-3 lg:col-span-8">
@@ -72,7 +88,7 @@ export function HomeFAQ() {
             const on = open === i;
             return (
               <Reveal key={f.q} i={i} y={14}>
-                <div className={`rounded-3xl bg-white transition-shadow ${on ? "shadow-lg" : ""}`}>
+                <div className={`rounded-3xl border border-lm-line bg-white transition-shadow ${on ? "shadow-lg" : ""}`}>
                   <button
                     onClick={() => setOpen(on ? null : i)}
                     className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"

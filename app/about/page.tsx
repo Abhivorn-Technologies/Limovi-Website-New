@@ -1,42 +1,89 @@
+import type { Metadata } from "next";
+import { Target, Telescope } from "lucide-react";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
+import { PageHero } from "@/components/shared/PageHero";
+import { NextStep } from "@/components/shared/NextStep";
+import { Rays, Reveal } from "@/components/home/primitives";
+
+export const metadata: Metadata = {
+  title: "About | LIMOVI",
+  description: "LIMOVI is building a 360° gold ecosystem that puts gold to work.",
+};
+
+const pillars = ["Jewellery", "Finance", "Technology"];
 
 export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-slate-50">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
       <Navbar />
-      <section className="pt-40 pb-32 px-6 md:px-16 lg:px-24 flex-1">
-        <div className="max-w-4xl mx-auto text-center mb-20">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0A1929] mb-6">
-            About <span className="text-[#005CB9]">Us</span>
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 font-medium">
-            We are redefining how India interacts with its most trusted asset. Limovi transforms idle gold into a dynamic engine for wealth, luxury, and liquidity.
-          </p>
+      <PageHero
+        eyebrow="About"
+        title={<>Redefining how India uses <span className="text-lm-blue">its gold</span></>}
+        lead="We are redefining how India interacts with its most trusted asset. LIMOVI transforms idle gold into a dynamic engine for wealth, luxury, and liquidity."
+      />
+
+      <section className="pb-20 pt-6 lg:pb-28">
+        <div className="frame grid gap-5 lg:grid-cols-2">
+          <Reveal>
+            <div className="group relative h-full overflow-hidden rounded-[36px] bg-lm-blue p-8 text-white sm:p-10">
+              <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 text-white/10 transition-transform duration-[1.5s] group-hover:rotate-45">
+                <Rays className="h-full w-full" count={32} hole={30} />
+              </div>
+              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-lm-blue">
+                <Target size={26} />
+              </span>
+              <p className="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-lm-gold">Our mission</p>
+              <p className="display mt-2 text-3xl">To put gold to work</p>
+              <p className="relative mt-4 max-w-lg leading-relaxed text-white/80">
+                Instead of sitting idle in a locker, gold on LIMOVI can be experienced as jewellery, used to apply for a loan through a
+                lending partner, sold when you need money, and earn an Owner Benefit when others experience your jewellery.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal i={1}>
+            <div className="group relative h-full overflow-hidden rounded-[36px] bg-lm-navy p-8 text-white sm:p-10">
+              <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 text-lm-gold/15 transition-transform duration-[1.5s] group-hover:-rotate-45">
+                <Rays className="h-full w-full" count={32} hole={30} />
+              </div>
+              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-lm-gold text-lm-navy">
+                <Telescope size={26} />
+              </span>
+              <p className="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-lm-gold">Our vision</p>
+              <p className="display mt-2 text-3xl">A 360° gold ecosystem</p>
+              <p className="relative mt-4 max-w-lg leading-relaxed text-white/80">
+                To build a 360° gold ecosystem where every gram of gold is put to use, bringing together jewellery, finance and
+                technology for individuals and families.
+              </p>
+            </div>
+          </Reveal>
         </div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
-            <div className="w-12 h-12 bg-[#EBF5FF] rounded-xl flex items-center justify-center mb-6">
-              <svg className="w-6 h-6 text-[#005CB9]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+        <div className="frame mt-16">
+          <Reveal>
+            <div className="flex flex-col items-center gap-6 text-center">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-lm-muted">Bringing together</p>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+                {pillars.map((p, i) => (
+                  <span key={p} className="flex items-center gap-3 sm:gap-5">
+                    <span className="display rounded-full border-2 border-lm-line px-6 py-3 text-xl text-lm-navy transition-colors hover:border-lm-blue hover:text-lm-blue sm:text-3xl">
+                      {p}
+                    </span>
+                    {i < pillars.length - 1 && <span className="display text-2xl text-lm-gold sm:text-4xl">+</span>}
+                  </span>
+                ))}
+              </div>
             </div>
-            <h3 className="text-2xl font-bold text-[#0A1929] mb-4">Our Mission</h3>
-            <p className="text-slate-600 leading-relaxed font-medium">
-              To put gold to work. Instead of sitting idle in a locker, gold on LIMOVI can be experienced as jewellery, used to apply for a loan through a lending partner, sold when you need money, and earn an Owner Benefit when others experience your jewellery.
-            </p>
-          </div>
-
-          <div className="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
-            <div className="w-12 h-12 bg-[#FFF8E6] rounded-xl flex items-center justify-center mb-6">
-              <svg className="w-6 h-6 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </div>
-            <h3 className="text-2xl font-bold text-[#0A1929] mb-4">Our Vision</h3>
-            <p className="text-slate-600 leading-relaxed font-medium">
-              To build a 360° gold ecosystem where every gram of gold is put to use, bringing together jewellery, finance and technology for individuals and families.
-            </p>
-          </div>
+          </Reveal>
         </div>
       </section>
+
+      <NextStep
+        href="/contact"
+        label="Contact"
+        title="Have a question for the team?"
+        blurb="Message LIMOVI on WhatsApp or email, or find out how complaints are handled."
+      />
       <Footer />
     </main>
   );

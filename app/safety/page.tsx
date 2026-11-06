@@ -3,8 +3,8 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { PageHero } from "@/components/shared/PageHero";
 import { Safety } from "@/components/home/Safety";
-import { WhyLimovi } from "@/components/home/WhyLimovi";
-import { FinalCTA } from "@/components/home/FinalCTA";
+import { CustodyJourney } from "@/components/safety/CustodyJourney";
+import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
   title: "Safety | LIMOVI",
@@ -17,12 +17,12 @@ export default function SafetyPage() {
       <Navbar />
       <PageHero
         eyebrow="Safety"
-        title={<>Your gold, <span className="text-lm-blue">kept safe</span></>}
+        title={<>How we keep your gold <span className="text-lm-blue">safe</span></>}
         lead="Who holds your jewellery, how it's insured, who lends against it and how your data is protected."
       />
-      <Safety />
-      <WhyLimovi />
-      <FinalCTA />
+      <CustodyJourney />
+      <Safety only={["Loans from lending partners", "Your data, protected"]} />
+      <NextStep href="/faq" label="FAQs" title="Questions, answered" blurb="Short answers drawn from the LIMOVI agreements." />
       <Footer />
     </main>
   );

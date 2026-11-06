@@ -3,7 +3,7 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { PageHero } from "@/components/shared/PageHero";
 import { HomeFAQ } from "@/components/home/HomeFAQ";
-import { FinalCTA } from "@/components/home/FinalCTA";
+import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
   title: "FAQs | LIMOVI",
@@ -20,7 +20,7 @@ export default function FaqPage() {
         lead="Short answers drawn from the LIMOVI agreements. The full documents are on the Legal page."
       />
       <HomeFAQ />
-      <FinalCTA />
+      <NextStep href="/contact" label="Contact" title="Still have a question?" blurb="Message the LIMOVI team on WhatsApp or email." />
       <Footer />
     </main>
   );

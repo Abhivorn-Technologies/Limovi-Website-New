@@ -2,9 +2,7 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { CinematicHero } from "@/components/home/CinematicHero";
 import { TrustMarquee } from "@/components/home/TrustMarquee";
-import { Gateways } from "@/components/home/Gateways";
-import { JewelleryShowcase } from "@/components/home/JewelleryShowcase";
-import { Strategies } from "@/components/home/Strategies";
+import { ExploreGrid } from "@/components/home/ExploreGrid";
 import { WhyLimovi } from "@/components/home/WhyLimovi";
 import { FinalCTA } from "@/components/home/FinalCTA";
 
@@ -15,9 +13,7 @@ export default function Home() {
       <Navbar />
       <CinematicHero />
       <TrustMarquee />
-      <Gateways overview />
-      <JewelleryShowcase />
-      <Strategies preview />
+      <ExploreGrid />
       <WhyLimovi />
       <FinalCTA />
       <Footer />

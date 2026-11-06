@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Vault, ScanFace, Landmark, LineChart, Lock, FileCheck2, Sparkle } from "lucide-react";
-import { Reveal, SectionHead } from "./primitives";
+import { Reveal } from "./primitives";
 
 // Each card summarises a clause of the Master Customer & Platform Agreement or
 // the Privacy Policy (see /legal). Keep them in step with those documents.
@@ -39,20 +39,20 @@ const cards = [
   },
 ];
 
-export function Safety() {
+export function Safety({ only }: { only?: string[] }) {
+  const list = only ? cards.filter((c) => only.includes(c.title)) : cards;
   return (
     <section id="safety" className="relative overflow-hidden bg-lm-navy py-24 text-white lg:py-32">
       <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(60%_50%_at_80%_0%,rgba(30,111,232,0.55),transparent),radial-gradient(40%_40%_at_0%_100%,rgba(242,185,43,0.25),transparent)]" />
       <div className="frame relative">
-        <SectionHead
-          light
-          center
-          eyebrow="Safety first"
-          title={<>How we keep your gold <span className="text-lm-gold">safe</span></>}
-          lead="LIMOVI’s agreements spell out who holds your jewellery, how it’s insured, who lends against it and how your data is handled."
-        />
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((c, i) => (
+        {only && (
+          <div className="mb-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-lm-gold">Beyond your jewellery</p>
+            <h2 className="display mt-3 text-[clamp(1.9rem,1.3rem+2vw,3rem)]">Loans and data, handled properly</h2>
+          </div>
+        )}
+        <div className={`grid gap-5 sm:grid-cols-2 ${only ? "mx-auto max-w-4xl" : "lg:grid-cols-3"}`}>
+          {list.map((c, i) => (
             <Reveal key={c.title} i={i}>
               <div className="group relative h-full overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] p-7 transition-colors hover:bg-white/[0.08]">
                 <motion.span

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, ChevronDown, Minus } from "lucide-react";
-import { Reveal, SectionHead } from "./primitives";
+import { Reveal } from "./primitives";
 import { comparisonRows, openEarlyAccess, strategies } from "./data";
 
 // preview = homepage version: cards only, with a link to the full /strategies page
@@ -13,18 +13,8 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
   return (
     <section id="strategies" className="bg-lm-sky py-24 lg:py-32">
       <div className="frame">
-        <SectionHead
-          center
-          eyebrow="Strategies"
-          title={
-            <>
-              Four ways to start. <span className="text-lm-blue">Choose yours.</span>
-            </>
-          }
-          lead="After KYC, you pick a strategy. Each one has its own agreement that sets out what you get, what it costs and how you exit. Here are the key terms."
-        />
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {strategies.map((s, i) => (
             <Reveal key={s.name} i={i}>
               <article
