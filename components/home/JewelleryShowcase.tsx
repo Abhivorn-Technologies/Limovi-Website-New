@@ -79,7 +79,7 @@ export function JewelleryShowcase() {
 
         <div className="mt-12 grid items-start gap-6 lg:grid-cols-12">
           {/* featured piece */}
-          <div className="lg:col-span-7">
+          <div className="min-w-0 lg:col-span-7">
             <div className="relative overflow-hidden rounded-[32px] border border-lm-gold/30 bg-black/30 p-2 shadow-[0_40px_80px_-40px_rgba(242,185,43,0.45)]">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[26px]">
                 <AnimatePresence mode="popLayout">
@@ -124,7 +124,7 @@ export function JewelleryShowcase() {
             </ul>
           </div>
 
-          <div className="flex flex-col justify-center lg:col-span-5 lg:self-stretch">
+          <div className="flex min-w-0 flex-col justify-center lg:col-span-5 lg:self-stretch">
             <ul className="space-y-3">
               {facts.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-[15px] text-white/85">

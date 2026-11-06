@@ -28,9 +28,12 @@ export function LegalDocument({ slug }: { slug: string }) {
 
       <section className="frame grid gap-10 pb-24 lg:grid-cols-12">
         {headings.length > 0 && (
-          <aside className="lg:col-span-4 xl:col-span-3">
-            <details className="group rounded-2xl border border-lm-line bg-white p-4 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto" open>
-              <summary className="cursor-pointer list-none text-sm font-bold text-lm-navy">On this page</summary>
+          <aside className="min-w-0 lg:col-span-4 xl:col-span-3">
+            {/* phones: collapsed list so the document starts right away */}
+            <details className="rounded-2xl border border-lm-line bg-white p-4 lg:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-bold text-lm-navy">
+                On this page <span className="text-lm-blue">{headings.length} sections</span>
+              </summary>
               <ol className="mt-3 space-y-1.5 text-[13px] leading-snug">
                 {headings.map((h) => (
                   <li key={h.id}>
@@ -41,10 +44,22 @@ export function LegalDocument({ slug }: { slug: string }) {
                 ))}
               </ol>
             </details>
+            <nav aria-label="On this page" className="hidden rounded-2xl border border-lm-line bg-white p-4 lg:sticky lg:top-28 lg:block lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+              <p className="text-sm font-bold text-lm-navy">On this page</p>
+              <ol className="mt-3 space-y-1.5 text-[13px] leading-snug">
+                {headings.map((h) => (
+                  <li key={h.id}>
+                    <a href={`#${h.id}`} className="text-lm-muted hover:text-lm-blue">
+                      {h.label}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
           </aside>
         )}
 
-        <div className={headings.length > 0 ? "lg:col-span-8 xl:col-span-9" : "lg:col-span-12"}>
+        <div className={`min-w-0 ${headings.length > 0 ? "lg:col-span-8 xl:col-span-9" : "lg:col-span-12"}`}>
           <article className="lm-legal" dangerouslySetInnerHTML={{ __html: html }} />
 
           {related.length > 0 && (

@@ -117,7 +117,7 @@ export function Hero() {
             {coins.map((c, i) => (
               <motion.div
                 key={i}
-                className="absolute z-30"
+                className={`absolute z-30 ${i === 2 || i === 4 ? "hidden sm:block" : ""}`}
                 style={{ left: c.left, top: c.top }}
                 initial={reduce ? false : { y: -260, opacity: 0, rotate: -90 }}
                 animate={{ y: 0, opacity: 1, rotate: 0 }}
@@ -144,7 +144,7 @@ export function Hero() {
               initial={reduce ? false : { x: 60, opacity: 0, rotate: 8 }}
               animate={{ x: 0, opacity: 1, rotate: 0 }}
               transition={{ duration: 1.1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute -right-1 bottom-0 z-30 w-[140px] sm:-right-6 sm:w-[170px]"
+              className="absolute -right-6 bottom-0 z-30 hidden w-[170px] sm:block"
             >
               <div className="lm-bob rounded-[28px] border border-lm-line bg-white p-3 shadow-xl" style={{ ["--d" as string]: "6s" }}>
                 <div className="relative aspect-square overflow-hidden rounded-2xl bg-white">
