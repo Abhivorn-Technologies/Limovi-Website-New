@@ -57,7 +57,7 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
     }`;
 
   return (
-    <section id="gateways" className="bg-white pt-6 pb-24 lg:pt-8 lg:pb-32">
+    <section id="gateways" className="bg-lm-paper pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame">
 
         {/* overview cards */}

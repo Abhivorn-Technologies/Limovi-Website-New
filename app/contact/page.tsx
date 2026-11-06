@@ -50,11 +50,11 @@ const quick = ["What is a Gold Balance?", "How much do I need to start?", "Who g
 
 export default function ContactPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
 
       {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-gradient-to-b from-lm-sky to-white pb-16 pt-[120px] sm:pt-[140px]">
+      <section className="relative isolate overflow-hidden bg-gradient-to-b from-lm-sand to-lm-paper pb-16 pt-[120px] sm:pt-[140px]">
         <div className="pointer-events-none absolute -right-[25vw] -top-[25vw] -z-10 h-[70vw] w-[70vw] max-h-[900px] max-w-[900px] text-lm-sky-2 opacity-70">
           <Rays className="lm-rays h-full w-full" count={36} hole={34} />
         </div>

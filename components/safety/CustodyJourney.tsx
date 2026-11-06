@@ -23,7 +23,7 @@ export function CustodyJourney() {
   const fill = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="bg-white pb-24 pt-6 lg:pb-32 lg:pt-8">
+    <section className="bg-lm-paper pb-24 pt-6 lg:pb-32 lg:pt-8">
       <div className="frame">
         <p className="text-center text-xs font-bold uppercase tracking-[0.16em] text-lm-blue">A piece of jewellery&apos;s journey on LIMOVI</p>
 

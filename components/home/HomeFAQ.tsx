@@ -57,7 +57,7 @@ const faqs = [
 export function HomeFAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="bg-white pt-6 pb-24 lg:pt-8 lg:pb-32">
+    <section id="faq" className="bg-lm-paper pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Reveal className="lg:sticky lg:top-28">
@@ -83,20 +83,20 @@ export function HomeFAQ() {
             </div>
           </Reveal>
         </div>
-        <div className="space-y-3 lg:col-span-8">
+        <div className="border-t border-lm-line lg:col-span-8">
           {faqs.map((f, i) => {
             const on = open === i;
             return (
               <Reveal key={f.q} i={i} y={14}>
-                <div className={`rounded-3xl border border-lm-line bg-white transition-shadow ${on ? "shadow-lg" : ""}`}>
+                <div className="border-b border-lm-line">
                   <button
                     onClick={() => setOpen(on ? null : i)}
-                    className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
+                    className="group flex w-full items-center justify-between gap-6 py-5 text-left"
                     aria-expanded={on}
                   >
-                    <span className="text-lg font-bold text-lm-navy">{f.q}</span>
+                    <span className={`text-[17px] font-semibold transition-colors group-hover:text-lm-blue ${on ? "text-lm-blue" : "text-lm-navy"}`}>{f.q}</span>
                     <span
-                      className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition-all duration-300 ${
+                      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition-all duration-300 ${
                         on ? "rotate-45 bg-lm-blue text-white" : "bg-lm-sky text-lm-blue"
                       }`}
                     >
@@ -112,7 +112,7 @@ export function HomeFAQ() {
                         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <p className="px-6 pb-6 leading-relaxed text-lm-muted">{f.a}</p>
+                        <p className="max-w-2xl pb-6 pr-12 leading-relaxed text-lm-muted">{f.a}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>

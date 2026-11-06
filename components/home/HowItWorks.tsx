@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, Gem, Landmark, Banknote, TrendingUp, Gift, ScanFace, CreditCard, IdCard, Building2, UserRound } from "lucide-react";
-import { Phone, Coin } from "./primitives";
+import { Phone, Coin, Rays } from "./primitives";
 
 // Every line below is taken from the LIMOVI Master Customer & Platform Agreement
 // and the strategy agreements (see /legal).
@@ -34,97 +33,51 @@ const steps = [
   },
 ];
 
+// Each step is a card that pins under the header and the next one slides
+// over it, like a stack of cards (as on the reference site).
 export function HowItWorks() {
-  const [active, setActive] = useState(0);
-  const refs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.idx));
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px" }
-    );
-    refs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
   return (
-    <section id="how-it-works" className="relative bg-white pt-6 pb-24 lg:pt-8 lg:pb-32">
+    <section id="how-it-works" className="relative bg-lm-paper pb-24 pt-6 lg:pb-32 lg:pt-8">
       <div className="frame">
-
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
-          {/* sticky phone (desktop) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-[120px] flex h-[calc(100vh-160px)] max-h-[720px] items-center justify-center">
-              <div className="relative">
-                <div className="absolute -inset-16 -z-10 rounded-full bg-[radial-gradient(circle,rgba(30,111,232,0.16),transparent_65%)]" />
-                <Phone>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={active}
-                      initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -30, scale: 0.98 }}
-                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                      className="h-full"
-                    >
-                      <Screen idx={active} />
-                    </motion.div>
-                  </AnimatePresence>
-                </Phone>
-                <div className="absolute -left-20 top-1/2 flex -translate-y-1/2 flex-col gap-3">
-                  {steps.map((s, i) => (
-                    <span
-                      key={s.n}
-                      className={`h-10 w-1.5 rounded-full transition-all duration-500 ${i === active ? "bg-lm-blue" : "bg-lm-sky-2"}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* steps */}
-          <div className="flex flex-col gap-8 lg:gap-0">
-            {steps.map((s, i) => (
-              <div
-                key={s.n}
-                data-idx={i}
-                ref={(el) => {
-                  refs.current[i] = el;
-                }}
-                className="lg:flex lg:min-h-[78vh] lg:items-center"
+        <ol className="relative">
+          {steps.map((s, i) => (
+            <li
+              key={s.n}
+              className="mb-6 lg:sticky lg:mb-[8vh]"
+              style={{ top: `calc(110px + ${i * 22}px)` }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10% 0px" }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className={`relative isolate grid items-center gap-8 overflow-hidden rounded-[36px] p-7 sm:p-10 lg:min-h-[min(72vh,600px)] lg:grid-cols-12 lg:p-14 ${
+                  i % 2 ? "bg-lm-blue" : "bg-lm-navy"
+                } text-white shadow-[0_-20px_50px_-30px_rgba(11,27,58,0.45)]`}
               >
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-15% 0px" }}
-                  transition={{ duration: 0.7 }}
-                  className={`lm-card p-6 sm:p-8 transition-colors duration-500 lg:border-transparent lg:shadow-none lg:bg-transparent ${
-                    i === active ? "lg:!bg-lm-sky" : ""
-                  }`}
-                >
-                  <span className="display text-5xl text-lm-sky-2">{s.n}</span>
-                  <h3 className="display mt-3 text-[clamp(1.5rem,1.2rem+1.2vw,2.2rem)] text-lm-navy">{s.title}</h3>
-                  <p className="mt-4 text-lg leading-relaxed text-lm-muted">{s.body}</p>
-                  <p className="mt-4 flex gap-2 rounded-2xl bg-lm-cream px-4 py-3 text-[15px] text-lm-ink">
-                    <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-lm-gold" />
+                <div className="pointer-events-none absolute -bottom-40 -left-40 -z-10 h-[460px] w-[460px] text-white/[0.06]">
+                  <Rays className="lm-rays h-full w-full" count={36} hole={30} />
+                </div>
+                <div className="lg:col-span-7">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-lm-gold">
+                    Step {s.n}
+                  </span>
+                  <h3 className="display mt-5 text-[clamp(1.7rem,1.2rem+1.8vw,2.8rem)]">{s.title}</h3>
+                  <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-white/75">{s.body}</p>
+                  <p className="mt-6 flex max-w-xl gap-2.5 rounded-2xl bg-white/10 px-4 py-3 text-[15px] text-white/85">
+                    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-lm-gold" />
                     {s.note}
                   </p>
-                  {/* mobile phone preview */}
-                  <div className="mt-8 lg:hidden">
-                    <Phone className="!w-[230px]">
-                      <Screen idx={i} />
-                    </Phone>
-                  </div>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </div>
+                </div>
+                <div className="flex justify-center lg:col-span-5">
+                  <Phone className="!w-[220px] sm:!w-[250px]">
+                    <Screen idx={i} />
+                  </Phone>
+                </div>
+              </motion.div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

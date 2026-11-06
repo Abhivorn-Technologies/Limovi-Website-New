@@ -15,7 +15,7 @@ const pillars = ["Jewellery", "Finance", "Technology"];
 
 export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
       <PageHero
         eyebrow="About"

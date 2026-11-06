@@ -21,9 +21,9 @@ function retentionAndRights() {
 
 export default function DeletePolicyPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
-      <section className="bg-gradient-to-b from-lm-sky to-white pt-[120px] pb-10 sm:pt-[140px]">
+      <section className="bg-gradient-to-b from-lm-sand to-lm-paper pt-[120px] pb-10 sm:pt-[140px]">
         <div className="frame">
           <p className="text-[13px] font-bold uppercase tracking-[0.12em] text-lm-blue">Privacy</p>
           <h1 className="display mt-2 text-[clamp(2rem,1.4rem+2.6vw,3.4rem)] text-lm-navy">Account &amp; data deletion</h1>

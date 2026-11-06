@@ -764,7 +764,7 @@ export function CinematicHero() {
   }, []);
   
   return (
-    <section ref={containerRef} className="relative h-[800vh] bg-white" style={{ background: "#FFFFFF" }}>
+    <section ref={containerRef} className="relative h-[800vh] bg-lm-paper" style={{ background: "#FFFFFF" }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white" style={{ background: "#FFFFFF" }}>
 
         <Scene1_Problem     progress={scrollYProgress} />

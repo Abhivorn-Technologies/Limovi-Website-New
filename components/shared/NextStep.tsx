@@ -11,7 +11,7 @@ import { openEarlyAccess } from "@/components/home/data";
 export function NextStep({ href, label, title, blurb }: { href: string; label: string; title: string; blurb: string }) {
   const reduce = useReducedMotion();
   return (
-    <section className="bg-white px-3 pb-16 pt-4 sm:px-5 lg:pb-24">
+    <section className="bg-lm-paper px-3 pb-16 pt-4 sm:px-5 lg:pb-24">
       <div className="mx-auto grid max-w-[1320px] gap-4 lg:grid-cols-12">
         <Link
           href={href}

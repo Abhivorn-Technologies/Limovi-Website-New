@@ -48,6 +48,8 @@
   --color-lm-gold-deep: #B97D06;
   --color-lm-cream:     #FFF7E1;
   --color-lm-line:      #E1E9F5;
+  --color-lm-paper:     #FBF8F2;
+  --color-lm-sand:      #F4EEE2;
 }
 
 @layer base {
@@ -172,9 +174,9 @@
   }
   .display {
     font-family: var(--font-display), sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
   }
   .t-display { font-size: var(--step-display); }
   .t-head { font-size: var(--step-head); }

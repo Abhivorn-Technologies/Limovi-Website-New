@@ -35,7 +35,7 @@ const serviceIcons = [
 export function ExploreGrid() {
   const reduce = useReducedMotion();
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-lm-paper py-24 lg:py-32">
       <div className="frame">
         <SectionHead
           center
