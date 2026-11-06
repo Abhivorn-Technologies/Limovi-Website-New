@@ -1,10 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Banknote, Gem, Gift, Landmark, TrendingUp, Check, Clock, ShieldCheck, Mail, Building2, UserCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Gem,
+  Gift,
+  Landmark,
+  TrendingUp,
+  Check,
+  Clock,
+  ShieldCheck,
+  Mail,
+  Building2,
+  UserCheck,
+} from "lucide-react";
 import { Coin, Reveal, SectionHead, Tween } from "./primitives";
 import { EXPERIENCE_CHARGE, OWNER_SHARE, gateways, inr, type GatewayId } from "./data";
 
@@ -16,7 +29,8 @@ const icons: Record<GatewayId, typeof Gem> = {
   gift: Gift,
 };
 
-export function Gateways() {
+// overview = cards only, each linking to its tab on /services (used on the homepage)
+export function Gateways({ overview = false }: { overview?: boolean }) {
   const [tab, setTab] = useState<GatewayId>("jewellery");
 
   const pick = (id: GatewayId) => {
@@ -24,13 +38,35 @@ export function Gateways() {
     document.getElementById("gateway-explorer")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // /services#loans opens the Gold Loan tab, and so on
+  useEffect(() => {
+    if (overview) return;
+    const id = window.location.hash.slice(1) as GatewayId;
+    if (gateways.some((g) => g.id === id)) {
+      const t = window.setTimeout(() => {
+        setTab(id);
+        document.getElementById("gateway-explorer")?.scrollIntoView({ block: "start" });
+      }, 200);
+      return () => window.clearTimeout(t);
+    }
+  }, [overview]);
+
+  const cardClass = (tone: string) =>
+    `group relative flex h-full w-full flex-col overflow-hidden rounded-[28px] p-6 text-left transition-transform duration-300 hover:-translate-y-1 ${
+      tone === "gold" ? "bg-lm-cream" : "bg-lm-sky"
+    }`;
+
   return (
     <section id="gateways" className="bg-white py-24 lg:py-32">
       <div className="frame">
         <SectionHead
           center
           eyebrow="Five gateways"
-          title={<>Everything your gold can do, <span className="text-lm-blue">in one place</span></>}
+          title={
+            <>
+              Everything your gold can do, <span className="text-lm-blue">in one place</span>
+            </>
+          }
           lead="Each one draws on your Gold Balance or entitlement, subject to the eligibility rules of your strategy."
         />
 
@@ -38,65 +74,86 @@ export function Gateways() {
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {gateways.map((g, i) => (
             <Reveal key={g.id} i={i} className={i < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
-              <button
-                onClick={() => pick(g.id)}
-                className={`group relative flex h-full w-full flex-col overflow-hidden rounded-[28px] p-6 text-left transition-transform duration-300 hover:-translate-y-1 ${
-                  g.tone === "gold" ? "bg-lm-cream" : "bg-lm-sky"
-                }`}
-              >
-                <GatewayArt id={g.id} />
-                <h3 className="display mt-6 text-xl text-lm-navy sm:text-2xl">{g.name}</h3>
-                <p className="mt-2 text-lm-muted">{g.short}</p>
-                <span className="mt-4 inline-flex items-center gap-1.5 font-bold text-lm-blue">
-                  How it works <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                </span>
-              </button>
+              {overview ? (
+                <Link href={`/services#${g.id}`} className={cardClass(g.tone)}>
+                  <GatewayArt id={g.id} />
+                  <h3 className="display mt-6 text-xl text-lm-navy sm:text-2xl">{g.name}</h3>
+                  <p className="mt-2 text-lm-muted">{g.short}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-bold text-lm-blue">
+                    How it works <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              ) : (
+                <button onClick={() => pick(g.id)} className={cardClass(g.tone)}>
+                  <GatewayArt id={g.id} />
+                  <h3 className="display mt-6 text-xl text-lm-navy sm:text-2xl">{g.name}</h3>
+                  <p className="mt-2 text-lm-muted">{g.short}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-bold text-lm-blue">
+                    How it works <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </button>
+              )}
             </Reveal>
           ))}
         </div>
 
         {/* explorer */}
-        <div id="gateway-explorer" className="scroll-mt-28 pt-20">
-          <div className="no-scrollbar -mx-[var(--margin)] flex gap-2 overflow-x-auto px-[var(--margin)] pb-2 lg:mx-0 lg:justify-center lg:px-0" role="tablist">
-            {gateways.map((g) => {
-              const Icon = icons[g.id];
-              const on = tab === g.id;
-              return (
-                <button
-                  key={g.id}
-                  role="tab"
-                  aria-selected={on}
-                  onClick={() => setTab(g.id)}
-                  className={`relative flex shrink-0 items-center gap-2 rounded-full px-5 py-3 text-[15px] font-bold transition-colors ${
-                    on ? "text-white" : "bg-lm-sky text-lm-ink hover:bg-lm-sky-2"
-                  }`}
-                >
-                  {on && <motion.span layoutId="gw-pill" className="absolute inset-0 rounded-full bg-lm-blue" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
-                  <Icon size={18} className="relative" />
-                  <span className="relative">{g.name}</span>
-                </button>
-              );
-            })}
-          </div>
+        {!overview && (
+          <div id="gateway-explorer" className="scroll-mt-28 pt-20">
+            <div
+              className="no-scrollbar -mx-[var(--margin)] flex gap-2 overflow-x-auto px-[var(--margin)] pb-2 lg:mx-0 lg:justify-center lg:px-0"
+              role="tablist"
+            >
+              {gateways.map((g) => {
+                const Icon = icons[g.id];
+                const on = tab === g.id;
+                return (
+                  <button
+                    key={g.id}
+                    role="tab"
+                    aria-selected={on}
+                    onClick={() => setTab(g.id)}
+                    className={`relative flex shrink-0 items-center gap-2 rounded-full px-5 py-3 text-[15px] font-bold transition-colors ${
+                      on ? "text-white" : "bg-lm-sky text-lm-ink hover:bg-lm-sky-2"
+                    }`}
+                  >
+                    {on && (
+                      <motion.span
+                        layoutId="gw-pill"
+                        className="absolute inset-0 rounded-full bg-lm-blue"
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                    <Icon size={18} className="relative" />
+                    <span className="relative">{g.name}</span>
+                  </button>
+                );
+              })}
+            </div>
 
-          <div className="mt-8">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={tab}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {tab === "jewellery" && <JewelleryPanel />}
-                {tab === "loans" && <LoanPanel />}
-                {tab === "liquidity" && <LiquidityPanel />}
-                {tab === "wealth" && <WealthPanel />}
-                {tab === "gift" && <GiftPanel />}
-              </motion.div>
-            </AnimatePresence>
+            <div className="mt-8">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={tab}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {tab === "jewellery" && <JewelleryPanel />}
+                  {tab === "loans" && <LoanPanel />}
+                  {tab === "liquidity" && <LiquidityPanel />}
+                  {tab === "wealth" && <WealthPanel />}
+                  {tab === "gift" && <GiftPanel />}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
@@ -108,8 +165,16 @@ function GatewayArt({ id }: { id: GatewayId }) {
   if (id === "jewellery")
     return (
       <div className="relative h-40 overflow-hidden rounded-2xl bg-white">
-        <Image src="/images/gold-haram.png" alt="" fill sizes="(min-width:1024px) 40vw, 90vw" className="object-contain p-3 transition-transform duration-700 group-hover:scale-110" />
-        <span className="absolute left-3 top-3 rounded-full bg-lm-sky px-2.5 py-1 text-xs font-bold text-lm-blue">Return within 30 hrs</span>
+        <Image
+          src="/images/gold-haram.png"
+          alt=""
+          fill
+          sizes="(min-width:1024px) 40vw, 90vw"
+          className="object-contain p-3 transition-transform duration-700 group-hover:scale-110"
+        />
+        <span className="absolute left-3 top-3 rounded-full bg-lm-sky px-2.5 py-1 text-xs font-bold text-lm-blue">
+          Return within 30 hrs
+        </span>
       </div>
     );
   if (id === "loans")
@@ -215,7 +280,9 @@ function Panel({
               transition={{ delay: 0.1 + i * 0.06 }}
               className="flex gap-3"
             >
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lm-sky text-sm font-bold text-lm-blue">{i + 1}</span>
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lm-sky text-sm font-bold text-lm-blue">
+                {i + 1}
+              </span>
               <span className="pt-0.5 text-lm-ink">{s}</span>
             </motion.li>
           ))}
@@ -344,10 +411,22 @@ function JewelleryPanel() {
       <div className="lm-card overflow-hidden">
         <div className="grid grid-cols-2">
           <div className="relative aspect-[4/3]">
-            <Image src="/images/jewellery-wedding.png" alt="Bridal wedding set" fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover" />
+            <Image
+              src="/images/jewellery-wedding.png"
+              alt="Bridal wedding set"
+              fill
+              sizes="(min-width:1024px) 25vw, 50vw"
+              className="object-cover"
+            />
           </div>
           <div className="relative aspect-[4/3]">
-            <Image src="/images/minimal_pendant.png" alt="Pendant and chain" fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover" />
+            <Image
+              src="/images/minimal_pendant.png"
+              alt="Pendant and chain"
+              fill
+              sizes="(min-width:1024px) 25vw, 50vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </div>
@@ -389,8 +468,24 @@ function LoanPanel() {
         <p className="relative text-sm font-bold uppercase tracking-[0.12em] text-lm-gold">Who does what</p>
         <div className="relative mt-5 grid gap-4 sm:grid-cols-2">
           {[
-            ["LIMOVI", ["Identifies or suggests a Gold Loan Partner", "Helps with your application", "Passes on your information and documents", "Provides the platform"]],
-            ["Gold Loan Partner", ["Approves and gives the loan", "Sets interest, tenure and loan-to-value", "Holds the security", "Collects repayment"]],
+            [
+              "LIMOVI",
+              [
+                "Identifies or suggests a Gold Loan Partner",
+                "Helps with your application",
+                "Passes on your information and documents",
+                "Provides the platform",
+              ],
+            ],
+            [
+              "Gold Loan Partner",
+              [
+                "Approves and gives the loan",
+                "Sets interest, tenure and loan-to-value",
+                "Holds the security",
+                "Collects repayment",
+              ],
+            ],
           ].map(([who, list]) => (
             <div key={who as string} className="rounded-2xl bg-white/10 p-4">
               <p className="display text-lg">{who as string}</p>
@@ -405,7 +500,10 @@ function LoanPanel() {
             </div>
           ))}
         </div>
-        <Link href="/legal/master-customer-agreement#22-gold-loan-facilitation" className="relative mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white">
+        <Link
+          href="/legal/master-customer-agreement#22-gold-loan-facilitation"
+          className="relative mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white"
+        >
           Read clause 22 of the Master Agreement <ArrowRight size={15} />
         </Link>
       </div>
@@ -446,10 +544,14 @@ function LiquidityPanel() {
           <div className="flex items-center gap-3 rounded-2xl bg-white/10 p-4">
             <Clock className="shrink-0 text-lm-gold" />
             <p className="text-sm text-white/85">
-              LIMOVI aims to credit you within one hour of confirmation, once verification, processing and banking steps are complete.
+              LIMOVI aims to credit you within one hour of confirmation, once verification, processing and banking steps are
+              complete.
             </p>
           </div>
-          <Link href="/legal/gold-liquidity-and-sale-terms" className="inline-flex items-center gap-1.5 text-sm font-bold text-white">
+          <Link
+            href="/legal/gold-liquidity-and-sale-terms"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-white"
+          >
             Read the Gold Liquidity terms <ArrowRight size={15} />
           </Link>
         </div>
@@ -479,7 +581,15 @@ function WealthPanel() {
       ]}
     >
       <Calc title="Owner Benefit example">
-        <Slider label="Value of your jewellery" min={100000} max={2000000} step={10000} value={value} onChange={setValue} format={inr} />
+        <Slider
+          label="Value of your jewellery"
+          min={100000}
+          max={2000000}
+          step={10000}
+          value={value}
+          onChange={setValue}
+          format={inr}
+        />
         <Rows
           rows={[
             ["Experience Charge (0.9%)", <Tween key="c" value={charge} format={inr} />],
@@ -546,7 +656,10 @@ function GiftPanel() {
           ].map(([Icon, t]) => {
             const I = Icon as typeof Gem;
             return (
-              <div key={t as string} className="flex flex-col items-center gap-2 rounded-2xl bg-white p-3 font-semibold text-lm-ink">
+              <div
+                key={t as string}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-white p-3 font-semibold text-lm-ink"
+              >
                 <I size={18} className="text-lm-blue" />
                 {t as string}
               </div>

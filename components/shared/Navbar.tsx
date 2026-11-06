@@ -3,18 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
-import { useLenis } from "lenis/react";
 
-const navLinks = [
-  { name: "How it works", href: "#how-it-works" },
-  { name: "Gold Balance", href: "#gold-balance" },
-  { name: "Gateways", href: "#gateways" },
-  { name: "Strategies", href: "#strategies" },
-  { name: "Safety", href: "#safety" },
-  { name: "FAQs", href: "#faq" },
+export const navLinks = [
+  { name: "How it works", href: "/how-it-works" },
+  { name: "Services", href: "/services" },
+  { name: "Strategies", href: "/strategies" },
+  { name: "Safety", href: "/safety" },
+  { name: "FAQs", href: "/faq" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const openEarlyAccess = () => window.dispatchEvent(new CustomEvent("open-early-access-modal"));
@@ -23,8 +23,6 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
-  const lenis = useLenis();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,20 +31,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const go = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (!href.startsWith("#")) return;
-    e.preventDefault();
-    setOpen(false);
-    if (pathname !== "/") {
-      router.push(`/${href}`);
-      return;
-    }
-    const el = document.getElementById(href.slice(1));
-    if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - 84;
-    if (lenis) lenis.scrollTo(y, { duration: 1.3 });
-    else window.scrollTo({ top: y, behavior: "smooth" });
-  };
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   return (
     <>
@@ -65,14 +50,16 @@ export function Navbar() {
 
           <nav className="hidden lg:flex items-center gap-1" aria-label="Main">
             {navLinks.map((l) => (
-              <a
+              <Link
                 key={l.name}
-                href={pathname === "/" ? l.href : `/${l.href}`}
-                onClick={(e) => go(e, l.href)}
-                className="rounded-full px-3.5 py-2 text-[15px] font-medium text-lm-ink hover:bg-lm-sky hover:text-lm-blue transition-colors"
+                href={l.href}
+                aria-current={isActive(l.href) ? "page" : undefined}
+                className={`rounded-full px-3 py-2 text-[15px] font-medium transition-colors xl:px-3.5 ${
+                  isActive(l.href) ? "bg-lm-sky text-lm-blue" : "text-lm-ink hover:bg-lm-sky hover:text-lm-blue"
+                }`}
               >
                 {l.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -99,22 +86,23 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-x-3 top-[84px] z-[998] rounded-[28px] border border-lm-line bg-white p-4 shadow-2xl lg:hidden"
+            className="fixed inset-x-3 top-[84px] z-[998] max-h-[calc(100dvh-100px)] overflow-y-auto rounded-[28px] border border-lm-line bg-white p-4 shadow-2xl lg:hidden"
           >
             <nav className="flex flex-col" aria-label="Mobile">
-              {navLinks.map((l, i) => (
-                <motion.a
-                  key={l.name}
-                  href={l.href}
-                  onClick={(e) => go(e, l.href)}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.04 * i }}
-                  className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-lg font-medium text-lm-navy hover:bg-lm-sky"
-                >
-                  {l.name}
-                  <ArrowRight size={18} className="text-lm-blue" />
-                </motion.a>
+              {[{ name: "Home", href: "/" }, ...navLinks].map((l, i) => (
+                <motion.div key={l.name} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i }}>
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={(l.href === "/" ? pathname === "/" : isActive(l.href)) ? "page" : undefined}
+                    className={`flex items-center justify-between rounded-2xl px-4 py-3 text-lg font-medium text-lm-navy hover:bg-lm-sky ${
+                      (l.href === "/" ? pathname === "/" : isActive(l.href)) ? "bg-lm-sky" : ""
+                    }`}
+                  >
+                    {l.name}
+                    <ArrowRight size={18} className="text-lm-blue" />
+                  </Link>
+                </motion.div>
               ))}
             </nav>
             <button

@@ -2,22 +2,23 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useLenis } from "lenis/react";
 
 const footerLinks = {
   company: [
     { label: "About Us", href: "/about" },
+    { label: "How it works", href: "/how-it-works" },
+    { label: "Safety", href: "/safety" },
+    { label: "FAQs", href: "/faq" },
     { label: "Contact", href: "/contact" },
   ],
   products: [
-    { label: "Gold Balance", href: "#gold-balance" },
-    { label: "Jewellery Cloud", href: "#gateways" },
-    { label: "Gold Loan", href: "#gateways" },
-    { label: "Gold Liquidity", href: "#gateways" },
-    { label: "Owner Benefit", href: "#gateways" },
-    { label: "Gift Gold", href: "#gateways" },
-    { label: "Strategies", href: "#strategies" },
+    { label: "Gold Balance", href: "/how-it-works#gold-balance" },
+    { label: "Jewellery Cloud", href: "/services#jewellery" },
+    { label: "Gold Loan", href: "/services#loans" },
+    { label: "Gold Liquidity", href: "/services#liquidity" },
+    { label: "Owner Benefit", href: "/services#wealth" },
+    { label: "Gift Gold", href: "/services#gift" },
+    { label: "Strategies", href: "/strategies" },
   ],
   compliance: [
     { label: "All legal documents", href: "/legal" },
@@ -32,24 +33,6 @@ const footerLinks = {
 const linkClass = "text-white/75 hover:text-white transition-colors";
 
 export function Footer() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const lenis = useLenis();
-
-  const go = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (!href.startsWith("#")) return;
-    e.preventDefault();
-    if (pathname !== "/") {
-      router.push(`/${href}`);
-      return;
-    }
-    const el = document.getElementById(href.slice(1));
-    if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - 84;
-    if (lenis) lenis.scrollTo(y, { duration: 1.3 });
-    else window.scrollTo({ top: y, behavior: "smooth" });
-  };
-
   return (
     <footer className="bg-lm-navy text-white">
       <div className="frame grid grid-cols-2 gap-x-8 gap-y-10 pt-16 pb-10 lg:grid-cols-12 lg:pt-20">
@@ -90,9 +73,9 @@ export function Footer() {
           <ul className="space-y-2.5">
             {footerLinks.products.map((l) => (
               <li key={l.label}>
-                <a href={pathname === "/" ? l.href : `/${l.href}`} onClick={(e) => go(e, l.href)} className={linkClass}>
+                <Link href={l.href} className={linkClass}>
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
