@@ -3,7 +3,6 @@ import { Onest, Unbounded } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/shared/SmoothScrollProvider";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
-import { FloatingWidgetWrapper } from "@/components/ui/gold-calculator";
 import { EarlyAccessModal } from "@/components/shared/EarlyAccessModal";
 import { RevealObserver } from "@/components/shared/RevealObserver";
 
@@ -54,7 +53,7 @@ const schema = {
       "@id": "https://limovi.in/#organization",
       "name": "LIMOVI",
       "url": "https://limovi.in",
-      "logo": "https://limovi.in/logo.png",
+      "logo": "https://limovi.in/Limovi-clean.png",
       "sameAs": [
         "https://twitter.com/limovi_in",
         "https://www.linkedin.com/company/limovi"
@@ -91,7 +90,6 @@ export default function RootLayout({
         <SmoothScrollProvider>
           {children}
           <ScrollToTop />
-          <FloatingWidgetWrapper />
           <EarlyAccessModal />
           <RevealObserver />
         </SmoothScrollProvider>

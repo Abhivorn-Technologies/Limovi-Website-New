@@ -1,0 +1,117 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Coins, Gem, Gift, Lock, Wallet } from "lucide-react";
+import { CountUp, Reveal, SectionHead, Rays } from "./primitives";
+import { ILLUSTRATIVE_RATE, inr } from "./data";
+
+const parts = [
+  { icon: Coins, label: "Invested Gold", g: 30, desc: "Gold you buy or add through LIMOVI.", color: "bg-lm-blue" },
+  { icon: Gem, label: "Enrolled Gold", g: 15, desc: "Jewellery you already own, enrolled into the ecosystem.", color: "bg-lm-gold" },
+  { icon: Gift, label: "Gifted Gold", g: 5, desc: "Gold you've received as a gift from another member.", color: "bg-sky-300" },
+];
+
+export function GoldBalance() {
+  const total = parts.reduce((s, p) => s + p.g, 0);
+  const pledged = 13.89;
+  return (
+    <section id="gold-balance" className="relative overflow-hidden bg-lm-sky py-24 lg:py-32">
+      <div className="frame grid items-center gap-14 lg:grid-cols-2">
+        <div>
+          <SectionHead
+            eyebrow="The Gold Balance"
+            title={<>One balance. <span className="text-lm-blue">All your gold.</span></>}
+            lead="Your Gold Balance is the heart of LIMOVI. It counts every gram you hold on the platform in 24K gold, values it at the live MCX rate, and shows you exactly how much is free to use."
+          />
+          <ul className="mt-10 space-y-4">
+            {parts.map((p, i) => (
+              <Reveal as="li" i={i} key={p.label} className="flex gap-4">
+                <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${p.color} text-white`}>
+                  <p.icon size={22} />
+                </span>
+                <div>
+                  <p className="text-lg font-bold text-lm-navy">{p.label}</p>
+                  <p className="text-lm-muted">{p.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+            <Reveal as="li" i={3} className="flex gap-4">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-rose-500 text-white">
+                <Lock size={22} />
+              </span>
+              <div>
+                <p className="text-lg font-bold text-lm-navy">Pledged Gold</p>
+                <p className="text-lm-muted">Gold held as collateral for an active loan, shown separately so it never gets mixed up.</p>
+              </div>
+            </Reveal>
+          </ul>
+        </div>
+
+        <Reveal i={1}>
+          <div className="relative">
+            <div className="absolute -inset-10 -z-10 text-white">
+              <Rays className="lm-rays h-full w-full opacity-80" count={32} hole={40} />
+            </div>
+            <div className="lm-card p-6 sm:p-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.12em] text-lm-muted">Total Gold Balance</p>
+                  <p className="display mt-2 text-[clamp(2.6rem,2rem+2vw,3.8rem)] text-lm-navy">
+                    <CountUp to={total} format={(n) => n.toFixed(2)} />
+                    <span className="text-2xl">g</span>
+                  </p>
+                  <p className="text-lm-muted">
+                    24K · worth <strong className="text-lm-ink"><CountUp to={total * ILLUSTRATIVE_RATE} format={inr} /></strong>
+                  </p>
+                </div>
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                  ● MCX live
+                </span>
+              </div>
+
+              <div className="mt-8 flex h-4 overflow-hidden rounded-full bg-lm-sky">
+                {parts.map((p, i) => (
+                  <motion.span
+                    key={p.label}
+                    className={p.color}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${(p.g / total) * 100}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: 0.2 + i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                ))}
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-3">
+                {parts.map((p) => (
+                  <div key={p.label} className="rounded-2xl bg-lm-sky p-3">
+                    <span className={`block h-1.5 w-6 rounded-full ${p.color}`} />
+                    <p className="mt-2 text-xs text-lm-muted">{p.label.split(" ")[0]}</p>
+                    <p className="font-bold text-lm-navy">{p.g.toFixed(2)}g</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 space-y-3 rounded-2xl border border-dashed border-lm-line p-4">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-2 text-sm text-lm-muted">
+                    <Lock size={14} className="text-rose-500" /> Pledged for a loan
+                  </span>
+                  <span className="font-bold text-rose-600">−{pledged.toFixed(2)}g</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-2 text-sm font-semibold text-lm-ink">
+                    <Wallet size={14} className="text-lm-blue" /> Available Gold Balance
+                  </span>
+                  <span className="display text-xl text-lm-blue">{(total - pledged).toFixed(2)}g</span>
+                </div>
+              </div>
+              <p className="mt-4 text-xs text-lm-muted">
+                Example at an illustrative rate of {inr(ILLUSTRATIVE_RATE)}/g. In the app, the rate refreshes live during MCX trading hours.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
