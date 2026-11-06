@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
+import { ContactForm } from "./ContactForm";
 
 export default function ContactPage() {
   return (
@@ -11,7 +12,7 @@ export default function ContactPage() {
             Get in <span className="text-[#005CB9]">Touch</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 font-medium">
-            Have questions about the Gold Ecosystem? We're here to help you navigate your journey.
+            Have questions about the Gold Ecosystem? We&apos;re here to help you navigate your journey.
           </p>
         </div>
           
@@ -20,29 +21,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 md:p-10">
             <h3 className="text-2xl font-bold text-[#0A1929] mb-6">Send us a Message</h3>
-            <form className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-1.5">
-                  <label className="text-sm font-bold text-slate-700">First Name</label>
-                  <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#005CB9] transition-all" placeholder="John" />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-sm font-bold text-slate-700">Last Name</label>
-                  <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#005CB9] transition-all" placeholder="Doe" />
-                </div>
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-sm font-bold text-slate-700">Email Address</label>
-                <input type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#005CB9] transition-all" placeholder="john@example.com" />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-sm font-bold text-slate-700">Message</label>
-                <textarea rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#005CB9] transition-all resize-none" placeholder="How can we help you?"></textarea>
-              </div>
-              <button type="button" className="w-full bg-[#005CB9] hover:bg-[#004791] text-white font-bold py-3.5 rounded-xl transition-colors shadow-sm">
-                Send Message
-              </button>
-            </form>
+            <ContactForm />
           </div>
 
           {/* Contact info */}

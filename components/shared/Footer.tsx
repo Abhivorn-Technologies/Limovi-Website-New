@@ -8,8 +8,6 @@ import { useLenis } from "lenis/react";
 const footerLinks = {
   company: [
     { label: "About Us", href: "/about" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press", href: "/press" },
     { label: "Contact", href: "/contact" },
   ],
   products: [
