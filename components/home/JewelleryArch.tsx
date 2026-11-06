@@ -3,118 +3,105 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Rays } from "./primitives";
+import { luxuryPieces } from "./data";
 
-const pieces = [
-  { label: "Jhumkas", name: "Temple Jhumkas", src: "/images/ear_piercing.png", pos: "left-bottom" },
-  { label: "Necklace", name: "Heritage Necklace", src: "/images/necklace.png", pos: "left-top" },
-  { label: "Long haram", name: "Royal Long Haram", src: "/images/long_haram.png", pos: "right-top" },
-  { label: "Bridal set", name: "Bridal Wedding Set", src: "/images/jewellery-wedding.png", pos: "right-bottom" },
-] as const;
+const pieces = luxuryPieces;
+const N = pieces.length;
 
-const posClass: Record<(typeof pieces)[number]["pos"], string> = {
-  "left-top": "left-0 top-[22%] text-right",
-  "left-bottom": "left-0 bottom-[18%] text-right",
-  "right-top": "right-0 top-[22%]",
-  "right-bottom": "right-0 bottom-[18%]",
-};
-
-// Pinned arch display: as you scroll, the arch outline draws and the piece
-// inside changes, lighting up its label (idea from the reference video).
+// Pinned "coverflow": scrolling glides the Jewellery Cloud pieces past the
+// centre. The centre piece is large and flat; the others tilt away in 3D.
 export function JewelleryArch() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const draw = useTransform(scrollYProgress, [0.02, 0.92], [0, 1]);
+  const pos = useSpring(useTransform(scrollYProgress, [0.04, 0.96], [0, N - 1], { clamp: true }), { stiffness: 140, damping: 26, mass: 0.4 });
+  const bar = useTransform(scrollYProgress, [0.04, 0.96], ["0%", "100%"]);
   const [active, setActive] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => setActive(Math.min(pieces.length - 1, Math.max(0, Math.floor(v * pieces.length)))));
+  useMotionValueEvent(pos, "change", (v) => setActive(Math.round(v)));
   const p = pieces[active];
 
   return (
-    <section ref={ref} className="relative h-[340vh] bg-lm-navy text-white">
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pt-20">
-        <div className="pointer-events-none absolute inset-0 opacity-70 [background:radial-gradient(45%_45%_at_50%_55%,rgba(242,185,43,0.18),transparent),radial-gradient(60%_50%_at_50%_100%,rgba(30,111,232,0.35),transparent)]" />
-        <div className="pointer-events-none absolute left-1/2 top-[58%] h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2 text-white/[0.04]">
+    <section ref={ref} style={{ height: `${N * 55 + 60}vh` }} className="relative bg-lm-navy text-white">
+      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden pb-6 pt-[92px] sm:pb-8">
+        <div className="pointer-events-none absolute inset-0 [background:radial-gradient(40%_45%_at_50%_55%,rgba(242,185,43,0.16),transparent),radial-gradient(70%_50%_at_50%_100%,rgba(30,111,232,0.35),transparent)]" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[1000px] w-[1000px] -translate-x-1/2 -translate-y-1/2 text-white/[0.03]">
           <Rays className="lm-rays h-full w-full" count={48} hole={30} />
         </div>
 
-        <div className="relative text-center">
+        {/* heading */}
+        <div className="relative shrink-0 px-5 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-lm-gold">The Jewellery Cloud</p>
-          <h2 className="display mx-auto mt-3 max-w-2xl text-[clamp(1.7rem,1.2rem+2vw,2.8rem)]">
+          <h2 className="display mx-auto mt-2 max-w-2xl text-[clamp(1.5rem,1rem+1.8vw,2.5rem)]">
             Wear something new <span className="text-lm-gold">for every occasion</span>
           </h2>
         </div>
 
-        <div className="relative mt-6 w-full max-w-[760px] sm:mt-8">
-          {/* labels */}
+        {/* coverflow */}
+        <div className="relative flex min-h-0 flex-1 items-center justify-center [perspective:1400px]">
           {pieces.map((pc, i) => (
-            <div key={pc.label} className={`absolute z-10 hidden w-[150px] sm:block ${posClass[pc.pos]}`}>
-              <p className={`text-[10px] font-bold uppercase tracking-[0.18em] transition-colors duration-500 ${i <= active ? "text-lm-gold" : "text-white/30"}`}>
-                Piece {i + 1}
-              </p>
-              <p className={`mt-0.5 text-lg font-bold transition-colors duration-500 ${i === active ? "text-white" : i < active ? "text-white/60" : "text-white/30"}`}>
-                {pc.label}
-              </p>
-            </div>
+            <Card key={pc.src} i={i} pos={pos} src={pc.src} name={pc.name} />
           ))}
-
-          {/* arch */}
-          <div className="relative mx-auto h-[min(52svh,460px)] w-[min(70vw,340px)]">
-            <div className="absolute inset-0 overflow-hidden rounded-t-full bg-black/30">
-              <AnimatePresence mode="popLayout">
-                <motion.div
-                  key={p.src}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 1.08 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Image src={p.src} alt={p.name} fill sizes="340px" className="object-cover" />
-                </motion.div>
-              </AnimatePresence>
-              <div className="absolute inset-0 rounded-t-full shadow-[inset_0_0_60px_20px_rgba(11,27,58,0.85)]" />
-            </div>
-            <svg viewBox="0 0 340 460" preserveAspectRatio="none" className="pointer-events-none absolute -inset-[10px] h-[calc(100%+20px)] w-[calc(100%+20px)] overflow-visible">
-              <path d="M2,458 L2,170 A168,168 0 0 1 338,170 L338,458" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
-              <motion.path
-                d="M2,458 L2,170 A168,168 0 0 1 338,170 L338,458"
-                fill="none"
-                stroke="#F2B92B"
-                strokeWidth="3"
-                strokeLinecap="round"
-                style={{ pathLength: draw }}
-              />
-            </svg>
-          </div>
-          {/* pedestal */}
-          <div className="mx-auto h-4 w-[min(80vw,400px)] rounded-t-md bg-gradient-to-b from-white/15 to-white/5" />
         </div>
 
-        <div className="relative mt-6 text-center">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={p.name}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="display text-xl"
-            >
-              {p.name}
-            </motion.p>
-          </AnimatePresence>
-          <p className="mt-1 text-sm text-white/60">Experience it, then return it within 30 hours of delivery.</p>
-          <Link href="/services#jewellery" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-lm-gold hover:underline">
-            Explore the Jewellery Cloud <ArrowRight size={16} />
-          </Link>
-          <div className="mt-4 flex justify-center gap-1.5 sm:hidden">
-            {pieces.map((pc, i) => (
-              <span key={pc.label} className={`h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-lm-gold" : "w-1.5 bg-white/30"}`} />
-            ))}
+        {/* caption + button, always inside the viewport */}
+        <div className="relative shrink-0 px-5">
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 sm:flex-row sm:justify-between sm:gap-6">
+            <div className="text-center sm:text-left">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={p.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="display text-xl sm:text-2xl"
+                >
+                  {p.name}
+                </motion.p>
+              </AnimatePresence>
+              <p className="mt-0.5 text-sm text-white/60">Experience it, then return it within 30 hours of delivery.</p>
+            </div>
+            <Link href="/services#jewellery" className="lm-btn lm-btn-gold lm-shine shrink-0 !min-h-[48px]">
+              Explore the Jewellery Cloud <ArrowRight size={18} />
+            </Link>
+          </div>
+          <div className="mx-auto mt-4 flex max-w-3xl items-center gap-3 text-xs font-bold tabular-nums text-white/50">
+            <span className="text-lm-gold">{String(active + 1).padStart(2, "0")}</span>
+            <span className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-white/15">
+              <motion.span style={{ width: bar }} className="absolute inset-y-0 left-0 rounded-full bg-lm-gold" />
+            </span>
+            <span>{String(N).padStart(2, "0")}</span>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function Card({ i, pos, src, name }: { i: number; pos: MotionValue<number>; src: string; name: string }) {
+  const d = useTransform(pos, (v) => i - v);
+  const x = useTransform(d, (v) => `calc(${v} * min(62vw, 300px))`);
+  const rotateY = useTransform(d, (v) => Math.max(-55, Math.min(55, -v * 38)));
+  const scale = useTransform(d, (v) => 1 - Math.min(Math.abs(v), 2.5) * 0.16);
+  const opacity = useTransform(d, (v) => 1 - Math.min(Math.abs(v), 2.6) * 0.32);
+  const zIndex = useTransform(d, (v) => 100 - Math.round(Math.abs(v) * 10));
+  const glow = useTransform(d, (v) => Math.max(0, 1 - Math.abs(v) * 1.5));
+
+  return (
+    <motion.div
+      style={{ x, rotateY, scale, opacity, zIndex }}
+      className="absolute aspect-[3/4] h-[min(48svh,440px)] max-h-full [transform-style:preserve-3d]"
+    >
+      <motion.div
+        style={{ opacity: glow }}
+        className="absolute -inset-3 rounded-[34px] bg-[radial-gradient(closest-side,rgba(242,185,43,0.45),transparent)] blur-xl"
+      />
+      <div className="relative h-full w-full overflow-hidden rounded-[28px] border border-white/15 bg-black/40 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
+        <Image src={src} alt={name} fill sizes="(min-width:640px) 330px, 62vw" className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+      </div>
+    </motion.div>
   );
 }
