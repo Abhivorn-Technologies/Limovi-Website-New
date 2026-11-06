@@ -18,7 +18,7 @@ import {
   Building2,
   UserCheck,
 } from "lucide-react";
-import { Coin, Reveal, SectionHead, Tween } from "./primitives";
+import { Coin, Reveal, Tween } from "./primitives";
 import { EXPERIENCE_CHARGE, OWNER_SHARE, gateways, inr, type GatewayId } from "./data";
 
 const icons: Record<GatewayId, typeof Gem> = {
@@ -57,21 +57,11 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
     }`;
 
   return (
-    <section id="gateways" className="bg-white py-24 lg:py-32">
+    <section id="gateways" className="bg-lm-paper pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame">
-        <SectionHead
-          center
-          eyebrow="Five gateways"
-          title={
-            <>
-              Everything your gold can do, <span className="text-lm-blue">in one place</span>
-            </>
-          }
-          lead="Each one draws on your Gold Balance or entitlement, subject to the eligibility rules of your strategy."
-        />
 
         {/* overview cards */}
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {gateways.map((g, i) => (
             <Reveal key={g.id} i={i} className={i < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
               {overview ? (

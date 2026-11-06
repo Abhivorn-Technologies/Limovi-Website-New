@@ -4,7 +4,7 @@ import { Footer } from "@/components/shared/Footer";
 import { PageHero } from "@/components/shared/PageHero";
 import { Gateways } from "@/components/home/Gateways";
 import { JewelleryShowcase } from "@/components/home/JewelleryShowcase";
-import { FinalCTA } from "@/components/home/FinalCTA";
+import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
   title: "Services | LIMOVI",
@@ -13,16 +13,16 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
       <PageHero
         eyebrow="Services"
-        title={<>Five ways to use <span className="text-lm-blue">your gold</span></>}
+        title={<>Everything your gold can do, <span className="text-lm-blue">in one place</span></>}
         lead="Jewellery Cloud, Gold Loan, Gold Liquidity, Owner Benefit and Gift Gold. Pick a service to see the steps and the key terms."
       />
       <Gateways />
       <JewelleryShowcase />
-      <FinalCTA />
+      <NextStep href="/strategies" label="Strategies" title="Pick the strategy that fits you" blurb="Four strategies, each with its own agreement. Compare them side by side." />
       <Footer />
     </main>
   );

@@ -4,7 +4,7 @@ import { Footer } from "@/components/shared/Footer";
 import { PageHero } from "@/components/shared/PageHero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { GoldBalance } from "@/components/home/GoldBalance";
-import { FinalCTA } from "@/components/home/FinalCTA";
+import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
   title: "How it works | LIMOVI",
@@ -13,16 +13,16 @@ export const metadata: Metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
       <PageHero
         eyebrow="How it works"
-        title={<>How LIMOVI <span className="text-lm-blue">works</span></>}
-        lead="From registering to using your Gold Balance, here is the journey and what your Gold Balance is."
+        title={<>From locker to living gold, <span className="text-lm-blue">in four steps</span></>}
+        lead="LIMOVI turns the gold you hold into something you can experience, borrow against through a lending partner, sell, earn from and gift. Here's the journey."
       />
       <HowItWorks />
       <GoldBalance />
-      <FinalCTA />
+      <NextStep href="/services" label="Services" title="Five ways to use your Gold Balance" blurb="Jewellery Cloud, Gold Loan, Gold Liquidity, Owner Benefit and Gift Gold, with the steps for each." />
       <Footer />
     </main>
   );

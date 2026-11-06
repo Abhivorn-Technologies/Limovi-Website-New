@@ -12,10 +12,10 @@ export function LegalDocument({ slug }: { slug: string }) {
   const related = legalDocs.filter((d) => d.group === doc.group && d.slug !== slug);
 
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
       <HashScroll />
-      <section className="bg-gradient-to-b from-lm-sky to-white pt-[120px] pb-10 sm:pt-[140px]">
+      <section className="bg-gradient-to-b from-lm-sand to-lm-paper pt-[120px] pb-10 sm:pt-[140px]">
         <div className="frame">
           <Link href="/legal" className="inline-flex items-center gap-2 text-sm font-semibold text-lm-blue hover:underline">
             <ArrowLeft size={16} /> All legal documents

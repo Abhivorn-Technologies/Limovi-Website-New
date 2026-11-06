@@ -83,7 +83,7 @@ export function EarlyAccessModal() {
                 </span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-black text-white mb-1 tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-1 tracking-tight">
                 Get Early Access
               </h3>
               <p className="text-[11px] text-slate-300 mb-4 font-medium leading-relaxed">
@@ -183,7 +183,7 @@ export function EarlyAccessModal() {
                           <div className="min-w-0 pr-1">
                             <span className="block truncate text-[10.5px] font-bold leading-tight">{item.label}</span>
                             {item.tag && (
-                              <span className="text-[7.5px] font-black uppercase text-[#D4AF37] block mt-0.5">
+                              <span className="text-[7.5px] font-extrabold uppercase text-[#D4AF37] block mt-0.5">
                                 {item.tag}
                               </span>
                             )}
@@ -216,7 +216,7 @@ export function EarlyAccessModal() {
               <div className="w-16 h-16 rounded-full bg-[#25D366]/20 border-2 border-[#25D366] text-[#25D366] flex items-center justify-center mb-4">
                 <CheckCircle2 size={32} />
               </div>
-              <h3 className="text-2xl font-black text-white mb-2">Redirecting to WhatsApp...</h3>
+              <h3 className="text-2xl font-extrabold text-white mb-2">Redirecting to WhatsApp...</h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-sm mb-6 leading-relaxed font-medium">
                 Your Early Access application has been prepared and is opening directly in WhatsApp to message the LIMOVI Admin.
               </p>

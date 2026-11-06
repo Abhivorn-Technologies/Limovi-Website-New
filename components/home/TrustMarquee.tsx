@@ -15,7 +15,7 @@ const items = [
 export function TrustMarquee() {
   const row = [...items, ...items];
   return (
-    <section aria-label="Why people trust LIMOVI" className="lm-marquee-wrap relative overflow-hidden border-y border-lm-line bg-white py-5">
+    <section aria-label="Why people trust LIMOVI" className="lm-marquee-wrap relative overflow-hidden border-y border-lm-line bg-lm-paper py-5">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent" />
       <ul className="lm-marquee flex w-max items-center gap-10" style={{ ["--speed" as string]: "45s" }}>

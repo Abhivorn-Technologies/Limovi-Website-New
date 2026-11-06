@@ -18,9 +18,9 @@ const groups: { name: LegalDoc["group"]; blurb: string }[] = [
 
 export default function LegalIndexPage() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-clip bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-clip bg-lm-paper">
       <Navbar />
-      <section className="bg-gradient-to-b from-lm-sky to-white pt-[120px] pb-12 sm:pt-[140px]">
+      <section className="bg-gradient-to-b from-lm-sand to-lm-paper pt-[120px] pb-12 sm:pt-[140px]">
         <div className="frame">
           <p className="text-[13px] font-bold uppercase tracking-[0.12em] text-lm-blue">Legal</p>
           <h1 className="display mt-2 text-[clamp(2.2rem,1.4rem+3vw,3.8rem)] text-lm-navy">Agreements &amp; policies</h1>

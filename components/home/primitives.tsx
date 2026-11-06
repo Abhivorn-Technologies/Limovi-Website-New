@@ -67,7 +67,7 @@ export function SectionHead({
       )}
       <Reveal i={1}>
         <h2
-          className={`display text-[clamp(2rem,1.2rem+3vw,3.5rem)] ${light ? "text-white" : "text-lm-navy"}`}
+          className={`display text-[clamp(1.85rem,1.2rem+2.2vw,3rem)] ${light ? "text-white" : "text-lm-navy"}`}
         >
           {title}
         </h2>

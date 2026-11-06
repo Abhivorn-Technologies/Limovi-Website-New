@@ -6,7 +6,7 @@ import { openEarlyAccess } from "./data";
 
 export function FinalCTA() {
   return (
-    <section className="bg-white px-3 py-16 sm:px-5 lg:py-24">
+    <section className="bg-lm-paper px-3 py-16 sm:px-5 lg:py-24">
       <div className="relative mx-auto max-w-[1320px] overflow-hidden rounded-[40px] bg-lm-blue px-6 py-20 text-center text-white sm:px-12 lg:py-28">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[1100px] w-[1100px] -translate-x-1/2 -translate-y-1/2 text-white/10">
           <Rays className="lm-rays h-full w-full" count={44} hole={26} />
