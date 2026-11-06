@@ -21,10 +21,10 @@ const displayFont = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://limovi.in"),
   title: "LIMOVI - India's First 360° Gold Asset Ecosystem",
-  description: "Convert your gold into liquidity, luxury experiences, wealth generation, gifting, and instant loans — all from one intelligent platform.",
+  description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, earn an Owner Benefit and gift gold.",
   openGraph: {
     title: "LIMOVI - India's First 360° Gold Asset Ecosystem",
-    description: "Convert your gold into liquidity, luxury experiences, wealth generation, gifting, and instant loans — all from one intelligent platform.",
+    description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, earn an Owner Benefit and gift gold.",
     url: "https://limovi.in",
     siteName: "LIMOVI",
     images: [
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "LIMOVI - Intelligent Gold Ecosystem",
-    description: "Convert your gold into liquidity, luxury experiences, wealth generation, gifting, and instant loans.",
+    description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, earn an Owner Benefit and gift gold.",
     creator: "@limovi_in",
   },
 };

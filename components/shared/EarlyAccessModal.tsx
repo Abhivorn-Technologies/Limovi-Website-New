@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles, ShieldCheck, CheckCircle2, MessageSquare } from "lucide-react";
 
-// Admin WhatsApp configuration - reads from environment variable (NEXT_PUBLIC_ADMIN_WHATSAPP_NUMBER) with fallback
-const ADMIN_WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_ADMIN_WHATSAPP_NUMBER || "919000360109"; 
+import { whatsappLink } from "@/lib/contact";
 
 export function EarlyAccessModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,8 +41,7 @@ export function EarlyAccessModal() {
     // Formulate professional WhatsApp message text
     const messageText = `Hello LIMOVI Team! 👋\nI would like to request Early Access to India's First Living Gold Ecosystem.\n\n📋 *Applicant Details:*\n- *Name:* ${name.trim()}\n- *WhatsApp:* ${phone.trim()}\n- *Gold Balance:* ${goldBalance}\n- *Primary Interest:* ${interest}\n\nPlease share early access onboarding details. Thank you!`;
 
-    const encodedMessage = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    const whatsappUrl = whatsappLink(messageText);
 
     setSubmitted(true);
 
@@ -126,7 +124,7 @@ export function EarlyAccessModal() {
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-300 mb-1 flex items-center justify-between">
                     <span>Estimated Gold Balance *</span>
-                    <span className="text-[9px] text-[#D4AF37] font-extrabold uppercase tracking-wider">Min. 50g Starting</span>
+                    <span className="text-[9px] text-[#D4AF37] font-extrabold uppercase tracking-wider">50g unlocks services</span>
                   </label>
                   <input
                     type="text"
@@ -165,8 +163,8 @@ export function EarlyAccessModal() {
                   </label>
                   <div className="grid grid-cols-2 gap-1.5">
                     {[
-                      { label: "Investment & Experience", value: "Strategy: Investment & Experience (Best Value)", tag: "Best Value" },
-                      { label: "Enroll & Experience", value: "Strategy: Enroll & Experience (Existing Ornaments)", tag: "Zero Outlay" },
+                      { label: "Investment & Experience", value: "Strategy: Investment & Experience (Best Value)", tag: "Own a piece" },
+                      { label: "Enrol & Experience", value: "Strategy: Enroll & Experience (Existing Ornaments)", tag: "Your jewellery" },
                       { label: "Investment Only", value: "Strategy: Investment Only" },
                       { label: "Experience Only", value: "Strategy: Experience Only" },
                     ].map((item) => {
@@ -209,7 +207,7 @@ export function EarlyAccessModal() {
 
                 <div className="flex items-center justify-center gap-1.5 text-[9px] text-slate-400 pt-0.5">
                   <ShieldCheck size={11} className="text-emerald-400" />
-                  <span>100% Confidential & Direct Connection</span>
+                  <span>Goes straight to the LIMOVI team on WhatsApp</span>
                 </div>
               </form>
             </>

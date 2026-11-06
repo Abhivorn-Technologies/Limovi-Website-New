@@ -8,24 +8,24 @@ import { useLenis } from "lenis/react";
 const footerLinks = {
   company: [
     { label: "About Us", href: "/about" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press", href: "/press" },
     { label: "Contact", href: "/contact" },
   ],
   products: [
     { label: "Gold Balance", href: "#gold-balance" },
-    { label: "Luxury Jewellery Cloud", href: "#gateways" },
-    { label: "Instant Loans", href: "#gateways" },
-    { label: "Instant Liquidity", href: "#gateways" },
-    { label: "Wealth Generation", href: "#gateways" },
+    { label: "Jewellery Cloud", href: "#gateways" },
+    { label: "Gold Loan", href: "#gateways" },
+    { label: "Gold Liquidity", href: "#gateways" },
+    { label: "Owner Benefit", href: "#gateways" },
     { label: "Gift Gold", href: "#gateways" },
+    { label: "Strategies", href: "#strategies" },
   ],
   compliance: [
-    { label: "SEBI Info", href: "/compliance/sebi" },
-    { label: "RBI Guidelines", href: "/compliance/rbi" },
+    { label: "All legal documents", href: "/legal" },
+    { label: "Master Customer Agreement", href: "/legal/master-customer-agreement" },
     { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Delete Policy", href: "/delete-policy" },
+    { label: "Terms of Use", href: "/terms" },
+    { label: "Grievance Redressal", href: "/grievance" },
+    { label: "Account & Data Deletion", href: "/delete-policy" },
   ],
 };
 
@@ -61,8 +61,8 @@ export function Footer() {
             <span className="display text-2xl tracking-[0.08em]">LIMOVI</span>
           </div>
           <p className="mt-5 max-w-[34ch] text-white/75 leading-relaxed">
-            India&apos;s first 360° gold asset ecosystem. One Gold Balance for jewellery experiences, loans, liquidity,
-            dividends and gifting.
+            India&apos;s first 360° gold asset ecosystem. One Gold Balance for jewellery experiences, gold loans through
+            lending partners, Gold Liquidity, Owner Benefit and gifting.
           </p>
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))}
@@ -98,8 +98,8 @@ export function Footer() {
           </ul>
         </nav>
 
-        <nav className="col-span-2 lg:col-span-2" aria-label="Compliance and legal">
-          <h4 className="mb-4 text-sm font-bold uppercase tracking-[0.12em] text-lm-gold">Compliance &amp; Legal</h4>
+        <nav className="col-span-2 lg:col-span-2" aria-label="Legal">
+          <h4 className="mb-4 text-sm font-bold uppercase tracking-[0.12em] text-lm-gold">Legal</h4>
           <ul className="space-y-2.5">
             {footerLinks.compliance.map((l) => (
               <li key={l.label}>
@@ -114,12 +114,13 @@ export function Footer() {
 
       <div className="frame">
         <p className="border-t border-white/10 pt-6 text-xs leading-relaxed text-white/50">
-          Gold loans are provided by RBI-regulated NBFC partners; LIMOVI is the facilitating platform. Payments are handled by
-          PCI-DSS compliant gateways. Gold prices are linked to the MCX 24K rate. Figures shown on this site are illustrative
-          and use a sample rate of ₹14,400/g.
+          Gold loans are given by Gold Loan Partners; LIMOVI facilitates and is not the lender. Digital Gold is backed by
+          physical gold under the applicable Digital Gold Provider arrangement. Gold prices fluctuate, and LIMOVI does not
+          guarantee any minimum value, appreciation or return. This website is a summary: your rights and charges are set by
+          the LIMOVI agreements published on the Legal page, and no promotional material overrides them.
         </p>
         <div className="flex flex-col justify-between gap-2 py-6 text-sm text-white/60 md:flex-row md:items-center">
-          <p>© {new Date().getFullYear()} LIMOVI. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} LIMOVI Gold Ecosystem Private Limited. All rights reserved.</p>
           <p className="flex flex-wrap items-center gap-1.5">
             <span>Developed by</span>
             <a href="https://www.abhivorn.com/" target="_blank" rel="noopener noreferrer" className="font-medium text-white hover:underline underline-offset-4">

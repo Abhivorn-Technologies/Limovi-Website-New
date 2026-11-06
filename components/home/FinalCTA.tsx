@@ -29,7 +29,7 @@ export function FinalCTA() {
           </Reveal>
           <Reveal i={1}>
             <p className="mx-auto mt-6 max-w-xl text-lg text-white/85">
-              Join early and be among the first to wear, borrow, cash out, earn and gift with one Gold Balance.
+              Join early and be among the first to experience jewellery, borrow, sell, earn and gift with one Gold Balance.
             </p>
           </Reveal>
           <Reveal i={2}>

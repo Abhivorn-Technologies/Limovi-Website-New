@@ -2,12 +2,12 @@ import { Check, X } from "lucide-react";
 import { Reveal, SectionHead, Rays } from "./primitives";
 
 const rows = [
-  ["Wearing new jewellery", "Buy every piece and pay making charges each time", "Experience pieces from the Jewellery Cloud"],
-  ["Needing a loan", "Branch visits, paperwork and gold checks", "Fully digital, up to 75% LTV via RBI-regulated NBFCs"],
-  ["Needing cash", "Sell to a jeweller at their price", "Live MCX spot rate, settled within minutes"],
-  ["Earning from gold", "Gold sits idle in a locker", "Earn dividends when your enrolled piece is worn"],
-  ["Gifting", "An ornament that may never be worn", "A living Gold Balance with all LIMOVI benefits"],
-  ["Storage", "Home or bank locker, your risk", "Insured vault, insured shipping to your door"],
+  ["Wearing new jewellery", "Buy every piece you want to wear", "Experience pieces from the Jewellery Cloud and return them within 30 hours"],
+  ["Needing a loan", "Take your gold to a lender yourself", "Apply through LIMOVI to a lending partner"],
+  ["Needing cash", "Find a buyer for your gold yourself", "Sell eligible gold; LIMOVI aims to credit your bank within an hour of confirmation"],
+  ["Earning from gold", "Gold sits idle in a locker", "Earn an Owner Benefit each time your jewellery completes a qualifying Experience"],
+  ["Gifting", "An ornament that may never be worn", "Gift an eligible Gold Balance that the recipient can use on LIMOVI"],
+  ["Storage", "Home or bank locker", "Held by LIMOVI or its Custodian, with ownership staying with you"],
 ];
 
 export function WhyLimovi() {
