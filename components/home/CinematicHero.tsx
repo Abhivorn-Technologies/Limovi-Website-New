@@ -407,18 +407,18 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
       {/* Layer 1: Hero text */}
       <motion.div
         style={{ opacity: textLayerOp, scale: textScale, filter: textBlur, display: textDisplay }}
-        className="absolute inset-0 flex flex-col items-center justify-center px-6 md:px-16 lg:px-24 pb-12 md:pb-20 overflow-hidden pointer-events-none"
+        className="absolute inset-0 flex flex-col items-center justify-center px-6 md:px-16 lg:px-24 pt-[96px] pb-14 md:pb-16 overflow-hidden pointer-events-none"
       >
         <motion.div
           className="w-full flex flex-col items-center text-center z-10 flex-shrink-0 pointer-events-auto"
           style={{ opacity: textInnerOp }}
         >
-          <div className="inline-flex items-center gap-2 mb-4 lg:mb-6 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full bg-white border border-slate-200 shadow-sm">
+          <div className="inline-flex items-center gap-2 mb-3 lg:mb-5 [@media(max-height:760px)]:mb-2 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full bg-white border border-slate-200 shadow-sm">
             <motion.span className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#D4AF37]" animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }} />
             <span className="text-[9px] lg:text-[10px] font-bold tracking-[0.18em] uppercase text-[#005CB9]">India&apos;s first 360° gold asset ecosystem</span>
           </div>
 
-          <h1 className="font-extrabold leading-[1.08] mb-2 lg:mb-3 w-full text-slate-900" style={{ fontSize: "clamp(2.2rem, 5.2vw, 5rem)" }}>
+          <h1 className="font-extrabold leading-[1.08] mb-2 lg:mb-3 w-full text-slate-900" style={{ fontSize: "clamp(2rem, min(5.2vw, 8.5vh), 5rem)" }}>
             Your gold, now a{" "}
             <br className="hidden sm:block" />
             <span style={{ background: `linear-gradient(135deg, ${C.goldBright} 0%, ${C.gold} 45%, ${C.goldDeep} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 0 25px rgba(212,175,55,0.4))" }}>
@@ -426,7 +426,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
             </span>
           </h1>
 
-          <p className="mb-6 lg:mb-8 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-slate-600">
+          <p className="mb-5 lg:mb-7 max-w-2xl text-sm sm:text-base lg:text-lg [@media(max-height:800px)]:lg:text-base [@media(max-height:800px)]:mb-4 leading-relaxed text-slate-600">
             Gold shouldn&apos;t sit idle in a locker. With LIMOVI, one <strong className="text-slate-900">Gold Balance</strong> lets you
             experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold when you need
             money, earn an Owner Benefit on your jewellery and gift gold, all from one place.
@@ -444,7 +444,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
             </Link>
           </div>
 
-          <ul className="mt-6 lg:mt-8 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
+          <ul className="mt-5 lg:mt-7 [@media(max-height:720px)]:hidden grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
             {[
               ["₹100", "minimum Digital Gold purchase"],
               ["50g", "24K equivalent to unlock services"],
