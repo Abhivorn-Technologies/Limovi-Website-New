@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, ChevronRight, Mail, MessageCircle, Scale, Clock, CheckCheck, ArrowUp, Plus } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Mail, MessageCircle, Scale, Clock, CheckCheck, ArrowUp, Plus, MapPin } from "lucide-react";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { Coin, Rays, Reveal } from "@/components/home/primitives";
@@ -166,6 +166,27 @@ export default function ContactPage() {
                 <Link href="/faq" className="mt-5 inline-flex items-center gap-2 font-bold text-lm-blue hover:underline">
                   See all FAQs <ArrowUpRight size={16} />
                 </Link>
+              </div>
+            </Reveal>
+
+            <Reveal i={3}>
+              <div className="rounded-[36px] border border-lm-line bg-white p-7 sm:p-9 shadow-[0_20px_40px_-32px_rgba(11,27,58,0.35)]">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-11 w-11 place-items-center rounded-2xl bg-lm-sky text-lm-blue">
+                    <MapPin size={22} />
+                  </span>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-lm-blue">Office</p>
+                    <p className="display text-xl text-lm-navy">Registered Office</p>
+                  </div>
+                </div>
+                <div className="mt-5 space-y-1 text-sm leading-relaxed text-lm-navy/80">
+                  <p className="font-bold text-lm-navy">LIMOVI Gold Ecosystem Private Limited</p>
+                  <p>2-18-30, Prashanth Nagar</p>
+                  <p>Near Meenakshi Residency, Uppal (K.V. Rangareddy)</p>
+                  <p>Hyderabad, Rangareddy District</p>
+                  <p>Telangana – 500039, India</p>
+                </div>
               </div>
             </Reveal>
           </div>
