@@ -38,17 +38,25 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
     document.getElementById("gateway-explorer")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // /services#loans opens the Gold Loan tab, and so on
+  // /services#loans opens the Gold Loan tab, and so on (also when only the hash changes)
   useEffect(() => {
     if (overview) return;
-    const id = window.location.hash.slice(1) as GatewayId;
-    if (gateways.some((g) => g.id === id)) {
-      const t = window.setTimeout(() => {
+    let t = 0;
+    const open = () => {
+      const id = window.location.hash.slice(1) as GatewayId;
+      if (!gateways.some((g) => g.id === id)) return;
+      window.clearTimeout(t);
+      t = window.setTimeout(() => {
         setTab(id);
         document.getElementById("gateway-explorer")?.scrollIntoView({ block: "start" });
       }, 200);
-      return () => window.clearTimeout(t);
-    }
+    };
+    open();
+    window.addEventListener("hashchange", open);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("hashchange", open);
+    };
   }, [overview]);
 
   const cardClass = (tone: string) =>
@@ -570,7 +578,6 @@ function WealthPanel() {
         "Track every booking and earning in your account.",
       ]}
       notes={[
-        "You earn when your piece is worn, not just for listing it. Taxes and charges apply.",
         "Earnings depend on bookings, so they aren't guaranteed.",
       ]}
     >
@@ -587,7 +594,7 @@ function WealthPanel() {
         <Rows
           rows={[
             ["Experience Charge (0.9%)", <Tween key="c" value={charge} format={inr} />],
-            ["Your earnings (25%)", <Tween key="b" value={benefit} format={inr} />, "text-lm-gold"],
+            ["Your earnings per Experience (25%)", <Tween key="b" value={benefit} format={inr} />, "text-lm-gold"],
           ]}
         />
         <p className="text-xs text-white/60">
@@ -603,7 +610,7 @@ function GiftPanel() {
   const [opened, setOpened] = useState(false);
   return (
     <Panel
-      title="Gift Gold"
+      title="Gift Gold Ecosystem"
       intro="Give gold that can actually be used. Send part of your Gold Balance to someone you love, and they can use it on LIMOVI."
       steps={[
         "Choose how much gold to gift.",

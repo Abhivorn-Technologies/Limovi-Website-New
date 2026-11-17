@@ -17,7 +17,7 @@ export default function StrategiesPage() {
       <PageHero
         eyebrow="Strategies"
         title={<>Four ways to start. <span className="text-lm-blue">Choose yours.</span></>}
-        lead="Four strategies, each with its own agreement. Compare the key terms side by side, then read the full agreement."
+        lead="Everyone uses gold differently, so LIMOVI gives you four ways in. Grow a Gold Balance, own 22K jewellery you love, earn from jewellery you already have, or simply wear a beautiful piece for an occasion. Pick the one that fits you."
       />
       <Strategies tableOpen />
       <NextStep href="/safety" label="Safety" title="See how your gold is kept safe" blurb="Custody, insurance, verified delivery, lending partners and data protection." />
