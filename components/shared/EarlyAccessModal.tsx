@@ -83,7 +83,7 @@ export function EarlyAccessModal() {
                 </span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-1 tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-1">
                 Get Early Access
               </h3>
               <p className="text-[11px] text-slate-300 mb-4 font-medium leading-relaxed">

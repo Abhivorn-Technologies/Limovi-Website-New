@@ -172,11 +172,12 @@
   .section {
     padding-block: var(--section);
   }
+  /* Same heading look as the home hero: extra-bold, normal spacing */
   .display {
     font-family: var(--font-display), sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1.1;
   }
   .t-display { font-size: var(--step-display); }
   .t-head { font-size: var(--step-head); }
