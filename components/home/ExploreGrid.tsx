@@ -114,7 +114,7 @@ export function ExploreGrid() {
           <Tile href="/safety" i={3} className="lg:col-span-2">
             <div className="absolute inset-0 -z-10 bg-lm-navy" />
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-lm-gold">Safety</p>
-            <p className="display mt-3 text-2xl leading-tight text-white">How we keep your gold safe</p>
+            <p className="display mt-3 text-2xl leading-tight text-white">How we keep your Digital Gold / Jewellery safe</p>
             <div className="mt-auto flex items-center gap-4 pt-6">
               <span className="relative grid h-14 w-14 place-items-center rounded-2xl bg-lm-gold text-lm-navy">
                 {!reduce && <span className="absolute inset-0 animate-ping rounded-2xl bg-lm-gold/40" />}

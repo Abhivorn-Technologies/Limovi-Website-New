@@ -115,13 +115,13 @@ export const comparisonRows: { label: string; values: (string | boolean)[] }[] =
   { label: "Jewellery Experience", values: [true, true, true, true] },
   {
     label: "Experience Charge",
-    values: ["0.9% of jewellery value", "2 free a year, then 0.5%", "0.9% of jewellery value", "Shown before you confirm"],
+    values: ["0.9% of jewellery value", "2 free a year, then 0.5% of jewellery value", "0.9% of jewellery value", "0.9% of jewellery value"],
   },
   { label: "Owner Benefit", values: [false, "25% of Experience Charges", "25% of Experience Charges", false] },
   { label: "Gold loan via lending partner", values: [true, true, true, false] },
   { label: "Gold Liquidity", values: [true, true, true, false] },
   { label: "Gift Gold Balance", values: [true, true, false, false] },
-  { label: "Exit", values: ["15 days' notice", "After 2 years, 15 days' notice", "Withdraw with 15 days' notice", "Return the jewellery"] },
+  { label: "Exit policy", values: ["24K gold", "Jewellery or 24K gold", "Your jewellery", "Return the jewellery"] },
 ];
 
 export const luxuryPieces = [
