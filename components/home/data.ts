@@ -157,10 +157,10 @@ export type JourneyStep = { img: string; photo?: boolean; title: string; text: s
 export const strategyJourneys: Record<string, { steps: JourneyStep[]; plan: [string, string][] }> = {
   "Investment Only": {
     steps: [
-      { img: "/images/digital_gold_icon.png", title: "Add your gold", text: "Build a Gold Balance with money, Digital Gold, gold, coins, bars or jewellery." },
-      { img: "/images/icon_gold_balance.png", title: "Reach 50g", text: "Once it reaches 50g of 24K equivalent, LIMOVI's services open up to you." },
-      { img: "/images/jewellery-minimal.png", photo: true, title: "Experience jewellery", text: "Wear pieces from the Jewellery Cloud at 0.9% of the jewellery's value." },
-      { img: "/images/icon_invest.png", title: "Loan, cash or gift", text: "Apply for a gold loan through a lending partner, sell through Gold Liquidity, or gift gold." },
+      { img: "/images/journey/digital_gold_icon.webp", title: "Add your gold", text: "Build a Gold Balance with money, Digital Gold, gold, coins, bars or jewellery." },
+      { img: "/images/journey/icon_gold_balance.webp", title: "Reach 50g", text: "Once it reaches 50g of 24K equivalent, LIMOVI's services open up to you." },
+      { img: "/images/journey/jewellery-minimal.webp", photo: true, title: "Experience jewellery", text: "Wear pieces from the Jewellery Cloud at 0.9% of the jewellery's value." },
+      { img: "/images/journey/icon_invest.webp", title: "Loan, cash or gift", text: "Apply for a gold loan through a lending partner, sell through Gold Liquidity, or gift gold." },
     ],
     plan: [
       ["You start with", "A Gold Balance of 50g of 24K equivalent"],
@@ -170,10 +170,10 @@ export const strategyJourneys: Record<string, { steps: JourneyStep[]; plan: [str
   },
   "Investment & Experience": {
     steps: [
-      { img: "/images/icon_invest.png", title: "Invest", text: "Invest an amount equivalent to 50g of 24K gold." },
-      { img: "/images/jewellery-wedding.png", photo: true, title: "Own 22K jewellery", text: "80% goes to the 22K jewellery you choose. A Strategy Charge of 20% or 15% applies by category." },
-      { img: "/images/jewellery-temple.png", photo: true, title: "Enjoy Experiences", text: "2 free Experiences a year, then 0.5% of the jewellery's value." },
-      { img: "/images/icon_wealth.png", title: "Generate Wealth", text: "Earn 25% of the Experience Charges when others experience your jewellery." },
+      { img: "/images/journey/icon_invest.webp", title: "Invest", text: "Invest an amount equivalent to 50g of 24K gold." },
+      { img: "/images/journey/jewellery-wedding.webp", photo: true, title: "Own 22K jewellery", text: "80% goes to the 22K jewellery you choose. A Strategy Charge of 20% or 15% applies by category." },
+      { img: "/images/journey/jewellery-temple.webp", photo: true, title: "Enjoy Experiences", text: "2 free Experiences a year, then 0.5% of the jewellery's value." },
+      { img: "/images/journey/icon_wealth.webp", title: "Generate Wealth", text: "Earn 25% of the Experience Charges when others experience your jewellery." },
     ],
     plan: [
       ["You start with", "An investment equivalent to 50g of 24K gold"],
@@ -183,10 +183,10 @@ export const strategyJourneys: Record<string, { steps: JourneyStep[]; plan: [str
   },
   "Enrol & Experience": {
     steps: [
-      { img: "/images/bangles.png", photo: true, title: "Enrol your jewellery", text: "Enrol jewellery you already own, worth 50g of 24K gold." },
-      { img: "/images/icon_vault.png", title: "It stays yours", text: "LIMOVI or its Custodian holds it safely. Ownership stays with you." },
-      { img: "/images/jewellery-royal.png", photo: true, title: "Listed in the Cloud", text: "Your piece is listed in the Jewellery Cloud for other customers to experience." },
-      { img: "/images/icon_wealth.png", title: "Generate Wealth", text: "Earn 25% of qualifying Experience Charges, and experience other pieces against your Gold Balance." },
+      { img: "/images/journey/bangles.webp", photo: true, title: "Enrol your jewellery", text: "Enrol jewellery you already own, worth 50g of 24K gold." },
+      { img: "/images/journey/icon_vault.webp", title: "It stays yours", text: "LIMOVI or its Custodian holds it safely. Ownership stays with you." },
+      { img: "/images/journey/jewellery-royal.webp", photo: true, title: "Listed in the Cloud", text: "Your piece is listed in the Jewellery Cloud for other customers to experience." },
+      { img: "/images/journey/icon_wealth.webp", title: "Generate Wealth", text: "Earn 25% of qualifying Experience Charges, and experience other pieces against your Gold Balance." },
     ],
     plan: [
       ["You start with", "Jewellery worth 50g of 24K gold"],
@@ -196,10 +196,10 @@ export const strategyJourneys: Record<string, { steps: JourneyStep[]; plan: [str
   },
   "Experience Only": {
     steps: [
-      { img: "/images/necklace.png", photo: true, title: "Pick and book", text: "Choose a piece from the Jewellery Cloud and book your dates." },
-      { img: "/images/icon_vault.png", title: "Provide Security", text: "Based on the jewellery's displayed value, in money, physical gold or Digital Gold." },
-      { img: "/images/ear_piercing.png", photo: true, title: "Pay and wear", text: "Pay the Experience Charges before you take the jewellery, then enjoy it." },
-      { img: "/images/icon_gold_balance.png", title: "Return it", text: "Hand it back by the agreed date and time. Your Security is returned or settled on the agreed basis." },
+      { img: "/images/journey/necklace.webp", photo: true, title: "Pick and book", text: "Choose a piece from the Jewellery Cloud and book your dates." },
+      { img: "/images/journey/icon_vault.webp", title: "Provide Security", text: "Based on the jewellery's displayed value, in money, physical gold or Digital Gold." },
+      { img: "/images/journey/ear_piercing.webp", photo: true, title: "Pay and wear", text: "Pay the Experience Charges before you take the jewellery, then enjoy it." },
+      { img: "/images/journey/icon_gold_balance.webp", title: "Return it", text: "Hand it back by the agreed date and time. Your Security is returned or settled on the agreed basis." },
     ],
     plan: [
       ["You start with", "Security based on the jewellery's displayed value"],

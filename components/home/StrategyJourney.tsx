@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useLenis } from "lenis/react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,7 +16,7 @@ export function JourneyThumbs({ name }: { name: string }) {
     <span className="flex shrink-0 -space-x-3">
       {strategyJourneys[name].steps.slice(0, 3).map((st) => (
         <span key={st.title} className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-white">
-          <Image src={st.img} alt="" fill sizes="32px" className={st.photo ? "object-cover" : "object-contain p-0.5"} />
+          <Image src={st.img} alt="" fill sizes="32px" unoptimized className={st.photo ? "object-cover" : "object-contain p-0.5"} />
         </span>
       ))}
     </span>
@@ -24,17 +25,20 @@ export function JourneyThumbs({ name }: { name: string }) {
 
 // Full walkthrough: picture steps joined by arrows, then a short plan summary.
 export function StrategyJourney({ s, index, onClose }: { s: Strategy | null; index: number; onClose: () => void }) {
+  const lenis = useLenis();
   useEffect(() => {
     if (!s) return;
+    lenis?.stop();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
+      lenis?.start();
       window.removeEventListener("keydown", onKey);
     };
-  }, [s, onClose]);
+  }, [s, onClose, lenis]);
 
   return (
     <AnimatePresence>
@@ -56,7 +60,8 @@ export function StrategyJourney({ s, index, onClose }: { s: Strategy | null; ind
             exit={{ y: 40, opacity: 0 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-t-[32px] bg-white sm:rounded-[32px]"
+            data-lenis-prevent
+            className="relative max-h-[92vh] w-full max-w-6xl overflow-y-auto overscroll-contain rounded-t-[32px] bg-white sm:rounded-[32px]"
           >
             <Journey s={s} index={index} onClose={onClose} />
           </motion.div>
@@ -116,6 +121,8 @@ function Journey({ s, index, onClose }: { s: Strategy; index: number; onClose: (
                   alt=""
                   fill
                   sizes="(min-width:768px) 22vw, 112px"
+                  unoptimized
+                  priority
                   className={st.photo ? "object-cover" : "object-contain p-4"}
                 />
                 <span
