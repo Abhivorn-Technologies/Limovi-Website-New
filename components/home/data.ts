@@ -150,3 +150,61 @@ export const lifestylePieces = [
   { name: "Elegant Gold Ring", src: "/images/minimal_ring.png" },
   { name: "Diamond Solitaire", src: "/images/jewellery-diamond.png" },
 ];
+
+// Picture-led walkthrough shown when a strategy card is opened. Every step is
+// taken from that strategy's agreement and Schedule 1 (see /legal).
+export type JourneyStep = { img: string; photo?: boolean; title: string; text: string };
+export const strategyJourneys: Record<string, { steps: JourneyStep[]; plan: [string, string][] }> = {
+  "Investment Only": {
+    steps: [
+      { img: "/images/digital_gold_icon.png", title: "Add your gold", text: "Build a Gold Balance with money, Digital Gold, gold, coins, bars or jewellery." },
+      { img: "/images/icon_gold_balance.png", title: "Reach 50g", text: "Once it reaches 50g of 24K equivalent, LIMOVI's services open up to you." },
+      { img: "/images/jewellery-minimal.png", photo: true, title: "Experience jewellery", text: "Wear pieces from the Jewellery Cloud at 0.9% of the jewellery's value." },
+      { img: "/images/icon_invest.png", title: "Loan, cash or gift", text: "Apply for a gold loan through a lending partner, sell through Gold Liquidity, or gift gold." },
+    ],
+    plan: [
+      ["You start with", "A Gold Balance of 50g of 24K equivalent"],
+      ["You earn", "No Generate Wealth just for holding a Gold Balance"],
+      ["When you leave", "Exit with at least 15 days' notice, as 24K gold"],
+    ],
+  },
+  "Investment & Experience": {
+    steps: [
+      { img: "/images/icon_invest.png", title: "Invest", text: "Invest an amount equivalent to 50g of 24K gold." },
+      { img: "/images/jewellery-wedding.png", photo: true, title: "Own 22K jewellery", text: "80% goes to the 22K jewellery you choose. A Strategy Charge of 20% or 15% applies by category." },
+      { img: "/images/jewellery-temple.png", photo: true, title: "Enjoy Experiences", text: "2 free Experiences a year, then 0.5% of the jewellery's value." },
+      { img: "/images/icon_wealth.png", title: "Generate Wealth", text: "Earn 25% of the Experience Charges when others experience your jewellery." },
+    ],
+    plan: [
+      ["You start with", "An investment equivalent to 50g of 24K gold"],
+      ["You earn", "25% when others experience your jewellery"],
+      ["When you leave", "After the 2-year minimum, with 15 days' notice, as jewellery or 24K gold"],
+    ],
+  },
+  "Enrol & Experience": {
+    steps: [
+      { img: "/images/bangles.png", photo: true, title: "Enrol your jewellery", text: "Enrol jewellery you already own, worth 50g of 24K gold." },
+      { img: "/images/icon_vault.png", title: "It stays yours", text: "LIMOVI or its Custodian holds it safely. Ownership stays with you." },
+      { img: "/images/jewellery-royal.png", photo: true, title: "Listed in the Cloud", text: "Your piece is listed in the Jewellery Cloud for other customers to experience." },
+      { img: "/images/icon_wealth.png", title: "Generate Wealth", text: "Earn 25% of qualifying Experience Charges, and experience other pieces against your Gold Balance." },
+    ],
+    plan: [
+      ["You start with", "Jewellery worth 50g of 24K gold"],
+      ["You earn", "25% of qualifying Experience Charges"],
+      ["When you leave", "Withdraw your jewellery with 15 days' notice"],
+    ],
+  },
+  "Experience Only": {
+    steps: [
+      { img: "/images/necklace.png", photo: true, title: "Pick and book", text: "Choose a piece from the Jewellery Cloud and book your dates." },
+      { img: "/images/icon_vault.png", title: "Provide Security", text: "Based on the jewellery's displayed value, in money, physical gold or Digital Gold." },
+      { img: "/images/ear_piercing.png", photo: true, title: "Pay and wear", text: "Pay the Experience Charges before you take the jewellery, then enjoy it." },
+      { img: "/images/icon_gold_balance.png", title: "Return it", text: "Hand it back by the agreed date and time. Your Security is returned or settled on the agreed basis." },
+    ],
+    plan: [
+      ["You start with", "Security based on the jewellery's displayed value"],
+      ["You pay", "The Experience Charges, before you take the piece"],
+      ["Good to know", "No interest or return is paid on Security"],
+    ],
+  },
+};

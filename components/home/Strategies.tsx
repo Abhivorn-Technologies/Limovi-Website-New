@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, ChevronDown, Minus } from "lucide-react";
+import { JourneyThumbs, StrategyJourney } from "./StrategyJourney";
 import { Reveal } from "./primitives";
 import { comparisonRows, openEarlyAccess, strategies, strategyTheme } from "./data";
 
@@ -16,6 +17,8 @@ function highlight(text: string, cls: string) {
 // preview = homepage version: cards only, with a link to the full /strategies page
 export function Strategies({ preview = false, tableOpen = false }: { preview?: boolean; tableOpen?: boolean }) {
   const [showTable, setShowTable] = useState(tableOpen);
+  const [journey, setJourney] = useState<number | null>(null);
+  const closeJourney = useCallback(() => setJourney(null), []);
   return (
     <section id="strategies" className="bg-lm-sky py-24 lg:py-32">
       <div className="frame">
@@ -48,7 +51,16 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
                     </li>
                   ))}
                 </ul>
-                <button onClick={openEarlyAccess} className={`lm-btn mt-6 w-full ${s.featured ? "lm-btn-gold" : "lm-btn-ghost"}`}>
+                <button
+                  onClick={() => setJourney(i)}
+                  className={`group mt-6 flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors ${
+                    s.featured ? "bg-white/10 hover:bg-white/15" : `${strategyTheme[s.name].soft} hover:brightness-95`
+                  }`}
+                >
+                  <JourneyThumbs name={s.name} />
+                  <span className={`flex-1 whitespace-nowrap text-[13px] font-bold ${s.featured ? "text-white" : strategyTheme[s.name].text}`}>See how it works →</span>
+                </button>
+                <button onClick={openEarlyAccess} className={`lm-btn mt-3 w-full ${s.featured ? "lm-btn-gold" : "lm-btn-ghost"}`}>
                   Start with this
                 </button>
                 <Link
@@ -61,6 +73,8 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
             </Reveal>
           ))}
         </div>
+
+        <StrategyJourney s={journey === null ? null : strategies[journey]} index={journey ?? 0} onClose={closeJourney} />
 
         {preview ? (
           <div className="mt-10 text-center">

@@ -300,7 +300,7 @@ function Panel({
           </ul>
         )}
       </div>
-      <div className="flex flex-col gap-6">{children}</div>
+      {children && <div className="flex flex-col gap-6">{children}</div>}
     </div>
   );
 }
@@ -389,7 +389,21 @@ function JewelleryPanel() {
         "Pieces are insured through a LIMOVI-approved insurer where needed, before they reach you.",
         "Take good care of the piece while it's with you. Normal wear is fine.",
       ]}
-    />
+    >
+      <div className="lm-card relative min-h-[320px] flex-1 overflow-hidden">
+        <Image
+          src="/images/jewellery-wedding.png"
+          alt="A bridal gold jewellery set"
+          fill
+          sizes="(min-width:1024px) 45vw, 100vw"
+          className="object-cover"
+        />
+        <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-lm-navy/80 to-transparent" />
+        <p className="absolute bottom-6 left-6 right-6 text-xl font-bold leading-snug text-white">
+          Wear it for the occasion. Hand it back within 30 hours.
+        </p>
+      </div>
+    </Panel>
   );
 }
 
