@@ -8,7 +8,7 @@ const rows = [
   ["Wearing new jewellery", "Buy every piece you want to wear", "Experience pieces and return them within 30 hours"],
   ["Needing a loan", "Take your gold to a lender yourself", "Apply through LIMOVI to a lending partner"],
   ["Needing cash", "Find a buyer for your gold yourself", "Sell eligible gold; credit aimed within an hour of confirmation"],
-  ["Earning from gold", "Gold sits idle in a locker", "Owner Benefit when your jewellery is experienced"],
+  ["Earning from gold", "Gold sits idle in a locker", "Generate wealth when your jewellery is experienced"],
   ["Gifting", "An ornament that may never be worn", "Gift an eligible Gold Balance"],
   ["Storage", "Home or bank locker", "LIMOVI or its Custodian; ownership stays with you"],
 ];

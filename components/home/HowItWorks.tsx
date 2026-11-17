@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Check, Gem, Landmark, Banknote, TrendingUp, Gift, ScanFace, CreditCard, IdCard, Building2, UserRound } from "lucide-react";
 import { Phone, Coin, Rays } from "./primitives";
+import { strategyTheme } from "./data";
 
 // Every line below is taken from the LIMOVI Master Customer & Platform Agreement
 // and the strategy agreements (see /legal).
@@ -16,19 +17,19 @@ const steps = [
   {
     n: "02",
     title: "Pick the strategy that fits you",
-    body: "Choose from four strategies: Investment Only, Investment & Experience, Enrol & Experience, or Experience Only. Each one has its own agreement that sets out what you get, what it costs and how you exit.",
+    body: "Choose from four strategies: Investment Only, Investment & Experience, Enrol & Experience and Experience Only. Each one has its own agreement that sets out what you get, what it costs and how you exit.",
     note: "Every strategy agreement is read together with the Master Customer & Platform Agreement.",
   },
   {
     n: "03",
     title: "Build your Gold Balance",
-    body: "Buy Digital Gold from ₹100, add gold, coins, bars or jewellery where your strategy allows it, enrol jewellery you already own, or receive a gift. Every credit and debit is recorded in your account.",
+    body: "Buy Digital Gold from ₹100, add gold, coins, bars or jewellery where your strategy allows it, enrol jewellery you already own, or receive a gift.",
     note: "Gold prices move. A value shown on screen isn't a guarantee of what your gold will realise.",
   },
   {
     n: "04",
     title: "Use your Gold Balance",
-    body: "Once you meet the eligibility for a service, your Gold Balance opens the Jewellery Cloud, gold loans through a lending partner, Gold Liquidity, Owner Benefit and gifting.",
+    body: "Once you meet the eligibility for a service, your Gold Balance opens the Jewellery Cloud, gold loans through a lending partner, Gold Liquidity, Generate Wealth and gifting.",
     note: "Your statements and transaction records are available in your account.",
   },
 ];
@@ -161,11 +162,12 @@ function StrategyScreen() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 + i * 0.1 }}
-            className={`rounded-2xl border-2 px-3 py-3 ${i === 1 ? "border-lm-blue bg-white" : "border-transparent bg-white/70"}`}
+            className={`relative overflow-hidden rounded-2xl border-2 bg-white py-3 pl-4 pr-3 ${i === 1 ? strategyTheme[name].ring : "border-transparent"}`}
           >
+            <span className={`absolute inset-y-0 left-0 w-1.5 ${strategyTheme[name].band}`} />
             <div className="flex items-center justify-between">
               <span className="text-[12px] font-bold">{name}</span>
-              <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${i === 1 ? "bg-lm-gold text-lm-navy" : "bg-lm-sky text-lm-blue"}`}>{tag}</span>
+              <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${strategyTheme[name].soft} ${strategyTheme[name].text}`}>{tag}</span>
             </div>
             {i === 1 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-1 text-[10px] text-lm-muted">
@@ -235,7 +237,7 @@ function GatewaysScreen() {
     { icon: Gem, t: "Experience Jewellery" },
     { icon: Landmark, t: "Gold Loan" },
     { icon: Banknote, t: "Gold Liquidity" },
-    { icon: TrendingUp, t: "Owner Benefit" },
+    { icon: TrendingUp, t: "Generate Wealth" },
     { icon: Gift, t: "Gift Gold" },
   ];
   return (

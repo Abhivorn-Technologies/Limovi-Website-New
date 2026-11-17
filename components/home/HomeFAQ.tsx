@@ -10,7 +10,7 @@ import { Rays, Reveal } from "./primitives";
 const faqs = [
   {
     q: "What is LIMOVI?",
-    a: "LIMOVI Gold Ecosystem Private Limited runs a platform where your gold is recorded as a Gold Balance. Depending on your strategy, you can use it to experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold through Gold Liquidity, earn an Owner Benefit on your jewellery and gift gold.",
+    a: "LIMOVI Gold Ecosystem Private Limited runs a platform where your gold is recorded as a Gold Balance. Depending on your strategy, you can use it to experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold through Gold Liquidity, generate wealth from your jewellery and gift gold.",
   },
   {
     q: "What is a Gold Balance?",
@@ -33,7 +33,7 @@ const faqs = [
     a: "You request a sale, LIMOVI verifies the gold or jewellery, and the price is set by the applicable valuation. For jewellery under Enrol & Experience or Investment & Experience, that's the prevailing market price of 22K gold per gram on the net gold weight. Once you confirm, LIMOVI aims to credit your verified bank account within one hour, after TDS, GST, bank charges and other permitted deductions.",
   },
   {
-    q: "How does the Owner Benefit work?",
+    q: "How does Generate Wealth work?",
     a: "Under Enrol & Experience and Investment & Experience, when another customer completes a qualifying Experience with your jewellery, you're entitled to 25% of the applicable Experience Charges, subject to charges, taxes and deductions. Nothing accrues just for enrolling, and no particular return is promised.",
   },
   {

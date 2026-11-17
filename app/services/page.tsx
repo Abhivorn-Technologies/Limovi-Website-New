@@ -8,7 +8,7 @@ import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
   title: "Services | LIMOVI",
-  description: "Jewellery Cloud, Gold Loan, Gold Liquidity, Owner Benefit and Gift Gold: what each LIMOVI service does and what it costs.",
+  description: "Jewellery Cloud, Gold Loan, Gold Liquidity, Generate Wealth and Gift Gold: what each LIMOVI service does and what it costs.",
 };
 
 export default function ServicesPage() {
@@ -18,7 +18,7 @@ export default function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title={<>Everything your gold can do, <span className="text-lm-blue">in one place</span></>}
-        lead="Jewellery Cloud, Gold Loan, Gold Liquidity, Owner Benefit and Gift Gold. Pick a service to see the steps and the key terms."
+        lead="Jewellery Cloud, Gold Loan, Gold Liquidity, Generate Wealth and Gift Gold. Pick a service to see the steps and the key terms."
       />
       <Gateways />
       <JewelleryShowcase />

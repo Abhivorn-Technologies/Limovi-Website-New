@@ -3,7 +3,7 @@
 // strategy agreements, Digital Gold terms and Gold Liquidity terms).
 // Do not add a figure that isn't in one of those documents.
 export const EXPERIENCE_CHARGE = 0.009; // 0.9% of selected Jewellery value (Investment Only, Enrol & Experience)
-export const OWNER_SHARE = 0.25; // Owner Benefit: 25% of qualifying Experience Charges
+export const OWNER_SHARE = 0.25; // Generate Wealth: 25% of qualifying Experience Charges
 
 export const inr = (n: number) =>
   "₹" + Math.round(n).toLocaleString("en-IN");
@@ -36,7 +36,7 @@ export const gateways = [
   },
   {
     id: "wealth",
-    name: "Owner Benefit",
+    name: "Generate Wealth",
     short: "Earn 25% of qualifying Experience Charges when others experience your jewellery.",
     tone: "gold",
   },
@@ -60,7 +60,7 @@ export const strategies = [
       "Create a Gold Balance with money, Digital Gold, gold, coins, bars or jewellery",
       "Jewellery Experience at 0.9% of the selected jewellery's value",
       "Gold loan through a lending partner, Gold Liquidity and gifting",
-      "No Owner Benefit just for holding a Gold Balance",
+      "No Generate Wealth earnings just for holding a Gold Balance",
       "Exit with at least 15 days' notice",
     ],
   },
@@ -74,7 +74,7 @@ export const strategies = [
       "80% of your investment goes to the jewellery you select",
       "Strategy Charge of 20% or 15% of the investment, by jewellery category",
       "2 free Experiences a year, then 0.5% of the jewellery's value",
-      "25% Owner Benefit when others experience your jewellery",
+      "Generate Wealth: 25% when others experience your jewellery",
       "Minimum strategy period of 2 years, exit with 15 days' notice",
     ],
   },
@@ -86,7 +86,7 @@ export const strategies = [
     points: [
       "Ownership of your jewellery stays with you",
       "Listed in the Jewellery Cloud for other customers to experience",
-      "25% Owner Benefit on qualifying Experience Charges",
+      "Generate Wealth: 25% of qualifying Experience Charges",
       "Experience jewellery against the Gold Balance your enrolment generates",
       "Withdraw your jewellery with 15 days' notice",
     ],
@@ -106,6 +106,14 @@ export const strategies = [
   },
 ];
 
+// One colour per strategy, used wherever the four strategies appear.
+export const strategyTheme: Record<string, { dot: string; band: string; soft: string; text: string; ring: string; hex: string }> = {
+  "Investment Only": { dot: "bg-[#1E6FE8]", band: "bg-[#1E6FE8]", soft: "bg-[#E6F0FF]", text: "text-[#1E6FE8]", ring: "border-[#1E6FE8]", hex: "#1E6FE8" },
+  "Investment & Experience": { dot: "bg-[#E0A21B]", band: "bg-[#F2B92B]", soft: "bg-[#FFF3D1]", text: "text-[#B97D06]", ring: "border-[#F2B92B]", hex: "#F2B92B" },
+  "Enrol & Experience": { dot: "bg-[#10A37F]", band: "bg-[#10A37F]", soft: "bg-[#DDF6EE]", text: "text-[#0B7E62]", ring: "border-[#10A37F]", hex: "#10A37F" },
+  "Experience Only": { dot: "bg-[#8B5CF6]", band: "bg-[#8B5CF6]", soft: "bg-[#EFE8FF]", text: "text-[#6D3FE0]", ring: "border-[#8B5CF6]", hex: "#8B5CF6" },
+};
+
 export const comparisonRows: { label: string; values: (string | boolean)[] }[] = [
   {
     label: "Minimum",
@@ -117,7 +125,7 @@ export const comparisonRows: { label: string; values: (string | boolean)[] }[] =
     label: "Experience Charge",
     values: ["0.9% of jewellery value", "2 free a year, then 0.5% of jewellery value", "0.9% of jewellery value", "0.9% of jewellery value"],
   },
-  { label: "Owner Benefit", values: [false, "25% of Experience Charges", "25% of Experience Charges", false] },
+  { label: "Generate Wealth", values: [false, "25% of Experience Charges", "25% of Experience Charges", false] },
   { label: "Gold loan via lending partner", values: [true, true, true, false] },
   { label: "Gold Liquidity", values: [true, true, true, false] },
   { label: "Gift Gold Balance", values: [true, true, false, false] },

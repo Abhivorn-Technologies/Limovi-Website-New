@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, ShieldCheck, Plus, Gem, Landmark, Banknote, TrendingUp, Gift } from "lucide-react";
 import { Rays, Reveal, SectionHead } from "./primitives";
-import { strategies } from "./data";
+import { strategies, strategyTheme } from "./data";
 
 function Tile({ href, className, children, i }: { href: string; className: string; children: ReactNode; i: number }) {
   return (
@@ -27,7 +27,7 @@ const serviceIcons = [
   { icon: Gem, name: "Jewellery Cloud" },
   { icon: Landmark, name: "Gold Loan" },
   { icon: Banknote, name: "Gold Liquidity" },
-  { icon: TrendingUp, name: "Owner Benefit" },
+  { icon: TrendingUp, name: "Generate Wealth" },
   { icon: Gift, name: "Gift Gold" },
 ];
 
@@ -103,7 +103,8 @@ export function ExploreGrid() {
             <p className="display mt-3 text-2xl leading-tight text-lm-navy">Four ways to start</p>
             <div className="mt-auto flex flex-wrap gap-1.5 pt-6">
               {strategies.map((s) => (
-                <span key={s.name} className="rounded-full border border-lm-blue/20 bg-white px-3 py-1 text-[13px] font-semibold text-lm-navy">
+                <span key={s.name} className="flex items-center gap-1.5 rounded-full border border-lm-blue/20 bg-white px-3 py-1 text-[13px] font-semibold text-lm-navy">
+                  <span className={`h-2 w-2 rounded-full ${strategyTheme[s.name].dot}`} />
                   {s.name}
                 </span>
               ))}

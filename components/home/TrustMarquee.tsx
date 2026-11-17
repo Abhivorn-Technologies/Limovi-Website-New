@@ -5,7 +5,7 @@ const items = [
   "Digital Gold backed by physical gold with MMTC-PAMP",
   "Buy Digital Gold from ₹100",
   "Ownership of enrolled jewellery stays with you",
-  "Owner Benefit of 25% on qualifying Experience Charges",
+  "Generate Wealth: 25% of qualifying Experience Charges",
   "Gold loans through lending partners",
   "Jewellery insured through a LIMOVI-approved insurer",
   "Sale proceeds paid to your verified bank account",

@@ -556,21 +556,21 @@ function WealthPanel() {
   const benefit = charge * OWNER_SHARE;
   return (
     <Panel
-      title="Owner Benefit"
-      intro="Under Enrol & Experience and Investment & Experience, your jewellery can be listed in the Jewellery Cloud. When another customer completes a qualifying Experience with it, you earn an Owner Benefit."
+      title="Generate Wealth"
+      intro="Under Enrol & Experience and Investment & Experience, your jewellery can be listed in the Jewellery Cloud. When another customer completes a qualifying Experience with it, you generate wealth."
       steps={[
         "Enrol jewellery you own, or acquire jewellery under Investment & Experience.",
         "LIMOVI lists it in the Jewellery Cloud with photos, description, weight, purity and availability. Your identity isn't shown to other customers.",
         "Another customer selects it and completes a qualifying Experience.",
         "You're entitled to 25% of the applicable Experience Charges.",
-        "Your Experience history and Owner Benefit records are available in your account.",
+        "Your Experience history and Generate Wealth records are available in your account.",
       ]}
       notes={[
         "Nothing accrues just for enrolling. The benefit is subject to charges, taxes, deductions, reconciliation and settlement.",
         "LIMOVI doesn't promise any particular return.",
       ]}
     >
-      <Calc title="Owner Benefit example">
+      <Calc title="Generate Wealth example">
         <Slider
           label="Value of your jewellery"
           min={100000}
@@ -583,7 +583,7 @@ function WealthPanel() {
         <Rows
           rows={[
             ["Experience Charge (0.9%)", <Tween key="c" value={charge} format={inr} />],
-            ["Your Owner Benefit (25%)", <Tween key="b" value={benefit} format={inr} />, "text-lm-gold"],
+            ["Your earnings (25%)", <Tween key="b" value={benefit} format={inr} />, "text-lm-gold"],
           ]}
         />
         <p className="text-xs text-white/60">

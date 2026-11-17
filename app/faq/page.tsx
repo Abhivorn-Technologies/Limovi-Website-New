@@ -7,7 +7,7 @@ import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
   title: "FAQs | LIMOVI",
-  description: "Answers to common questions about LIMOVI, the Gold Balance, gold loans, Gold Liquidity, Owner Benefit and gifting.",
+  description: "Answers to common questions about LIMOVI, the Gold Balance, gold loans, Gold Liquidity, Generate Wealth and gifting.",
 };
 
 export default function FaqPage() {

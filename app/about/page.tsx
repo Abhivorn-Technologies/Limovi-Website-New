@@ -37,7 +37,7 @@ export default function AboutPage() {
               <p className="display mt-2 text-3xl">To put gold to work</p>
               <p className="relative mt-4 max-w-lg leading-relaxed text-white/80">
                 Instead of sitting idle in a locker, gold on LIMOVI can be experienced as jewellery, used to apply for a loan through a
-                lending partner, sold when you need money, and earn an Owner Benefit when others experience your jewellery.
+                lending partner, sold when you need money, and generate wealth when others experience your jewellery.
               </p>
             </div>
           </Reveal>
