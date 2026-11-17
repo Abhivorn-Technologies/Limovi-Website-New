@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: "How long can I keep jewellery during an Experience?",
-    a: "Jewellery must be returned within 30 hours of delivery. Late return is charged at ₹100 an hour. Return is through a pickup arranged by LIMOVI or another authorised method, and the piece is inspected when it comes back.",
+    a: "Book your piece at least 24 hours ahead; it is delivered once those 24 hours have passed. You then return it within 30 hours of delivery. Late return is charged at ₹100 an hour. Return is through a pickup arranged by LIMOVI or another authorised method, and the piece is inspected when it comes back.",
   },
   {
     q: "What if jewellery gets damaged while I have it?",
