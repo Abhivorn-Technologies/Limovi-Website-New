@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Gem, Landmark, Banknote, TrendingUp, Gift, ScanFace, CreditCard, IdCard, Building2, UserRound } from "lucide-react";
+import { Check, Gem, Landmark, Banknote, TrendingUp, Gift } from "lucide-react";
 import { Phone, Coin, Rays } from "./primitives";
 import { strategyTheme } from "./data";
 
@@ -11,7 +11,7 @@ const steps = [
   {
     n: "01",
     title: "Register and complete KYC",
-    body: "Create your account and complete the KYC and verification that applies to the service you choose: identity, ownership, source of funds and source of gold.",
+    body: "Create your account and complete the KYC verification that applies to the service you choose: identity, ownership, source of funds and source of gold.",
     note: "Keep your OTPs and passwords to yourself, and tell LIMOVI within 24 hours if you see a transaction you didn't authorise.",
   },
   {
@@ -94,33 +94,37 @@ function Screen({ idx }: { idx: number }) {
 const shell = "flex h-full flex-col bg-lm-sky px-4 pt-12 pb-4 text-lm-navy";
 
 function KycScreen() {
+  // Same five steps as the LIMOVI app's "Complete Your KYC" screen.
   const items = [
-    { icon: UserRound, t: "Identity" },
-    { icon: IdCard, t: "KYC documents" },
-    { icon: Building2, t: "Bank account" },
-    { icon: CreditCard, t: "Source of funds" },
-    { icon: ScanFace, t: "Accept agreements" },
+    { t: "Personal Information", d: "Legal name, birthdate, address" },
+    { t: "PAN Card Verification", d: "Automated legal name match" },
+    { t: "Aadhaar Paperless e-KYC", d: "OTP verification with DigiLocker" },
+    { t: "Liveness Selfie Verification", d: "Face match with Aadhaar photo" },
+    { t: "Bank Account Penny Drop", d: "Validates your bank for payouts" },
   ];
   return (
     <div className={shell}>
-      <p className="text-[12px] font-semibold text-lm-muted">Onboarding</p>
-      <p className="display mt-1 text-xl">Verify your KYC</p>
+      <p className="display text-xl">Complete your KYC</p>
+      <p className="mt-0.5 text-[10px] text-lm-muted">Verify your identity to unlock LIMOVI features</p>
       <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
         <motion.span className="block h-full bg-lm-blue" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 2.4 }} />
       </div>
-      <ul className="mt-4 space-y-2">
-        {items.map(({ icon: Icon, t }, i) => (
+      <ul className="mt-3 space-y-1.5">
+        {items.map(({ t, d }, i) => (
           <motion.li
             key={t}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.35 }}
-            className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2.5"
+            className="flex items-center gap-2.5 rounded-2xl bg-white px-2.5 py-2"
           >
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-lm-sky text-lm-blue">
-              <Icon size={16} />
+            <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-extrabold ${i === 0 ? "bg-lm-blue text-white" : "bg-lm-sky text-lm-navy"}`}>
+              {i + 1}
             </span>
-            <span className="flex-1 text-[12px] font-semibold">{t}</span>
+            <span className="min-w-0 flex-1 leading-tight">
+              <span className="block text-[11px] font-bold">{t}</span>
+              <span className="block truncate text-[9px] text-lm-muted">{d}</span>
+            </span>
             <motion.span
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
