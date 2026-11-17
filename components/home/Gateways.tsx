@@ -262,27 +262,29 @@ function Panel({
     <div className="grid gap-6 lg:grid-cols-2">
       <div className="lm-card p-6 sm:p-8">
         <h3 className="display text-[clamp(1.5rem,1.2rem+1vw,2.1rem)] text-lm-navy">{title}</h3>
-        <p className="mt-3 text-lg leading-relaxed text-lm-muted">{intro}</p>
-        <ol className="mt-6 space-y-3">
+        <p className="mt-3 text-[16px] leading-relaxed text-lm-muted">{intro}</p>
+        <p className="mt-7 text-xs font-bold uppercase tracking-[0.16em] text-lm-blue">How it works</p>
+        <ol className="relative mt-4 space-y-2.5">
+          <span className="absolute bottom-5 left-[17px] top-5 w-0.5 rounded-full bg-lm-sky-2" aria-hidden />
           {steps.map((s, i) => (
             <motion.li
               key={s}
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + i * 0.06 }}
-              className="flex gap-3"
+              transition={{ delay: 0.1 + i * 0.07 }}
+              className="relative flex items-center gap-3.5"
             >
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lm-sky text-sm font-bold text-lm-blue">
+              <span className="relative z-10 grid h-9 w-9 shrink-0 place-items-center rounded-full border-4 border-white bg-lm-blue text-[13px] font-extrabold text-white shadow-sm">
                 {i + 1}
               </span>
-              <span className="pt-0.5 text-lm-ink">{s}</span>
+              <span className="flex-1 rounded-2xl bg-lm-sky/70 px-4 py-2.5 text-[15px] font-medium leading-snug text-lm-navy">{s}</span>
             </motion.li>
           ))}
         </ol>
         {notes && (
           <ul className="mt-6 space-y-2 rounded-2xl bg-lm-cream p-4">
             {notes.map((n) => (
-              <li key={n} className="flex gap-2 text-[15px] text-lm-ink">
+              <li key={n} className="flex gap-2 text-[14px] leading-relaxed text-lm-ink">
                 <Check size={18} className="mt-0.5 shrink-0 text-lm-gold-deep" />
                 {n}
               </li>
@@ -386,18 +388,18 @@ function JewelleryPanel() {
   return (
     <Panel
       title="Jewellery Cloud"
-      intro="Experience jewellery without buying each piece. What you can pick depends on your strategy, your Gold Balance or entitlement, and the piece's category and availability."
+      intro="Wear beautiful jewellery for your special day without buying every piece. The pieces open to you depend on your strategy and your Gold Balance."
       steps={[
-        "Browse the Jewellery Cloud and select a piece.",
-        "LIMOVI confirms the booking. Until then, a selection is a request, not a commitment.",
-        "The piece is delivered to your registered address or another authorised location. The recipient may be asked for ID or an OTP.",
-        "Its condition is recorded at handover.",
-        "Return it within 30 hours of delivery, through a pickup arranged by LIMOVI or another authorised method.",
-        "LIMOVI inspects it on return and compares it with the handover record.",
+        "Browse the Jewellery Cloud and pick a piece you love.",
+        "Book at least 24 hours ahead. LIMOVI confirms your booking.",
+        "It's delivered to your door. Just show ID or share an OTP at handover.",
+        "Its condition is noted when you receive it.",
+        "Enjoy it, then hand it back within 30 hours. LIMOVI arranges the pickup.",
+        "LIMOVI checks the piece when it comes back, and you're done.",
       ]}
       notes={[
-        "Where insurance is required, it's arranged through a LIMOVI-approved insurer before delivery.",
-        "You're responsible for the piece while it's with you, apart from permitted ordinary wear and tear.",
+        "Pieces are insured through a LIMOVI-approved insurer where needed, before they reach you.",
+        "Take good care of the piece while it's with you. Normal wear is fine.",
       ]}
     >
       <div className="lm-card overflow-hidden">
@@ -443,16 +445,16 @@ function LoanPanel() {
   return (
     <Panel
       title="Gold Loan"
-      intro="LIMOVI can help you apply for a gold loan, but the loan itself is between you and a Gold Loan Partner. LIMOVI is not the lender."
+      intro="Need funds? Use your gold to get a loan from one of LIMOVI's lending partners, without the running around. LIMOVI helps you apply; the partner gives the loan."
       steps={[
-        "Check whether you're eligible for a gold loan on the platform.",
-        "LIMOVI identifies a Gold Loan Partner and helps with your application.",
-        "The lender decides the amount, interest, tenure, loan-to-value and repayment terms.",
-        "You sign the lender's loan and security documents.",
-        "You repay the lender directly, as its documents require.",
+        "Check if you're eligible, right in the app.",
+        "LIMOVI matches you with a lending partner and helps you apply.",
+        "The partner offers you a loan amount, interest rate and repayment plan.",
+        "Accept the offer and sign the partner's loan papers.",
+        "Repay the partner directly on the agreed schedule.",
       ]}
       notes={[
-        "Under Investment & Experience, Experience isn't available against balance used for a maximum loan. You can still experience against 25% of your remaining eligible Gold Balance.",
+        "On Investment & Experience, you can still wear jewellery while you have a loan, using 25% of your remaining eligible Gold Balance.",
       ]}
     >
       <div className="relative overflow-hidden rounded-[28px] bg-lm-blue p-6 text-white sm:p-8">
@@ -463,19 +465,19 @@ function LoanPanel() {
             [
               "LIMOVI",
               [
-                "Identifies or suggests a Gold Loan Partner",
-                "Helps with your application",
-                "Passes on your information and documents",
-                "Provides the platform",
+                "Finds you a lending partner",
+                "Helps you apply",
+                "Shares your details with the partner",
+                "Keeps it all in one app",
               ],
             ],
             [
               "Gold Loan Partner",
               [
-                "Approves and gives the loan",
-                "Sets interest, tenure and loan-to-value",
-                "Holds the security",
-                "Collects repayment",
+                "Approves your loan",
+                "Sets the amount, interest and tenure",
+                "Keeps your gold safe as security",
+                "Collects your repayments",
               ],
             ],
           ].map(([who, list]) => (
@@ -496,7 +498,7 @@ function LoanPanel() {
           href="/legal/master-customer-agreement#22-gold-loan-facilitation"
           className="relative mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white"
         >
-          Read clause 22 of the Master Agreement <ArrowRight size={15} />
+          Read the full terms <ArrowRight size={15} />
         </Link>
       </div>
     </Panel>
@@ -507,17 +509,17 @@ function LiquidityPanel() {
   return (
     <Panel
       title="Gold Liquidity"
-      intro="Need money rather than a loan? Sell eligible gold, Gold Balance or jewellery through LIMOVI, and the proceeds go to your registered, verified bank account."
+      intro="Need cash, not a loan? Sell your gold or jewellery through LIMOVI and get the money straight into your bank account."
       steps={[
-        "Request a sale on the platform. You can sell all of it or part of it.",
-        "LIMOVI verifies your title and the gold, including its weight and purity.",
-        "The price comes from the applicable valuation. For jewellery under Enrol & Experience or Investment & Experience, it's the prevailing market price of 22K gold per gram on the net gold weight.",
-        "You see the price per gram, weight and total value. Once you confirm, the sale is binding.",
-        "LIMOVI aims to credit your bank account within one hour of confirmation.",
+        "Choose what to sell: all of it or just a part.",
+        "LIMOVI checks the gold's weight and purity.",
+        "You get the market price. For jewellery, that's today's 22K gold price per gram on its gold weight.",
+        "See the price, weight and total before you confirm.",
+        "LIMOVI aims to credit your bank within an hour of confirming.",
       ]}
       notes={[
-        "A sale is final: you stop owning the quantity sold.",
-        "Prices move, so a price you saw earlier isn't binding until the sale is confirmed.",
+        "Once confirmed, the sale is final.",
+        "Gold prices change through the day, so the price is locked only when you confirm.",
       ]}
     >
       <div className="relative overflow-hidden rounded-[28px] bg-lm-blue p-6 text-white sm:p-8">
@@ -559,17 +561,17 @@ function WealthPanel() {
   return (
     <Panel
       title="Generate Wealth"
-      intro="Under Enrol & Experience and Investment & Experience, your jewellery can be listed in the Jewellery Cloud. When another customer completes a qualifying Experience with it, you generate wealth."
+      intro="Your jewellery can earn for you. List it in the Jewellery Cloud, and every time someone else wears it, you earn 25% of what they pay."
       steps={[
-        "Enrol jewellery you own, or acquire jewellery under Investment & Experience.",
-        "LIMOVI lists it in the Jewellery Cloud with photos, description, weight, purity and availability. Your identity isn't shown to other customers.",
-        "Another customer selects it and completes a qualifying Experience.",
-        "You're entitled to 25% of the applicable Experience Charges.",
-        "Your Experience history and Generate Wealth records are available in your account.",
+        "Enrol jewellery you already own, or own a piece through Investment & Experience.",
+        "LIMOVI lists it with photos and details. Your name stays private.",
+        "Another customer books and wears it.",
+        "You earn 25% of their Experience Charge.",
+        "Track every booking and earning in your account.",
       ]}
       notes={[
-        "Nothing accrues just for enrolling. The benefit is subject to charges, taxes, deductions, reconciliation and settlement.",
-        "LIMOVI doesn't promise any particular return.",
+        "You earn when your piece is worn, not just for listing it. Taxes and charges apply.",
+        "Earnings depend on bookings, so they aren't guaranteed.",
       ]}
     >
       <Calc title="Generate Wealth example">
@@ -602,14 +604,14 @@ function GiftPanel() {
   return (
     <Panel
       title="Gift Gold"
-      intro="Where gifting is enabled, you can gift an eligible Gold Balance to another person, who can then use it on LIMOVI."
+      intro="Give gold that can actually be used. Send part of your Gold Balance to someone you love, and they can use it on LIMOVI."
       steps={[
-        "Choose the eligible Gold Balance you want to gift.",
-        "Complete the verification and authentication LIMOVI asks for.",
-        "The recipient completes onboarding, KYC and acceptance.",
-        "The gift takes effect once the process is complete.",
+        "Choose how much gold to gift.",
+        "Confirm it with a quick verification.",
+        "Your loved one signs up, completes KYC and accepts.",
+        "The gold is theirs to use.",
       ]}
-      notes={["A completed gift can't be reversed, except where the transaction terms or the law allow it."]}
+      notes={["Once a gift is complete, it can't be taken back."]}
     >
       <div className="lm-card relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden bg-lm-cream p-8 text-center">
         <button onClick={() => setOpened((v) => !v)} className="group relative" aria-label="Open the gift">
