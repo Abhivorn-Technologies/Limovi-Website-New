@@ -264,10 +264,10 @@ function Panel({
   intro: string;
   steps: string[];
   notes?: string[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className={`grid gap-6 ${children ? "lg:grid-cols-2" : ""}`}>
       <div className="lm-card p-6 sm:p-8">
         <h3 className="display text-[clamp(1.5rem,1.2rem+1vw,2.1rem)] text-lm-navy">{title}</h3>
         <p className="mt-3 text-[16px] leading-relaxed text-lm-muted">{intro}</p>
@@ -370,26 +370,6 @@ function Rows({ rows }: { rows: [string, React.ReactNode, string?][] }) {
   );
 }
 
-function TermsCard({ title, rows, foot, href }: { title: string; rows: [string, string][]; foot?: string; href: string }) {
-  return (
-    <div className="lm-card p-6">
-      <p className="font-bold text-lm-navy">{title}</p>
-      <dl className="mt-4 divide-y divide-lm-line rounded-2xl bg-lm-sky/60">
-        {rows.map(([k, v]) => (
-          <div key={k} className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-            <dt className="text-sm text-lm-muted">{k}</dt>
-            <dd className="text-sm font-bold text-lm-navy sm:text-right">{v}</dd>
-          </div>
-        ))}
-      </dl>
-      {foot && <p className="mt-3 text-xs leading-relaxed text-lm-muted">{foot}</p>}
-      <Link href={href} className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-lm-blue">
-        Read the full terms <ArrowRight size={15} />
-      </Link>
-    </div>
-  );
-}
-
 /* ───────── panels ───────── */
 
 function JewelleryPanel() {
@@ -409,43 +389,7 @@ function JewelleryPanel() {
         "Pieces are insured through a LIMOVI-approved insurer where needed, before they reach you.",
         "Take good care of the piece while it's with you. Normal wear is fine.",
       ]}
-    >
-      <div className="lm-card overflow-hidden">
-        <div className="grid grid-cols-2">
-          <div className="relative aspect-[4/3]">
-            <Image
-              src="/images/jewellery-wedding.png"
-              alt="Bridal wedding set"
-              fill
-              sizes="(min-width:1024px) 25vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[4/3]">
-            <Image
-              src="/images/minimal_pendant.png"
-              alt="Pendant and chain"
-              fill
-              sizes="(min-width:1024px) 25vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-      </div>
-      <TermsCard
-        title="Charges at a glance"
-        href="/legal/investment-only-strategy#schedule-1"
-        rows={[
-          ["Experience Charge", "0.9% of the selected jewellery's value"],
-          ["Service charge", "₹1,099 within 5 km, ₹1,299 within 10 km, ₹1,599 within 15 km, ₹1,999 within 20 km"],
-          ["Return", "Within 30 hours of delivery"],
-          ["Late return", "₹100 per hour"],
-          ["Lifestyle jewellery", "Up to 55% of Gold Balance"],
-          ["Lifestyle subscription", "1.1%, 0.9% or 0.7% of value a month for 1, 3 or 5 months, plus delivery"],
-        ]}
-        foot="From the Investment Only and Enrol & Experience schedules. Investment & Experience has its own terms, including 2 free Experiences a year and then 0.5% of the jewellery's value."
-      />
-    </Panel>
+    />
   );
 }
 

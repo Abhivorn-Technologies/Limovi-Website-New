@@ -7,6 +7,12 @@ import { ArrowRight, Check, ChevronDown, Minus } from "lucide-react";
 import { Reveal } from "./primitives";
 import { comparisonRows, openEarlyAccess, strategies, strategyTheme } from "./data";
 
+// Picks out the key figures in a point (percentages, grams, rupees, counts) so they stand out.
+function highlight(text: string, cls: string) {
+  const re = /(₹[\d,]+|\d+(?:\.\d+)?\s?%|\d+\s?g\b|\d+K\b|\b\d+ free\b|\b\d+ (?:years?|days|hours)\b)/g;
+  return text.split(re).map((part, i) => (i % 2 ? <strong key={i} className={cls}>{part}</strong> : part));
+}
+
 // preview = homepage version: cards only, with a link to the full /strategies page
 export function Strategies({ preview = false, tableOpen = false }: { preview?: boolean; tableOpen?: boolean }) {
   const [showTable, setShowTable] = useState(tableOpen);
@@ -27,7 +33,7 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
                   <span className={`h-2 w-2 rounded-full ${strategyTheme[s.name].dot}`} />
                   Strategy {i + 1}
                 </span>
-                <h3 className="display mt-3 text-xl">{s.name}</h3>
+                <h3 className={`display mt-3 text-2xl ${s.featured ? "text-lm-gold" : strategyTheme[s.name].text}`}>{s.name}</h3>
                 <p className={`mt-2 ${s.featured ? "text-white/75" : "text-lm-muted"}`}>{s.tagline}</p>
                 <p className={`mt-5 rounded-2xl px-4 py-3 text-sm ${s.featured ? "bg-white/10" : "bg-lm-sky"}`}>
                   <span className={s.featured ? "text-white/70" : "text-lm-muted"}>Minimum</span>
@@ -38,7 +44,7 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
                   {s.points.map((p) => (
                     <li key={p} className="flex gap-2 text-[15px]">
                       <Check size={18} className={`mt-0.5 shrink-0 ${s.featured ? "text-lm-gold" : strategyTheme[s.name].text}`} />
-                      {p}
+                      <span>{highlight(p, s.featured ? "font-extrabold text-lm-gold" : `font-extrabold ${strategyTheme[s.name].text}`)}</span>
                     </li>
                   ))}
                 </ul>
