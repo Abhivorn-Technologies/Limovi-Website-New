@@ -1,15 +1,15 @@
 import { BadgeCheck } from "lucide-react";
 
-// Each line is stated in the LIMOVI agreements published at /legal.
 const items = [
-  "Digital Gold backed by physical gold with MMTC-PAMP",
-  "Buy Digital Gold from ₹100",
-  "Ownership of enrolled jewellery stays with you",
-  "Generate Wealth: 25% of qualifying Experience Charges",
-  "Gold loans through lending partners",
-  "Jewellery insured through a LIMOVI-approved insurer",
-  "Sale proceeds paid to your verified bank account",
-  "Every transaction backed by a transaction record",
+  "Digital Gold Backed Jewelry Experience",
+  "Own One – Experience Unlimited",
+  "Enroll One – Experience Unlimited",
+  "Earn 25% Dividends on Physical Gold",
+  "Liquidity Without Losing Dignity",
+  "Unlock Gold, Unlock Possibilities",
+  "Transforming Gold into Generational Legacy",
+  "Gift a Future, Not Just Gold",
+  "Save on Making Charges, Build Gold Balance",
 ];
 
 export function TrustMarquee() {

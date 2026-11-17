@@ -47,6 +47,10 @@ export function Footer() {
             India&apos;s first 360° gold asset ecosystem. One Gold Balance for jewellery experiences, gold loans through
             lending partners, Gold Liquidity, Generate Wealth and gifting.
           </p>
+          <div className="mt-4 max-w-[34ch] text-xs leading-relaxed text-white/60">
+            <span className="font-semibold text-white/80">Registered Office:</span><br />
+            2-18-30, Prashanth Nagar, Near Meenakshi Residency, Uppal (K.V. Rangareddy), Hyderabad, Rangareddy District, Telangana - 500039
+          </div>
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-early-access-modal"))}
             className="lm-btn lm-btn-gold mt-6"
@@ -96,14 +100,22 @@ export function Footer() {
       </div>
 
       <div className="frame">
-        <p className="border-t border-white/10 pt-6 text-xs leading-relaxed text-white/50">
-          Gold loans are given by Gold Loan Partners; LIMOVI facilitates and is not the lender. Digital Gold is backed by
-          physical gold under the applicable Digital Gold Provider arrangement. Gold prices fluctuate, and LIMOVI does not
-          guarantee any minimum value, appreciation or return. This website is a summary: your rights and charges are set by
-          the LIMOVI agreements published on the Legal page, and no promotional material overrides them.
-        </p>
+        <div className="border-t border-white/10 pt-6 space-y-2 text-xs leading-relaxed text-white/50">
+          <p>
+            <strong className="font-semibold text-white/70">Disclaimer:</strong> LIMOVI is a technology platform owned
+            and operated by Limovi Gold Ecosystem Private Limited (CIN: U46498TS2026PTC213405). Limovi is not a bank
+            or NBFC. Digital Gold is vaulted in 100% insured physical vaults with certified bullion partners (Augmont)
+            under independent trustee custody. Gold loans accessible via the platform are originated, underwritten, and
+            disbursed exclusively by RBI-registered NBFC / Banking partners.
+          </p>
+          <p>
+            Gold prices fluctuate, and LIMOVI does not guarantee any minimum value, appreciation or return. This website is
+            a summary: your rights and charges are set by the LIMOVI agreements published on the Legal page, and no
+            promotional material overrides them.
+          </p>
+        </div>
         <div className="flex flex-col justify-between gap-2 py-6 text-sm text-white/60 md:flex-row md:items-center">
-          <p>© {new Date().getFullYear()} LIMOVI Gold Ecosystem Private Limited. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Limovi Gold Ecosystem Private Limited (CIN: U46498TS2026PTC213405). All rights reserved.</p>
           <p className="flex flex-wrap items-center gap-1.5">
             <span>Developed by</span>
             <a href="https://www.abhivorn.com/" target="_blank" rel="noopener noreferrer" className="font-medium text-white hover:underline underline-offset-4">
