@@ -60,7 +60,8 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
     <section id="gateways" className="bg-lm-paper pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame">
 
-        {/* overview cards */}
+        {/* overview cards (home only; the Services page goes straight to the tabs) */}
+        {overview && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {gateways.map((g, i) => (
             <Reveal key={g.id} i={i} className={i < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
@@ -86,10 +87,11 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
             </Reveal>
           ))}
         </div>
+        )}
 
         {/* explorer */}
         {!overview && (
-          <div id="gateway-explorer" className="scroll-mt-28 pt-20">
+          <div id="gateway-explorer" className="scroll-mt-28">
             <div
               className="no-scrollbar -mx-[var(--margin)] flex gap-2 overflow-x-auto px-[var(--margin)] pb-2 lg:mx-0 lg:justify-center lg:px-0"
               role="tablist"
