@@ -27,10 +27,10 @@ const displayFont = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://limovi.in"),
   title: "LIMOVI - India's First 360° Gold Asset Ecosystem",
-  description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, earn an Owner Benefit and gift gold.",
+  description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, generate wealth and gift gold.",
   openGraph: {
     title: "LIMOVI - India's First 360° Gold Asset Ecosystem",
-    description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, earn an Owner Benefit and gift gold.",
+    description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, generate wealth and gift gold.",
     url: "https://limovi.in",
     siteName: "LIMOVI",
     images: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "LIMOVI - Intelligent Gold Ecosystem",
-    description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, earn an Owner Benefit and gift gold.",
+    description: "One Gold Balance to experience jewellery, apply for a gold loan through a lending partner, sell gold, generate wealth and gift gold.",
     creator: "@limovi_in",
   },
 };

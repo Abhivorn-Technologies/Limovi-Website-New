@@ -12,11 +12,11 @@ const footerLinks = {
     { label: "Contact", href: "/contact" },
   ],
   products: [
-    { label: "Gold Balance", href: "/how-it-works#gold-balance" },
+    { label: "Gold Balance", href: "/how-it-works" },
     { label: "Jewellery Cloud", href: "/services#jewellery" },
     { label: "Gold Loan", href: "/services#loans" },
     { label: "Gold Liquidity", href: "/services#liquidity" },
-    { label: "Owner Benefit", href: "/services#wealth" },
+    { label: "Generate Wealth", href: "/services#wealth" },
     { label: "Gift Gold", href: "/services#gift" },
     { label: "Strategies", href: "/strategies" },
   ],
@@ -45,7 +45,7 @@ export function Footer() {
           </div>
           <p className="mt-5 max-w-[34ch] text-white/75 leading-relaxed">
             India&apos;s first 360° gold asset ecosystem. One Gold Balance for jewellery experiences, gold loans through
-            lending partners, Gold Liquidity, Owner Benefit and gifting.
+            lending partners, Gold Liquidity, Generate Wealth and gifting.
           </p>
           <div className="mt-4 max-w-[34ch] text-xs leading-relaxed text-white/60">
             <span className="font-semibold text-white/80">Registered Office:</span><br />

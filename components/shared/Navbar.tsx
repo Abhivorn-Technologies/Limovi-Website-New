@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 export const navLinks = [
+  { name: "Home", href: "/" },
   { name: "How it works", href: "/how-it-works" },
   { name: "Services", href: "/services" },
   { name: "Strategies", href: "/strategies" },
@@ -31,7 +32,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/"));
 
   return (
     <>
@@ -48,13 +49,13 @@ export function Navbar() {
             <Image src="/logo-text.png" alt="LIMOVI" width={569} height={236} priority className="h-10 w-auto -mt-0.5" />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1" aria-label="Main">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="Main">
             {navLinks.map((l) => (
               <Link
                 key={l.name}
                 href={l.href}
                 aria-current={isActive(l.href) ? "page" : undefined}
-                className={`rounded-full px-3 py-2 text-[15px] font-medium transition-colors xl:px-3.5 ${
+                className={`whitespace-nowrap rounded-full px-2 py-2 text-[14px] font-medium transition-colors xl:px-3 xl:text-[15px] ${
                   isActive(l.href) ? "bg-lm-sky text-lm-blue" : "text-lm-ink hover:bg-lm-sky hover:text-lm-blue"
                 }`}
               >
@@ -64,7 +65,7 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button onClick={openEarlyAccess} className="lm-btn lm-btn-blue hidden sm:inline-flex !min-h-[44px] !px-5 text-[15px]">
+            <button onClick={openEarlyAccess} className="lm-btn lm-btn-blue hidden whitespace-nowrap sm:inline-flex !min-h-[44px] !px-4 text-[14px] xl:!px-5 xl:text-[15px]">
               Get Early Access
             </button>
             <button
@@ -89,14 +90,14 @@ export function Navbar() {
             className="fixed inset-x-3 top-[84px] z-[998] max-h-[calc(100dvh-100px)] overflow-y-auto rounded-[28px] border border-lm-line bg-white p-4 shadow-2xl lg:hidden"
           >
             <nav className="flex flex-col" aria-label="Mobile">
-              {[{ name: "Home", href: "/" }, ...navLinks].map((l, i) => (
+              {navLinks.map((l, i) => (
                 <motion.div key={l.name} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i }}>
                   <Link
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    aria-current={(l.href === "/" ? pathname === "/" : isActive(l.href)) ? "page" : undefined}
+                    aria-current={isActive(l.href) ? "page" : undefined}
                     className={`flex items-center justify-between rounded-2xl px-4 py-3 text-lg font-medium text-lm-navy hover:bg-lm-sky ${
-                      (l.href === "/" ? pathname === "/" : isActive(l.href)) ? "bg-lm-sky" : ""
+                      isActive(l.href) ? "bg-lm-sky" : ""
                     }`}
                   >
                     {l.name}

@@ -429,7 +429,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
           <p className="mb-5 lg:mb-7 max-w-2xl text-sm sm:text-base lg:text-lg [@media(max-height:800px)]:lg:text-base [@media(max-height:800px)]:mb-4 leading-relaxed text-slate-600">
             Gold shouldn&apos;t sit idle in a locker. With LIMOVI, one <strong className="text-slate-900">Gold Balance</strong> lets you
             experience jewellery from the Jewellery Cloud, apply for a gold loan through a lending partner, sell gold when you need
-            money, earn an Owner Benefit on your jewellery and gift gold, all from one place.
+            money, generate wealth from your jewellery and gift gold, all from one place.
           </p>
 
           <div className="flex flex-wrap justify-center gap-3">
@@ -449,7 +449,7 @@ function Scene1_Problem({ progress }: { progress: MotionValue<number> }) {
               ["₹100", "minimum Digital Gold purchase"],
               ["50g", "24K equivalent to unlock services"],
               ["30 hrs", "to enjoy each Experience"],
-              ["25%", "Owner Benefit on Experience Charges"],
+              ["25%", "Generate Wealth on Experience Charges"],
             ].map(([big, small]) => (
               <li key={small} className="rounded-2xl border border-[#D4AF37]/30 bg-white/80 px-3 py-2.5 backdrop-blur">
                 <p className="text-lg lg:text-xl font-extrabold text-slate-900">{big}</p>
@@ -646,7 +646,7 @@ function Scene4_Benefits({ progress }: { progress: MotionValue<number> }) {
     { title: "Gold Loan",                icon: BankWithAtIcon },
     { title: "Gold Liquidity",           icon: IndianRupee },
     { title: "Gift Gold",         image: "/images/gifting-eco.png" },
-    { title: "Owner Benefit",           icon: HandCoins },
+    { title: "Generate Wealth",           icon: HandCoins },
   ];
   return (
     <motion.div style={{ opacity, display }} className="absolute inset-0 flex flex-col items-center justify-center pt-4 sm:pt-8">
@@ -671,7 +671,7 @@ function Scene5_Ending({ progress }: { progress: MotionValue<number> }) {
 
   const rings = [
     { size: "w-[290px] h-[290px] md:w-[480px] md:h-[480px] lg:w-[580px] lg:h-[580px]", duration: 40, reverse: false, color: "border-slate-300", items: ["Gold Loan", "Gold Liquidity"] },
-    { size: "w-[220px] h-[220px] md:w-[360px] md:h-[360px] lg:w-[440px] lg:h-[440px]", duration: 25, reverse: true,  color: "border-[#D4AF37]/50", items: ["Gold Balance", "Owner Benefit"] },
+    { size: "w-[220px] h-[220px] md:w-[360px] md:h-[360px] lg:w-[440px] lg:h-[440px]", duration: 25, reverse: true,  color: "border-[#D4AF37]/50", items: ["Gold Balance", "Generate Wealth"] },
     { size: "w-[150px] h-[150px] md:w-[250px] md:h-[250px] lg:w-[300px] lg:h-[300px]", duration: 15, reverse: false, color: "border-[#D4AF37]/80", items: ["Jewellery Cloud", "Gift Gold"] },
   ];
 

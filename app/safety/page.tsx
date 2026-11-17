@@ -17,7 +17,7 @@ export default function SafetyPage() {
       <Navbar />
       <PageHero
         eyebrow="Safety"
-        title={<>How we keep your gold <span className="text-lm-blue">safe</span></>}
+        title={<>How we keep your Digital Gold / Jewellery <span className="text-lm-blue">safe</span></>}
         lead="Who holds your jewellery, how it's insured, who lends against it and how your data is protected."
       />
       <CustodyJourney />

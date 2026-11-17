@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Gem, Landmark, Banknote, TrendingUp, Gift, ScanFace, CreditCard, IdCard, Building2, UserRound } from "lucide-react";
+import { Check, Gem, Landmark, Banknote, TrendingUp, Gift } from "lucide-react";
 import { Phone, Coin, Rays } from "./primitives";
+import { strategyTheme } from "./data";
 
 // Every line below is taken from the LIMOVI Master Customer & Platform Agreement
 // and the strategy agreements (see /legal).
@@ -10,25 +11,25 @@ const steps = [
   {
     n: "01",
     title: "Register and complete KYC",
-    body: "Create your account and complete the KYC and verification that applies to the service you choose: identity, ownership, source of funds and source of gold.",
+    body: "Create your account and complete the KYC verification that applies to the service you choose: identity, ownership, source of funds and source of gold.",
     note: "Keep your OTPs and passwords to yourself, and tell LIMOVI within 24 hours if you see a transaction you didn't authorise.",
   },
   {
     n: "02",
     title: "Pick the strategy that fits you",
-    body: "Choose from four strategies: Investment Only, Investment & Experience, Enrol & Experience, or Experience Only. Each one has its own agreement that sets out what you get, what it costs and how you exit.",
+    body: "Choose from four strategies: Investment Only, Investment & Experience, Enrol & Experience and Experience Only. Each one has its own agreement that sets out what you get, what it costs and how you exit.",
     note: "Every strategy agreement is read together with the Master Customer & Platform Agreement.",
   },
   {
     n: "03",
     title: "Build your Gold Balance",
-    body: "Buy Digital Gold from ₹100, add gold, coins, bars or jewellery where your strategy allows it, enrol jewellery you already own, or receive a gift. Every credit and debit is recorded in your account.",
+    body: "Buy Digital Gold from ₹100, add gold, coins, bars or jewellery where your strategy allows it, enrol jewellery you already own, or receive a gift.",
     note: "Gold prices move. A value shown on screen isn't a guarantee of what your gold will realise.",
   },
   {
     n: "04",
     title: "Use your Gold Balance",
-    body: "Once you meet the eligibility for a service, your Gold Balance opens the Jewellery Cloud, gold loans through a lending partner, Gold Liquidity, Owner Benefit and gifting.",
+    body: "Once you meet the eligibility for a service, your Gold Balance opens the Jewellery Cloud, gold loans through a lending partner, Gold Liquidity, Generate Wealth and gifting.",
     note: "Your statements and transaction records are available in your account.",
   },
 ];
@@ -93,33 +94,37 @@ function Screen({ idx }: { idx: number }) {
 const shell = "flex h-full flex-col bg-lm-sky px-4 pt-12 pb-4 text-lm-navy";
 
 function KycScreen() {
+  // Same five steps as the LIMOVI app's "Complete Your KYC" screen.
   const items = [
-    { icon: UserRound, t: "Identity" },
-    { icon: IdCard, t: "KYC documents" },
-    { icon: Building2, t: "Bank account" },
-    { icon: CreditCard, t: "Source of funds" },
-    { icon: ScanFace, t: "Accept agreements" },
+    { t: "Personal Information", d: "Legal name, birthdate, address" },
+    { t: "PAN Card Verification", d: "Automated legal name match" },
+    { t: "Aadhaar Paperless e-KYC", d: "OTP verification with DigiLocker" },
+    { t: "Liveness Selfie Verification", d: "Face match with Aadhaar photo" },
+    { t: "Bank Account Penny Drop", d: "Validates your bank for payouts" },
   ];
   return (
     <div className={shell}>
-      <p className="text-[12px] font-semibold text-lm-muted">Onboarding</p>
-      <p className="display mt-1 text-xl">Verify your KYC</p>
+      <p className="display text-xl">Complete your KYC</p>
+      <p className="mt-0.5 text-[10px] text-lm-muted">Verify your identity to unlock LIMOVI features</p>
       <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
         <motion.span className="block h-full bg-lm-blue" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 2.4 }} />
       </div>
-      <ul className="mt-4 space-y-2">
-        {items.map(({ icon: Icon, t }, i) => (
+      <ul className="mt-3 space-y-1.5">
+        {items.map(({ t, d }, i) => (
           <motion.li
             key={t}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.35 }}
-            className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2.5"
+            className="flex items-center gap-2.5 rounded-2xl bg-white px-2.5 py-2"
           >
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-lm-sky text-lm-blue">
-              <Icon size={16} />
+            <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-extrabold ${i === 0 ? "bg-lm-blue text-white" : "bg-lm-sky text-lm-navy"}`}>
+              {i + 1}
             </span>
-            <span className="flex-1 text-[12px] font-semibold">{t}</span>
+            <span className="min-w-0 flex-1 leading-tight">
+              <span className="block text-[11px] font-bold">{t}</span>
+              <span className="block truncate text-[9px] text-lm-muted">{d}</span>
+            </span>
             <motion.span
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -161,11 +166,12 @@ function StrategyScreen() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 + i * 0.1 }}
-            className={`rounded-2xl border-2 px-3 py-3 ${i === 1 ? "border-lm-blue bg-white" : "border-transparent bg-white/70"}`}
+            className={`relative overflow-hidden rounded-2xl border-2 bg-white py-3 pl-4 pr-3 ${i === 1 ? strategyTheme[name].ring : "border-transparent"}`}
           >
+            <span className={`absolute inset-y-0 left-0 w-1.5 ${strategyTheme[name].band}`} />
             <div className="flex items-center justify-between">
               <span className="text-[12px] font-bold">{name}</span>
-              <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${i === 1 ? "bg-lm-gold text-lm-navy" : "bg-lm-sky text-lm-blue"}`}>{tag}</span>
+              <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${strategyTheme[name].soft} ${strategyTheme[name].text}`}>{tag}</span>
             </div>
             {i === 1 && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-1 text-[10px] text-lm-muted">
@@ -235,7 +241,7 @@ function GatewaysScreen() {
     { icon: Gem, t: "Experience Jewellery" },
     { icon: Landmark, t: "Gold Loan" },
     { icon: Banknote, t: "Gold Liquidity" },
-    { icon: TrendingUp, t: "Owner Benefit" },
+    { icon: TrendingUp, t: "Generate Wealth" },
     { icon: Gift, t: "Gift Gold" },
   ];
   return (

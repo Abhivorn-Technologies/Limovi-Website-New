@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { whatsappLink } from "@/lib/contact";
 
-const topics = ["General question", "Early access", "Jewellery Cloud", "Gold Loan", "Gold Liquidity", "Owner Benefit", "Gift Gold", "Complaint"];
+const topics = ["General question", "Early access", "Jewellery Cloud", "Gold Loan", "Gold Liquidity", "Generate Wealth", "Gift Gold", "Complaint"];
 
 const field =
   "peer w-full rounded-2xl border-2 border-lm-line bg-white px-4 pb-2.5 pt-6 text-[15px] text-lm-navy outline-none transition-colors placeholder-transparent focus:border-lm-blue";

@@ -3,7 +3,6 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { PageHero } from "@/components/shared/PageHero";
 import { HowItWorks } from "@/components/home/HowItWorks";
-import { GoldBalance } from "@/components/home/GoldBalance";
 import { NextStep } from "@/components/shared/NextStep";
 
 export const metadata: Metadata = {
@@ -21,8 +20,7 @@ export default function HowItWorksPage() {
         lead="LIMOVI turns the gold you hold into something you can experience, borrow against through a lending partner, sell, earn from and gift. Here's the journey."
       />
       <HowItWorks />
-      <GoldBalance />
-      <NextStep href="/services" label="Services" title="Five ways to use your Gold Balance" blurb="Jewellery Cloud, Gold Loan, Gold Liquidity, Owner Benefit and Gift Gold, with the steps for each." />
+      <NextStep href="/services" label="Services" title="Five ways to use your Gold Balance" blurb="Jewellery Cloud, Gold Loan, Gold Liquidity, Generate Wealth and Gift Gold, with the steps for each." />
       <Footer />
     </main>
   );

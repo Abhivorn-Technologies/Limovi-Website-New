@@ -64,7 +64,7 @@ const features: Feature[] = [
   },
   {
     title: "Earn from your jewellery",
-    body: "Earn an Owner Benefit of 25% of qualifying Experience Charges when others experience your piece.",
+    body: "Generate Wealth: earn 25% of qualifying Experience Charges when others experience your piece.",
     tint: "from-lm-sand to-[#FFF4D6]",
     widget: (
       <div className="flex items-center gap-3 rounded-2xl bg-white px-3 py-3 shadow-sm">
@@ -73,7 +73,7 @@ const features: Feature[] = [
           <circle cx="18" cy="18" r="15" fill="none" stroke="#F2B92B" strokeWidth="5" strokeDasharray="23.6 94.2" strokeLinecap="round" />
         </svg>
         <span>
-          <span className="block text-[11px] font-semibold text-lm-muted">Owner Benefit</span>
+          <span className="block text-[11px] font-semibold text-lm-muted">Generate Wealth</span>
           <span className="block text-lg font-extrabold text-lm-navy">25%</span>
         </span>
       </div>

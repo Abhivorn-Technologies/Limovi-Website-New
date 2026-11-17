@@ -3,7 +3,7 @@
 // strategy agreements, Digital Gold terms and Gold Liquidity terms).
 // Do not add a figure that isn't in one of those documents.
 export const EXPERIENCE_CHARGE = 0.009; // 0.9% of selected Jewellery value (Investment Only, Enrol & Experience)
-export const OWNER_SHARE = 0.25; // Owner Benefit: 25% of qualifying Experience Charges
+export const OWNER_SHARE = 0.25; // Generate Wealth: 25% of qualifying Experience Charges
 
 export const inr = (n: number) =>
   "₹" + Math.round(n).toLocaleString("en-IN");
@@ -36,7 +36,7 @@ export const gateways = [
   },
   {
     id: "wealth",
-    name: "Owner Benefit",
+    name: "Generate Wealth",
     short: "Earn 25% of qualifying Experience Charges when others experience your jewellery.",
     tone: "gold",
   },
@@ -60,7 +60,7 @@ export const strategies = [
       "Create a Gold Balance with money, Digital Gold, gold, coins, bars or jewellery",
       "Jewellery Experience at 0.9% of the selected jewellery's value",
       "Gold loan through a lending partner, Gold Liquidity and gifting",
-      "No Owner Benefit just for holding a Gold Balance",
+      "No Generate Wealth earnings just for holding a Gold Balance",
       "Exit with at least 15 days' notice",
     ],
   },
@@ -74,7 +74,7 @@ export const strategies = [
       "80% of your investment goes to the jewellery you select",
       "Strategy Charge of 20% or 15% of the investment, by jewellery category",
       "2 free Experiences a year, then 0.5% of the jewellery's value",
-      "25% Owner Benefit when others experience your jewellery",
+      "Generate Wealth: 25% when others experience your jewellery",
       "Minimum strategy period of 2 years, exit with 15 days' notice",
     ],
   },
@@ -86,7 +86,7 @@ export const strategies = [
     points: [
       "Ownership of your jewellery stays with you",
       "Listed in the Jewellery Cloud for other customers to experience",
-      "25% Owner Benefit on qualifying Experience Charges",
+      "Generate Wealth: 25% of qualifying Experience Charges",
       "Experience jewellery against the Gold Balance your enrolment generates",
       "Withdraw your jewellery with 15 days' notice",
     ],
@@ -106,6 +106,14 @@ export const strategies = [
   },
 ];
 
+// One colour per strategy, used wherever the four strategies appear.
+export const strategyTheme: Record<string, { dot: string; band: string; soft: string; text: string; ring: string; hex: string }> = {
+  "Investment Only": { dot: "bg-[#1E6FE8]", band: "bg-[#1E6FE8]", soft: "bg-[#E6F0FF]", text: "text-[#1E6FE8]", ring: "border-[#1E6FE8]", hex: "#1E6FE8" },
+  "Investment & Experience": { dot: "bg-[#E0A21B]", band: "bg-[#F2B92B]", soft: "bg-[#FFF3D1]", text: "text-[#B97D06]", ring: "border-[#F2B92B]", hex: "#F2B92B" },
+  "Enrol & Experience": { dot: "bg-[#10A37F]", band: "bg-[#10A37F]", soft: "bg-[#DDF6EE]", text: "text-[#0B7E62]", ring: "border-[#10A37F]", hex: "#10A37F" },
+  "Experience Only": { dot: "bg-[#8B5CF6]", band: "bg-[#8B5CF6]", soft: "bg-[#EFE8FF]", text: "text-[#6D3FE0]", ring: "border-[#8B5CF6]", hex: "#8B5CF6" },
+};
+
 export const comparisonRows: { label: string; values: (string | boolean)[] }[] = [
   {
     label: "Minimum",
@@ -115,13 +123,13 @@ export const comparisonRows: { label: string; values: (string | boolean)[] }[] =
   { label: "Jewellery Experience", values: [true, true, true, true] },
   {
     label: "Experience Charge",
-    values: ["0.9% of jewellery value", "2 free a year, then 0.5%", "0.9% of jewellery value", "Shown before you confirm"],
+    values: ["0.9% of jewellery value", "2 free a year, then 0.5% of jewellery value", "0.9% of jewellery value", "0.9% of jewellery value"],
   },
-  { label: "Owner Benefit", values: [false, "25% of Experience Charges", "25% of Experience Charges", false] },
+  { label: "Generate Wealth", values: [false, "25% of Experience Charges", "25% of Experience Charges", false] },
   { label: "Gold loan via lending partner", values: [true, true, true, false] },
   { label: "Gold Liquidity", values: [true, true, true, false] },
   { label: "Gift Gold Balance", values: [true, true, false, false] },
-  { label: "Exit", values: ["15 days' notice", "After 2 years, 15 days' notice", "Withdraw with 15 days' notice", "Return the jewellery"] },
+  { label: "Exit policy", values: ["24K gold", "Jewellery or 24K gold", "Your jewellery", "Return the jewellery"] },
 ];
 
 export const luxuryPieces = [
@@ -142,3 +150,61 @@ export const lifestylePieces = [
   { name: "Elegant Gold Ring", src: "/images/minimal_ring.png" },
   { name: "Diamond Solitaire", src: "/images/jewellery-diamond.png" },
 ];
+
+// Picture-led walkthrough shown when a strategy card is opened. Every step is
+// taken from that strategy's agreement and Schedule 1 (see /legal).
+export type JourneyStep = { img: string; photo?: boolean; title: string; text: string };
+export const strategyJourneys: Record<string, { steps: JourneyStep[]; plan: [string, string][] }> = {
+  "Investment Only": {
+    steps: [
+      { img: "/images/journey/digital_gold_icon.webp", title: "Add your gold", text: "Build a Gold Balance with money, Digital Gold, gold, coins, bars or jewellery." },
+      { img: "/images/journey/icon_gold_balance.webp", title: "Reach 50g", text: "Once it reaches 50g of 24K equivalent, LIMOVI's services open up to you." },
+      { img: "/images/journey/jewellery-minimal.webp", photo: true, title: "Experience jewellery", text: "Wear pieces from the Jewellery Cloud at 0.9% of the jewellery's value." },
+      { img: "/images/journey/icon_invest.webp", title: "Loan, cash or gift", text: "Apply for a gold loan through a lending partner, sell through Gold Liquidity, or gift gold." },
+    ],
+    plan: [
+      ["You start with", "A Gold Balance of 50g of 24K equivalent"],
+      ["You earn", "No Generate Wealth just for holding a Gold Balance"],
+      ["When you leave", "Exit with at least 15 days' notice, as 24K gold"],
+    ],
+  },
+  "Investment & Experience": {
+    steps: [
+      { img: "/images/journey/icon_invest.webp", title: "Invest", text: "Invest an amount equivalent to 50g of 24K gold." },
+      { img: "/images/journey/jewellery-wedding.webp", photo: true, title: "Own 22K jewellery", text: "80% goes to the 22K jewellery you choose. A Strategy Charge of 20% or 15% applies by category." },
+      { img: "/images/journey/jewellery-temple.webp", photo: true, title: "Enjoy Experiences", text: "2 free Experiences a year, then 0.5% of the jewellery's value." },
+      { img: "/images/journey/icon_wealth.webp", title: "Generate Wealth", text: "Earn 25% of the Experience Charges when others experience your jewellery." },
+    ],
+    plan: [
+      ["You start with", "An investment equivalent to 50g of 24K gold"],
+      ["You earn", "25% when others experience your jewellery"],
+      ["When you leave", "After the 2-year minimum, with 15 days' notice, as jewellery or 24K gold"],
+    ],
+  },
+  "Enrol & Experience": {
+    steps: [
+      { img: "/images/journey/bangles.webp", photo: true, title: "Enrol your jewellery", text: "Enrol jewellery you already own, worth 50g of 24K gold." },
+      { img: "/images/journey/icon_vault.webp", title: "It stays yours", text: "LIMOVI or its Custodian holds it safely. Ownership stays with you." },
+      { img: "/images/journey/jewellery-royal.webp", photo: true, title: "Listed in the Cloud", text: "Your piece is listed in the Jewellery Cloud for other customers to experience." },
+      { img: "/images/journey/icon_wealth.webp", title: "Generate Wealth", text: "Earn 25% of qualifying Experience Charges, and experience other pieces against your Gold Balance." },
+    ],
+    plan: [
+      ["You start with", "Jewellery worth 50g of 24K gold"],
+      ["You earn", "25% of qualifying Experience Charges"],
+      ["When you leave", "Withdraw your jewellery with 15 days' notice"],
+    ],
+  },
+  "Experience Only": {
+    steps: [
+      { img: "/images/journey/necklace.webp", photo: true, title: "Pick and book", text: "Choose a piece from the Jewellery Cloud and book your dates." },
+      { img: "/images/journey/icon_vault.webp", title: "Provide Security", text: "Based on the jewellery's displayed value, in money, physical gold or Digital Gold." },
+      { img: "/images/journey/ear_piercing.webp", photo: true, title: "Pay and wear", text: "Pay the Experience Charges before you take the jewellery, then enjoy it." },
+      { img: "/images/journey/icon_gold_balance.webp", title: "Return it", text: "Hand it back by the agreed date and time. Your Security is returned or settled on the agreed basis." },
+    ],
+    plan: [
+      ["You start with", "Security based on the jewellery's displayed value"],
+      ["You pay", "The Experience Charges, before you take the piece"],
+      ["Good to know", "No interest or return is paid on Security"],
+    ],
+  },
+};

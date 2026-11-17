@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, ChevronDown, Minus } from "lucide-react";
+import { JourneyThumbs, StrategyJourney } from "./StrategyJourney";
 import { Reveal } from "./primitives";
-import { comparisonRows, openEarlyAccess, strategies } from "./data";
+import { comparisonRows, openEarlyAccess, strategies, strategyTheme } from "./data";
+
+// Picks out the key figures in a point (percentages, grams, rupees, counts) so they stand out.
+function highlight(text: string, cls: string) {
+  const re = /(₹[\d,]+|\d+(?:\.\d+)?\s?%|\d+\s?g\b|\d+K\b|\b\d+ free\b|\b\d+ (?:years?|days|hours)\b)/g;
+  return text.split(re).map((part, i) => (i % 2 ? <strong key={i} className={cls}>{part}</strong> : part));
+}
 
 // preview = homepage version: cards only, with a link to the full /strategies page
 export function Strategies({ preview = false, tableOpen = false }: { preview?: boolean; tableOpen?: boolean }) {
   const [showTable, setShowTable] = useState(tableOpen);
+  const [journey, setJourney] = useState<number | null>(null);
+  const closeJourney = useCallback(() => setJourney(null), []);
   return (
     <section id="strategies" className="bg-lm-sky py-24 lg:py-32">
       <div className="frame">
@@ -18,11 +27,16 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
           {strategies.map((s, i) => (
             <Reveal key={s.name} i={i}>
               <article
-                className={`relative flex h-full flex-col rounded-[28px] p-6 transition-transform duration-300 hover:-translate-y-1.5 ${
+                className={`relative flex h-full flex-col overflow-hidden rounded-[28px] p-6 pt-8 transition-transform duration-300 hover:-translate-y-1.5 ${
                   s.featured ? "bg-lm-navy text-white shadow-2xl" : "bg-white text-lm-navy lm-card"
                 }`}
               >
-                <h3 className="display text-xl">{s.name}</h3>
+                <span className={`absolute inset-x-0 top-0 h-2 ${strategyTheme[s.name].band}`} />
+                <span className={`inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] ${s.featured ? "bg-white/10 text-white" : `${strategyTheme[s.name].soft} ${strategyTheme[s.name].text}`}`}>
+                  <span className={`h-2 w-2 rounded-full ${strategyTheme[s.name].dot}`} />
+                  Strategy {i + 1}
+                </span>
+                <h3 className={`display mt-3 text-2xl ${s.featured ? "text-lm-gold" : strategyTheme[s.name].text}`}>{s.name}</h3>
                 <p className={`mt-2 ${s.featured ? "text-white/75" : "text-lm-muted"}`}>{s.tagline}</p>
                 <p className={`mt-5 rounded-2xl px-4 py-3 text-sm ${s.featured ? "bg-white/10" : "bg-lm-sky"}`}>
                   <span className={s.featured ? "text-white/70" : "text-lm-muted"}>Minimum</span>
@@ -32,12 +46,21 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
                 <ul className="mt-5 flex-1 space-y-2.5">
                   {s.points.map((p) => (
                     <li key={p} className="flex gap-2 text-[15px]">
-                      <Check size={18} className={`mt-0.5 shrink-0 ${s.featured ? "text-lm-gold" : "text-lm-blue"}`} />
-                      {p}
+                      <Check size={18} className={`mt-0.5 shrink-0 ${s.featured ? "text-lm-gold" : strategyTheme[s.name].text}`} />
+                      <span>{highlight(p, s.featured ? "font-extrabold text-lm-gold" : `font-extrabold ${strategyTheme[s.name].text}`)}</span>
                     </li>
                   ))}
                 </ul>
-                <button onClick={openEarlyAccess} className={`lm-btn mt-6 w-full ${s.featured ? "lm-btn-gold" : "lm-btn-ghost"}`}>
+                <button
+                  onClick={() => setJourney(i)}
+                  className={`group mt-6 flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors ${
+                    s.featured ? "bg-white/10 hover:bg-white/15" : `${strategyTheme[s.name].soft} hover:brightness-95`
+                  }`}
+                >
+                  <JourneyThumbs name={s.name} />
+                  <span className={`flex-1 whitespace-nowrap text-[13px] font-bold ${s.featured ? "text-white" : strategyTheme[s.name].text}`}>See how it works →</span>
+                </button>
+                <button onClick={openEarlyAccess} className={`lm-btn mt-3 w-full ${s.featured ? "lm-btn-gold" : "lm-btn-ghost"}`}>
                   Start with this
                 </button>
                 <Link
@@ -50,6 +73,8 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
             </Reveal>
           ))}
         </div>
+
+        <StrategyJourney s={journey === null ? null : strategies[journey]} index={journey ?? 0} onClose={closeJourney} />
 
         {preview ? (
           <div className="mt-10 text-center">
@@ -93,8 +118,9 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
                         <tr className="border-b border-lm-line">
                           <th className="p-4 text-sm font-bold text-lm-muted">Feature</th>
                           {strategies.map((s) => (
-                            <th key={s.name} className={`p-4 text-sm font-bold ${s.featured ? "text-lm-blue" : "text-lm-navy"}`}>
-                              {s.name}
+                            <th key={s.name} className="p-4 text-sm font-bold text-lm-navy">
+                              <span className={`mb-2 block h-1.5 w-10 rounded-full ${strategyTheme[s.name].band}`} />
+                              <span className={strategyTheme[s.name].text}>{s.name}</span>
                             </th>
                           ))}
                         </tr>
@@ -104,7 +130,7 @@ export function Strategies({ preview = false, tableOpen = false }: { preview?: b
                           <tr key={r.label} className="border-b border-lm-line last:border-0">
                             <td className="p-4 font-semibold text-lm-ink">{r.label}</td>
                             {r.values.map((v, k) => (
-                              <td key={k} className={`p-4 ${k === 1 ? "bg-lm-sky/60" : ""}`}>
+                              <td key={k} className="p-4">
                                 {v === true ? (
                                   <span
                                     className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500 text-white"

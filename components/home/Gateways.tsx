@@ -38,17 +38,25 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
     document.getElementById("gateway-explorer")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // /services#loans opens the Gold Loan tab, and so on
+  // /services#loans opens the Gold Loan tab, and so on (also when only the hash changes)
   useEffect(() => {
     if (overview) return;
-    const id = window.location.hash.slice(1) as GatewayId;
-    if (gateways.some((g) => g.id === id)) {
-      const t = window.setTimeout(() => {
+    let t = 0;
+    const open = () => {
+      const id = window.location.hash.slice(1) as GatewayId;
+      if (!gateways.some((g) => g.id === id)) return;
+      window.clearTimeout(t);
+      t = window.setTimeout(() => {
         setTab(id);
         document.getElementById("gateway-explorer")?.scrollIntoView({ block: "start" });
       }, 200);
-      return () => window.clearTimeout(t);
-    }
+    };
+    open();
+    window.addEventListener("hashchange", open);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("hashchange", open);
+    };
   }, [overview]);
 
   const cardClass = (tone: string) =>
@@ -60,7 +68,8 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
     <section id="gateways" className="bg-lm-paper pt-6 pb-24 lg:pt-8 lg:pb-32">
       <div className="frame">
 
-        {/* overview cards */}
+        {/* overview cards (home only; the Services page goes straight to the tabs) */}
+        {overview && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {gateways.map((g, i) => (
             <Reveal key={g.id} i={i} className={i < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
@@ -86,10 +95,11 @@ export function Gateways({ overview = false }: { overview?: boolean }) {
             </Reveal>
           ))}
         </div>
+        )}
 
         {/* explorer */}
         {!overview && (
-          <div id="gateway-explorer" className="scroll-mt-28 pt-20">
+          <div id="gateway-explorer" className="scroll-mt-28">
             <div
               className="no-scrollbar -mx-[var(--margin)] flex gap-2 overflow-x-auto px-[var(--margin)] pb-2 lg:mx-0 lg:justify-center lg:px-0"
               role="tablist"
@@ -254,33 +264,35 @@ function Panel({
   intro: string;
   steps: string[];
   notes?: string[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className={`grid gap-6 ${children ? "lg:grid-cols-2" : ""}`}>
       <div className="lm-card p-6 sm:p-8">
         <h3 className="display text-[clamp(1.5rem,1.2rem+1vw,2.1rem)] text-lm-navy">{title}</h3>
-        <p className="mt-3 text-lg leading-relaxed text-lm-muted">{intro}</p>
-        <ol className="mt-6 space-y-3">
+        <p className="mt-3 text-[16px] leading-relaxed text-lm-muted">{intro}</p>
+        <p className="mt-7 text-xs font-bold uppercase tracking-[0.16em] text-lm-blue">How it works</p>
+        <ol className="relative mt-4 space-y-2.5">
+          <span className="absolute bottom-5 left-[17px] top-5 w-0.5 rounded-full bg-lm-sky-2" aria-hidden />
           {steps.map((s, i) => (
             <motion.li
               key={s}
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + i * 0.06 }}
-              className="flex gap-3"
+              transition={{ delay: 0.1 + i * 0.07 }}
+              className="relative flex items-center gap-3.5"
             >
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lm-sky text-sm font-bold text-lm-blue">
+              <span className="relative z-10 grid h-9 w-9 shrink-0 place-items-center rounded-full border-4 border-white bg-lm-blue text-[13px] font-extrabold text-white shadow-sm">
                 {i + 1}
               </span>
-              <span className="pt-0.5 text-lm-ink">{s}</span>
+              <span className="flex-1 rounded-2xl bg-lm-sky/70 px-4 py-2.5 text-[15px] font-medium leading-snug text-lm-navy">{s}</span>
             </motion.li>
           ))}
         </ol>
         {notes && (
           <ul className="mt-6 space-y-2 rounded-2xl bg-lm-cream p-4">
             {notes.map((n) => (
-              <li key={n} className="flex gap-2 text-[15px] text-lm-ink">
+              <li key={n} className="flex gap-2 text-[14px] leading-relaxed text-lm-ink">
                 <Check size={18} className="mt-0.5 shrink-0 text-lm-gold-deep" />
                 {n}
               </li>
@@ -288,7 +300,7 @@ function Panel({
           </ul>
         )}
       </div>
-      <div className="flex flex-col gap-6">{children}</div>
+      {children && <div className="flex flex-col gap-6">{children}</div>}
     </div>
   );
 }
@@ -358,81 +370,39 @@ function Rows({ rows }: { rows: [string, React.ReactNode, string?][] }) {
   );
 }
 
-function TermsCard({ title, rows, foot, href }: { title: string; rows: [string, string][]; foot?: string; href: string }) {
-  return (
-    <div className="lm-card p-6">
-      <p className="font-bold text-lm-navy">{title}</p>
-      <dl className="mt-4 divide-y divide-lm-line rounded-2xl bg-lm-sky/60">
-        {rows.map(([k, v]) => (
-          <div key={k} className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-            <dt className="text-sm text-lm-muted">{k}</dt>
-            <dd className="text-sm font-bold text-lm-navy sm:text-right">{v}</dd>
-          </div>
-        ))}
-      </dl>
-      {foot && <p className="mt-3 text-xs leading-relaxed text-lm-muted">{foot}</p>}
-      <Link href={href} className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-lm-blue">
-        Read the full terms <ArrowRight size={15} />
-      </Link>
-    </div>
-  );
-}
-
 /* ───────── panels ───────── */
 
 function JewelleryPanel() {
   return (
     <Panel
       title="Jewellery Cloud"
-      intro="Experience jewellery without buying each piece. What you can pick depends on your strategy, your Gold Balance or entitlement, and the piece's category and availability."
+      intro="Wear beautiful jewellery for your special day without buying every piece. The pieces open to you depend on your strategy and your Gold Balance."
       steps={[
-        "Browse the Jewellery Cloud and select a piece.",
-        "LIMOVI confirms the booking. Until then, a selection is a request, not a commitment.",
-        "The piece is delivered to your registered address or another authorised location. The recipient may be asked for ID or an OTP.",
-        "Its condition is recorded at handover.",
-        "Return it within 30 hours of delivery, through a pickup arranged by LIMOVI or another authorised method.",
-        "LIMOVI inspects it on return and compares it with the handover record.",
+        "Browse the Jewellery Cloud and pick a piece you love.",
+        "Book at least 24 hours ahead. LIMOVI confirms your booking.",
+        "It's delivered to your door. Just show ID or share an OTP at handover.",
+        "Its condition is noted when you receive it.",
+        "Enjoy it, then hand it back within 30 hours. LIMOVI arranges the pickup.",
+        "LIMOVI checks the piece when it comes back, and you're done.",
       ]}
       notes={[
-        "Where insurance is required, it's arranged through a LIMOVI-approved insurer before delivery.",
-        "You're responsible for the piece while it's with you, apart from permitted ordinary wear and tear.",
+        "Pieces are insured through a LIMOVI-approved insurer where needed, before they reach you.",
+        "Take good care of the piece while it's with you. Normal wear is fine.",
       ]}
     >
-      <div className="lm-card overflow-hidden">
-        <div className="grid grid-cols-2">
-          <div className="relative aspect-[4/3]">
-            <Image
-              src="/images/jewellery-wedding.png"
-              alt="Bridal wedding set"
-              fill
-              sizes="(min-width:1024px) 25vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[4/3]">
-            <Image
-              src="/images/minimal_pendant.png"
-              alt="Pendant and chain"
-              fill
-              sizes="(min-width:1024px) 25vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
+      <div className="lm-card relative min-h-[320px] flex-1 overflow-hidden">
+        <Image
+          src="/images/jewellery-wedding.png"
+          alt="A bridal gold jewellery set"
+          fill
+          sizes="(min-width:1024px) 45vw, 100vw"
+          className="object-cover"
+        />
+        <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-lm-navy/80 to-transparent" />
+        <p className="absolute bottom-6 left-6 right-6 text-xl font-bold leading-snug text-white">
+          Wear it for the occasion. Hand it back within 30 hours.
+        </p>
       </div>
-      <TermsCard
-        title="Charges at a glance"
-        href="/legal/investment-only-strategy#schedule-1"
-        rows={[
-          ["Experience Charge", "0.9% of the selected jewellery's value"],
-          ["Service charge", "₹1,099 within 5 km, ₹1,299 within 10 km, ₹1,599 within 15 km, ₹1,999 within 20 km"],
-          ["Return", "Within 30 hours of delivery"],
-          ["Late return", "₹100 per hour"],
-          ["Lifestyle jewellery", "Up to 55% of Gold Balance"],
-          ["Lifestyle subscription", "1.1%, 0.9% or 0.7% of value a month for 1, 3 or 5 months, plus delivery"],
-        ]}
-        foot="From the Investment Only and Enrol & Experience schedules. Investment & Experience has its own terms, including 2 free Experiences a year and then 0.5% of the jewellery's value."
-      />
     </Panel>
   );
 }
@@ -441,16 +411,16 @@ function LoanPanel() {
   return (
     <Panel
       title="Gold Loan"
-      intro="LIMOVI can help you apply for a gold loan, but the loan itself is between you and a Gold Loan Partner. LIMOVI is not the lender."
+      intro="Need funds? Use your gold to get a loan from one of LIMOVI's lending partners, without the running around. LIMOVI helps you apply; the partner gives the loan."
       steps={[
-        "Check whether you're eligible for a gold loan on the platform.",
-        "LIMOVI identifies a Gold Loan Partner and helps with your application.",
-        "The lender decides the amount, interest, tenure, loan-to-value and repayment terms.",
-        "You sign the lender's loan and security documents.",
-        "You repay the lender directly, as its documents require.",
+        "Check if you're eligible, right in the app.",
+        "LIMOVI matches you with a lending partner and helps you apply.",
+        "The partner offers you a loan amount, interest rate and repayment plan.",
+        "Accept the offer and sign the partner's loan papers.",
+        "Repay the partner directly on the agreed schedule.",
       ]}
       notes={[
-        "Under Investment & Experience, Experience isn't available against balance used for a maximum loan. You can still experience against 25% of your remaining eligible Gold Balance.",
+        "On Investment & Experience, you can still wear jewellery while you have a loan, using 25% of your remaining eligible Gold Balance.",
       ]}
     >
       <div className="relative overflow-hidden rounded-[28px] bg-lm-blue p-6 text-white sm:p-8">
@@ -461,19 +431,19 @@ function LoanPanel() {
             [
               "LIMOVI",
               [
-                "Identifies or suggests a Gold Loan Partner",
-                "Helps with your application",
-                "Passes on your information and documents",
-                "Provides the platform",
+                "Finds you a lending partner",
+                "Helps you apply",
+                "Shares your details with the partner",
+                "Keeps it all in one app",
               ],
             ],
             [
               "Gold Loan Partner",
               [
-                "Approves and gives the loan",
-                "Sets interest, tenure and loan-to-value",
-                "Holds the security",
-                "Collects repayment",
+                "Approves your loan",
+                "Sets the amount, interest and tenure",
+                "Keeps your gold safe as security",
+                "Collects your repayments",
               ],
             ],
           ].map(([who, list]) => (
@@ -494,7 +464,7 @@ function LoanPanel() {
           href="/legal/master-customer-agreement#22-gold-loan-facilitation"
           className="relative mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white"
         >
-          Read clause 22 of the Master Agreement <ArrowRight size={15} />
+          Read the full terms <ArrowRight size={15} />
         </Link>
       </div>
     </Panel>
@@ -505,17 +475,17 @@ function LiquidityPanel() {
   return (
     <Panel
       title="Gold Liquidity"
-      intro="Need money rather than a loan? Sell eligible gold, Gold Balance or jewellery through LIMOVI, and the proceeds go to your registered, verified bank account."
+      intro="Need cash, not a loan? Sell your gold or jewellery through LIMOVI and get the money straight into your bank account."
       steps={[
-        "Request a sale on the platform. You can sell all of it or part of it.",
-        "LIMOVI verifies your title and the gold, including its weight and purity.",
-        "The price comes from the applicable valuation. For jewellery under Enrol & Experience or Investment & Experience, it's the prevailing market price of 22K gold per gram on the net gold weight.",
-        "You see the price per gram, weight and total value. Once you confirm, the sale is binding.",
-        "LIMOVI aims to credit your bank account within one hour of confirmation.",
+        "Choose what to sell: all of it or just a part.",
+        "LIMOVI checks the gold's weight and purity.",
+        "You get the market price. For jewellery, that's today's 22K gold price per gram on its gold weight.",
+        "See the price, weight and total before you confirm.",
+        "LIMOVI aims to credit your bank within an hour of confirming.",
       ]}
       notes={[
-        "A sale is final: you stop owning the quantity sold.",
-        "Prices move, so a price you saw earlier isn't binding until the sale is confirmed.",
+        "Once confirmed, the sale is final.",
+        "Gold prices change through the day, so the price is locked only when you confirm.",
       ]}
     >
       <div className="relative overflow-hidden rounded-[28px] bg-lm-blue p-6 text-white sm:p-8">
@@ -556,21 +526,20 @@ function WealthPanel() {
   const benefit = charge * OWNER_SHARE;
   return (
     <Panel
-      title="Owner Benefit"
-      intro="Under Enrol & Experience and Investment & Experience, your jewellery can be listed in the Jewellery Cloud. When another customer completes a qualifying Experience with it, you earn an Owner Benefit."
+      title="Generate Wealth"
+      intro="Your jewellery can earn for you. List it in the Jewellery Cloud, and every time someone else wears it, you earn 25% of what they pay."
       steps={[
-        "Enrol jewellery you own, or acquire jewellery under Investment & Experience.",
-        "LIMOVI lists it in the Jewellery Cloud with photos, description, weight, purity and availability. Your identity isn't shown to other customers.",
-        "Another customer selects it and completes a qualifying Experience.",
-        "You're entitled to 25% of the applicable Experience Charges.",
-        "Your Experience history and Owner Benefit records are available in your account.",
+        "Enrol jewellery you already own, or own a piece through Investment & Experience.",
+        "LIMOVI lists it with photos and details. Your name stays private.",
+        "Another customer books and wears it.",
+        "You earn 25% of their Experience Charge.",
+        "Track every booking and earning in your account.",
       ]}
       notes={[
-        "Nothing accrues just for enrolling. The benefit is subject to charges, taxes, deductions, reconciliation and settlement.",
-        "LIMOVI doesn't promise any particular return.",
+        "Earnings depend on bookings, so they aren't guaranteed.",
       ]}
     >
-      <Calc title="Owner Benefit example">
+      <Calc title="Generate Wealth example">
         <Slider
           label="Value of your jewellery"
           min={100000}
@@ -583,7 +552,7 @@ function WealthPanel() {
         <Rows
           rows={[
             ["Experience Charge (0.9%)", <Tween key="c" value={charge} format={inr} />],
-            ["Your Owner Benefit (25%)", <Tween key="b" value={benefit} format={inr} />, "text-lm-gold"],
+            ["Your earnings per Experience (25%)", <Tween key="b" value={benefit} format={inr} />, "text-lm-gold"],
           ]}
         />
         <p className="text-xs text-white/60">
@@ -599,15 +568,15 @@ function GiftPanel() {
   const [opened, setOpened] = useState(false);
   return (
     <Panel
-      title="Gift Gold"
-      intro="Where gifting is enabled, you can gift an eligible Gold Balance to another person, who can then use it on LIMOVI."
+      title="Gift Gold Ecosystem"
+      intro="Give gold that can actually be used. Send part of your Gold Balance to someone you love, and they can use it on LIMOVI."
       steps={[
-        "Choose the eligible Gold Balance you want to gift.",
-        "Complete the verification and authentication LIMOVI asks for.",
-        "The recipient completes onboarding, KYC and acceptance.",
-        "The gift takes effect once the process is complete.",
+        "Choose how much gold to gift.",
+        "Confirm it with a quick verification.",
+        "Your loved one signs up, completes KYC and accepts.",
+        "The gold is theirs to use.",
       ]}
-      notes={["A completed gift can't be reversed, except where the transaction terms or the law allow it."]}
+      notes={["Once a gift is complete, it can't be taken back."]}
     >
       <div className="lm-card relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden bg-lm-cream p-8 text-center">
         <button onClick={() => setOpened((v) => !v)} className="group relative" aria-label="Open the gift">
